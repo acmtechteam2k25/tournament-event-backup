@@ -15,7 +15,7 @@ export const generateSamplePlayers = (count) => {
     'Drew Lane', 'Elle Moon', 'Finn Ward', 'Gina Cole', 'Hugo Nash',
     'Iris Pike', 'Jade Bell', 'Kris Ford', 'Lara Gray', 'Milo Hunt',
     'Nora Vale', 'Owen Hart', 'Pam Cross', 'Quin Bell', 'Rex Cole',
-    'Sara Lane', 'Troy Nash', 'Ursa Pike'
+    'Sara Lane', 'Troy Nash', 'Ursa Pike', 
   ];
   
   return Array.from({ length: count }, (_, i) => ({
