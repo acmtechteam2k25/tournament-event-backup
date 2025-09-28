@@ -1,0 +1,44 @@
+/* Bracket View Page Styles */
+.bracket-view-page {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.public-bracket-content {
+  flex: 1;
+  overflow: hidden;
+}
+
+/* Public view specific styles */
+.bracket-view-page .tournament-bracket {
+  height: 100%;
+}
+
+/* Disable editing features in public view */
+.bracket-view-page .match-box {
+  cursor: default !important;
+}
+
+.bracket-view-page .match-box:hover {
+  transform: none !important;
+  box-shadow: var(--shadow-glow) !important;
+}
+
+/* Add a subtle indicator for view-only mode */
+.bracket-view-page .bracket-scrollable-container::before {
+  content: "VIEW ONLY MODE";
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-muted);
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  z-index: 1000;
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}

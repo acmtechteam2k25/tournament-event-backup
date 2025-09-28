@@ -1,5 +1,13 @@
-body {
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body {
   margin: 0;
+  padding: 0;
+  height: 100%;
+  background-color: #020004ff;
+  overflow-x: hidden;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
@@ -7,7 +15,71 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+#root {
+  height: 100%;
+  background-color: #020004ff;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+/* Bodoni Moda Font Styles */
+.bodoni-moda {
+  font-family: "Bodoni Moda", serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.bodoni-moda-bold {
+  font-family: "Bodoni Moda", serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.bodoni-moda-light {
+  font-family: "Bodoni Moda", serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-style: normal;
+}
+
+.cal-sans-regular {
+  font-family: "Cal Sans", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* src/index.css (append after @tailwind directives) */
+
+@keyframes orbFloat {
+  0% { transform: translate(-50%, -50%) translateY(-8px) scale(1); filter: hue-rotate(0deg); }
+  50% { transform: translate(-50%, -50%) translateY(8px) scale(1.02); filter: hue-rotate(30deg); }
+  100% { transform: translate(-50%, -50%) translateY(-8px) scale(1); filter: hue-rotate(0deg); }
+}
+
+@keyframes orbRotate {
+  0% { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+.animate-orb-float {
+  animation: orbFloat 12s ease-in-out infinite;
+  will-change: transform, filter;
+}
+
+.animate-orb-rotate {
+  animation: orbRotate 25s linear infinite;
+  will-change: transform;
+}
+
+/* respect prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .animate-orb-float,
+  .animate-orb-rotate {
+    animation: none !important;
+  }
 }

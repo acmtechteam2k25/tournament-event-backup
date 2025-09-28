@@ -1,0 +1,71 @@
+/* Admin Page Styles */
+.admin-page {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-header {
+  background: var(--secondary-bg);
+  border-bottom: 2px solid var(--border-primary);
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: var(--shadow-glow);
+  flex-shrink: 0;
+}
+
+.admin-info h2 {
+  color: var(--text-primary);
+  font-size: 1.6rem;
+  font-weight: 600;
+  margin: 0 0 5px 0;
+  text-shadow: 0 0 10px var(--accent-glow);
+}
+
+.admin-info p {
+  color: var(--text-secondary);
+  font-size: 1rem;
+  margin: 0;
+}
+
+.logout-btn {
+  background: linear-gradient(135deg, #ff4444, #cc0000);
+  border: none;
+  border-radius: 6px;
+  padding: 10px 20px;
+  color: white;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.logout-btn:hover {
+  background: linear-gradient(135deg, #ff6666, #ff0000);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(255, 0, 0, 0.3);
+}
+
+.admin-content {
+  flex: 1;
+  overflow: hidden;
+}
+
+/* Admin-specific tournament bracket styles */
+.admin-page .tournament-bracket {
+  height: 100%;
+}
+
+.admin-page .minimal-match-overlay {
+  /* Enhanced overlay for admin users */
+  border: 2px solid var(--winner-glow);
+}
+
+.admin-page .overlay-header h3::after {
+  content: " (Admin Mode)";
+  color: var(--winner-glow);
+  font-size: 0.8em;
+  font-weight: normal;
+}
