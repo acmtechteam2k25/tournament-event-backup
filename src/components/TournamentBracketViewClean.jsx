@@ -8,6 +8,7 @@ import './TournamentBracketView.css';
 const TournamentBracketViewFinal = ({ isEditable = false }) => {
   const [matches, setMatches] = useState([]);
   const [selectedMatch, setSelectedMatch] = useState(null);
+  const [overlayPosition, setOverlayPosition] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
     // Load tournament data from localStorage if available, otherwise generate sample data
@@ -27,9 +28,10 @@ const TournamentBracketViewFinal = ({ isEditable = false }) => {
   const handleMatchClick = (match, x, y) => {
     // Only allow clicking if in editable mode
     if (!isEditable) return;
-    
+
     console.log('Match clicked:', match.name);
     setSelectedMatch(selectedMatch?.id === match.id ? null : match);
+    setOverlayPosition({ x: x + 200, y: y + 120 }); // Position overlay relative to match
   };
 
   const handleWinnerSelect = (matchId, winnerId, isWalkover = false) => {
@@ -84,7 +86,31 @@ const TournamentBracketViewFinal = ({ isEditable = false }) => {
     });
   };
 
-  const columns = generateColumns(matches);
+  // In participant (public) view, only show:
+  // - matches from the current (active) round, and
+  // - matches that have already finished (winners declared or walkover)
+  const getCurrentRound = (allMatches) => {
+    const roundOrder = ['1', '2', '3', '4', '5', '6'];
+    for (const round of roundOrder) {
+      const roundMatches = allMatches.filter(m => m.tournamentRoundText === round);
+      if (roundMatches.length === 0) continue;
+      const hasPending = roundMatches.some(m => m.state !== 'SCORE_DONE');
+      if (hasPending) return round;
+    }
+    // If everything is completed, treat final round as current for display
+    return '6';
+  };
+
+  const getVisibleMatches = (allMatches) => {
+    if (isEditable) return allMatches;
+    const currentRound = getCurrentRound(allMatches);
+    return allMatches.filter(m => (
+      m.tournamentRoundText === currentRound || m.state === 'SCORE_DONE'
+    ));
+  };
+
+  const visibleMatches = getVisibleMatches(matches);
+  const columns = generateColumns(visibleMatches);
   const style = BRACKET_CONFIG;
 
   if (!columns.length) {
@@ -99,86 +125,86 @@ const TournamentBracketViewFinal = ({ isEditable = false }) => {
     <div className="tournament-bracket">
       <div className="bracket-scrollable-container">
         <div className="bracket-content">
-          <svg 
+          <svg
             className="bracket-svg"
             width={svgWidth}
             height={svgHeight}
             viewBox={`0 0 ${svgWidth} ${svgHeight}`}
           >
-          {columns.map((matchesColumn, columnIndex) =>
-            matchesColumn.map((match, rowIndex) => {
-              const { x, y } = calculatePositionOfMatch(rowIndex, columnIndex, style);
-              const { previousTopMatch, previousBottomMatch } = getPreviousMatches(
-                columnIndex,
-                columns,
-                rowIndex,
-                match
-              );
+            {columns.map((matchesColumn, columnIndex) =>
+              matchesColumn.map((match, rowIndex) => {
+                const { x, y } = calculatePositionOfMatch(rowIndex, columnIndex, style);
+                const { previousTopMatch, previousBottomMatch } = getPreviousMatches(
+                  columnIndex,
+                  columns,
+                  rowIndex,
+                  match
+                );
 
-              return (
-                <g key={`${columnIndex}-${rowIndex}-${match.id}`}>
-                  {/* Round header */}
-                  {rowIndex === 0 && (
+                return (
+                  <g key={`${columnIndex}-${rowIndex}-${match.id}`}>
+                    {/* Round header */}
+                    {rowIndex === 0 && (
+                      <foreignObject
+                        x={x}
+                        y={style.canvasPadding}
+                        width={style.gameWidth}
+                        height={40}
+                      >
+                        <div className="svg-round-header">
+                          <h3>
+                            {match.tournamentRoundText === '6' ? 'Final' :
+                              match.tournamentRoundText === '5' ? 'Final Semi' :
+                                match.tournamentRoundText === '4' ? 'Semi Final' :
+                                  match.tournamentRoundText === '3' ? 'Quarter Final' :
+                                    `Round ${match.tournamentRoundText}`}
+                          </h3>
+                        </div>
+                      </foreignObject>
+                    )}
+
+                    {/* Connector lines */}
+                    {columnIndex !== 0 && previousTopMatch && previousBottomMatch && (
+                      <Connector
+                        bracketSnippet={{
+                          currentMatch: match,
+                          previousTopMatch,
+                          previousBottomMatch,
+                        }}
+                        rowIndex={rowIndex}
+                        columnIndex={columnIndex}
+                        gameHeight={style.gameHeight}
+                        gameWidth={style.gameWidth}
+                        style={style}
+                      />
+                    )}
+
+                    {/* Match box */}
                     <foreignObject
                       x={x}
-                      y={style.canvasPadding }
+                      y={y}
                       width={style.gameWidth}
-                      height={40}
+                      height={style.gameHeight}
                     >
-                      <div className="svg-round-header">
-                        <h3>
-                          {match.tournamentRoundText === '6' ? 'Final' :
-                           match.tournamentRoundText === '5' ? 'Final Semi' :
-                           match.tournamentRoundText === '4' ? 'Semi Final' :
-                           match.tournamentRoundText === '3' ? 'Quarter Final' :
-                           `Round ${match.tournamentRoundText}`}
-                        </h3>
-                      </div>
+                      <MatchBox
+                        match={match}
+                        onMatchClick={() => handleMatchClick(match, x, y)}
+                        isSelected={selectedMatch?.id === match.id}
+                        gameWidth={style.gameWidth}
+                        gameHeight={style.gameHeight}
+                      />
                     </foreignObject>
-                  )}
-                  
-                  {/* Connector lines */}
-                  {columnIndex !== 0 && previousTopMatch && previousBottomMatch && (
-                    <Connector 
-                      bracketSnippet={{
-                        currentMatch: match,
-                        previousTopMatch,
-                        previousBottomMatch,
-                      }}
-                      rowIndex={rowIndex}
-                      columnIndex={columnIndex}
-                      gameHeight={style.gameHeight}
-                      gameWidth={style.gameWidth}
-                      style={style}
-                    />
-                  )}
-                  
-                  {/* Match box */}
-                  <foreignObject
-                    x={x}
-                    y={y}
-                    width={style.gameWidth}
-                    height={style.gameHeight}
-                  >
-                    <MatchBox
-                      match={match}
-                      onMatchClick={() => handleMatchClick(match, x, y)}
-                      isSelected={selectedMatch?.id === match.id}
-                      gameWidth={style.gameWidth}
-                      gameHeight={style.gameHeight}
-                    />
-                  </foreignObject>
-                </g>
-              );
-            })
-          )}
-        </svg>
+                  </g>
+                );
+              })
+            )}
+          </svg>
         </div>
       </div>
 
       {/* Minimal Winner selection overlay - only show in editable mode */}
       {isEditable && selectedMatch && selectedMatch.state !== 'SCORE_DONE' && (
-        <div 
+        <div
           className="minimal-match-overlay"
           style={{
             position: 'fixed',
@@ -192,7 +218,7 @@ const TournamentBracketViewFinal = ({ isEditable = false }) => {
             <h3>Update Match Result</h3>
             <p>{selectedMatch.name}</p>
           </div>
-          
+
           <div className="participants-list">
             {/* Show buttons only if there are actual participants (not TBD) */}
             {selectedMatch.participants.filter(p => p?.name && p.name !== 'TBD').length > 0 ? (
@@ -224,9 +250,9 @@ const TournamentBracketViewFinal = ({ isEditable = false }) => {
               </div>
             )}
           </div>
-          
+
           <div className="overlay-footer">
-            <button 
+            <button
               className="cancel-overlay-btn"
               onClick={() => setSelectedMatch(null)}
             >
@@ -235,10 +261,10 @@ const TournamentBracketViewFinal = ({ isEditable = false }) => {
           </div>
         </div>
       )}
-      
+
       {/* Overlay backdrop - only show in editable mode */}
       {isEditable && selectedMatch && selectedMatch.state !== 'SCORE_DONE' && (
-        <div 
+        <div
           className="overlay-backdrop"
           onClick={() => setSelectedMatch(null)}
         />
