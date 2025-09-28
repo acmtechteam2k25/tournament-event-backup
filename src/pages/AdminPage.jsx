@@ -26,7 +26,7 @@ const AdminPage = () => {
   }
 
   return (
-    <div className="admin-page">
+    <div className="admin-page mt-5">
       <div className="admin-header">
         <div className="admin-info">
           <h2>Tournament Administration</h2>
