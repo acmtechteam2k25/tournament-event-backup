@@ -54,82 +54,7 @@ const DatabaseTestPage = () => {
     }
   };
 
-  const insertTournament2k25 = async () => {
-    try {
-      setLoading(true);
 
-      // Check if tournament already exists
-      const { data: existing } = await supabase
-        .from('tournament')
-        .select('id')
-        .eq('id', config.TOURNAMENT_ID)
-        .single();
-
-      if (existing) {
-        alert('Tournament 2k25 already exists!');
-        await checkDatabase();
-        return;
-      }
-
-      // Insert the specific tournament
-      const { data: tournament, error: tournamentError } = await supabase
-        .from('tournament')
-        .insert([
-          {
-            id: config.TOURNAMENT_ID,
-            name: config.TOURNAMENT_NAME,
-            description: 'Annual programming tournament featuring 64 participants across 6 exciting rounds',
-            max_participants: config.MAX_PARTICIPANTS,
-            current_round: 1,
-            num_rounds: config.NUM_ROUNDS,
-            registration_start: config.REGISTRATION_START,
-            registration_end: config.REGISTRATION_END,
-            tournament_start: config.TOURNAMENT_START,
-            tournament_end: config.TOURNAMENT_END
-          }
-        ])
-        .select()
-        .single();
-
-      if (tournamentError) {
-        throw new Error(`Tournament creation failed: ${tournamentError.message}`);
-      }
-
-      // Tournament created successfully
-
-      // Create the rounds
-      const roundsData = [
-        { round_number: 1, round_name: 'Round 1', max_participants: 64, total_matches: 32 },
-        { round_number: 2, round_name: 'Round 2', max_participants: 32, total_matches: 16 },
-        { round_number: 3, round_name: 'Round 3', max_participants: 16, total_matches: 8 },
-        { round_number: 4, round_name: 'Quarter Finals', max_participants: 8, total_matches: 4 },
-        { round_number: 5, round_name: 'Semi Finals', max_participants: 4, total_matches: 2 },
-        { round_number: 6, round_name: 'Final', max_participants: 2, total_matches: 1 }
-      ].map(round => ({
-        ...round,
-        tournament_id: config.TOURNAMENT_ID,
-        status: 'pending'
-      }));
-
-      const { error: roundsError } = await supabase
-        .from('rounds')
-        .insert(roundsData);
-
-      if (roundsError) {
-        // Continue anyway, tournament is created
-      }
-      
-      // Refresh the data
-      await checkDatabase();
-      
-      alert(`Tournament 2k25 created successfully! ID: ${tournament.id}`);
-    } catch (err) {
-      setError(err.message);
-      alert('Failed to create tournament: ' + err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   if (loading) {
     return (
@@ -187,14 +112,7 @@ const DatabaseTestPage = () => {
             <p><strong>Tournament:</strong> Oct 9-11, 2025</p>
           </div>
         </div>
-        
-        <button
-          onClick={insertTournament2k25}
-          disabled={loading}
-          className="bg-blue-500 hover:bg-blue-600 disabled:bg-gray-400 text-white px-6 py-3 rounded font-medium transition-colors duration-200"
-        >
-          {loading ? 'Creating...' : 'Insert Tournament 2k25'}
-        </button>
+
       </div>
 
       {tournaments.length > 0 && (
