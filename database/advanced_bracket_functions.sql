@@ -82,14 +82,14 @@ BEGIN
                 v_match_counter,
                 CASE 
                     WHEN v_round_number = 1 THEN 
-                        -- Tournament seeding: 1v64, 2v63, 3v62, etc.
-                        p_participant_ids[i]
+                        -- Proper tournament bracket seeding using bracket_seeding array
+                        p_participant_ids[(ARRAY[1,64,32,33,16,49,17,48,8,57,25,40,9,56,24,41,4,61,29,36,13,52,20,45,5,60,28,37,12,53,21,44,2,63,31,34,15,50,18,47,7,58,26,39,10,55,23,42,3,62,30,35,14,51,19,46,6,59,27,38,11,54,22,43])[(i-1)*2 + 1]]
                     ELSE NULL
                 END,
                 CASE 
                     WHEN v_round_number = 1 THEN 
-                        -- Tournament seeding: pair with complement
-                        p_participant_ids[v_current_participants + 1 - i]
+                        -- Proper tournament bracket seeding using bracket_seeding array
+                        p_participant_ids[(ARRAY[1,64,32,33,16,49,17,48,8,57,25,40,9,56,24,41,4,61,29,36,13,52,20,45,5,60,28,37,12,53,21,44,2,63,31,34,15,50,18,47,7,58,26,39,10,55,23,42,3,62,30,35,14,51,19,46,6,59,27,38,11,54,22,43])[(i-1)*2 + 2]]
                     ELSE NULL
                 END,
                 CASE 
