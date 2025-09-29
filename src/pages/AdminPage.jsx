@@ -10,21 +10,19 @@ import './AdminPage.css';
 
 const AdminPage = () => {
   const { isAuthenticated, logout } = useAuth();
-  const [showLoginForm, setShowLoginForm] = useState(!isAuthenticated);
   const [activeTab, setActiveTab] = useState('matches');
   // Use the fixed tournament ID from config
   const tournamentId = config.TOURNAMENT_ID;
 
   const handleLoginSuccess = () => {
-    setShowLoginForm(false);
+    // no-op, auth is managed by context/localStorage
   };
 
   const handleLogout = () => {
     logout();
-    setShowLoginForm(true);
   };
 
-  if (showLoginForm || !isAuthenticated) {
+  if (!isAuthenticated) {
     return (
       <div className="admin-page">
         <Login onLoginSuccess={handleLoginSuccess} />

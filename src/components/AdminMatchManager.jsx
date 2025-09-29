@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { tournamentAPI } from '../lib/supabase';
 import { useTournament } from '../hooks/useTournament';
 
 const AdminMatchManager = ({ tournamentId }) => {
@@ -9,6 +10,8 @@ const AdminMatchManager = ({ tournamentId }) => {
   const [loserScore, setLoserScore] = useState('');
   const [isWalkover, setIsWalkover] = useState(false);
   const [updating, setUpdating] = useState(false);
+  const [showScoresModal, setShowScoresModal] = useState(false);
+  const [cumulativeScores, setCumulativeScores] = useState([]);
 
   // Group matches by rounds
   const matchesByRound = bracket.reduce((acc, match) => {
@@ -83,9 +86,55 @@ const AdminMatchManager = ({ tournamentId }) => {
   return (
     <div className="admin-match-manager p-6 bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
       <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold text-gray-800 mb-2">🏆 Match Management</h2>
-          <p className="text-gray-600">Manage tournament matches and select winners</p>
+        <div className="mb-8">
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+            <div className="text-center md:text-left">
+              <h2 className="text-3xl font-bold text-gray-800 mb-2">🏆 Match Management</h2>
+              <p className="text-gray-600">Manage tournament matches and select winners</p>
+            </div>
+            <div className="flex items-center gap-3 justify-center md:justify-end">
+              <button
+                onClick={() => {
+                  const base = process.env.REACT_APP_SUPABASE_URL;
+                  if (!base) {
+                    alert('Supabase URL not configured');
+                    return;
+                  }
+                  const url = `${base}/functions/v1/export_excel?tournamentId=${tournamentId}`;
+                  window.open(url, '_blank');
+                }}
+                className="px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white shadow inline-flex items-center gap-2"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d="M4 22h14a2 2 0 0 0 2-2V7l-6-5H6a2 2 0 0 0-2 2v3"/>
+                  <path d="M14 2v5h5"/>
+                  <path d="M8 13h8"/>
+                  <path d="M8 17h8"/>
+                  <path d="M8 9h2"/>
+                </svg>
+                Export Excel
+              </button>
+              <button
+                onClick={async () => {
+                  try {
+                    const data = await tournamentAPI.getCumulativeScores(tournamentId);
+                    setCumulativeScores(Array.isArray(data) ? data : []);
+                    setShowScoresModal(true);
+                  } catch (e) {
+                    alert(`Failed to load scores: ${e.message || e}`);
+                  }
+                }}
+                className="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white shadow inline-flex items-center gap-2"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <line x1="18" y1="20" x2="18" y2="10"/>
+                  <line x1="12" y1="20" x2="12" y2="4"/>
+                  <line x1="6" y1="20" x2="6" y2="14"/>
+                </svg>
+                Cumulative Scores
+              </button>
+            </div>
+          </div>
         </div>
 
         {Object.keys(matchesByRound).sort((a, b) => parseInt(a) - parseInt(b)).map(round => (
@@ -373,6 +422,52 @@ const AdminMatchManager = ({ tournamentId }) => {
                   <p className="text-sm text-gray-600 mt-2">Updating match...</p>
                 </div>
               )}
+            </div>
+          </div>
+        )}
+
+        {/* Cumulative Scores Modal */}
+        {showScoresModal && (
+          <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-4">
+            <div className="bg-white rounded-xl shadow-2xl p-6 w-full max-w-4xl mx-4 transform transition-all">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-xl font-bold text-gray-800">Cumulative Scores</h3>
+                <button
+                  onClick={() => setShowScoresModal(false)}
+                  className="px-3 py-1 text-sm text-black bg-gray-100 hover:bg-gray-200 rounded border"
+                >
+                  Close
+                </button>
+              </div>
+              <div className="overflow-auto max-h-[70vh]">
+                <table className="min-w-full text-left text-sm">
+                  <thead className="bg-gray-50 text-gray-700">
+                    <tr>
+                      <th className="px-3 py-2">Roll No</th>
+                      <th className="px-3 py-2">Name</th>
+                      <th className="px-3 py-2">Total Points</th>
+                      <th className="px-3 py-2">Wins</th>
+                      <th className="px-3 py-2">Losses</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {cumulativeScores.map((r) => (
+                      <tr key={r.player_id} className="border-b last:border-0 text-black">
+                        <td className="px-3 py-2 whitespace-nowrap">{r.roll_number}</td>
+                        <td className="px-3 py-2">{r.player_name}</td>
+                        <td className="px-3 py-2">{r.total_points}</td>
+                        <td className="px-3 py-2">{r.wins}</td>
+                        <td className="px-3 py-2">{r.losses}</td>
+                      </tr>
+                    ))}
+                    {cumulativeScores.length === 0 && (
+                      <tr>
+                        <td className="px-3 py-6 text-center text-gray-500" colSpan={5}>No data</td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         )}

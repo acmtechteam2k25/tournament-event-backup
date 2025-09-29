@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { generateSamplePlayers, generateTournamentMatches } from '../data/sampleData';
 import { generateColumns, calculatePositionOfMatch, getPreviousMatches, BRACKET_CONFIG } from '../utils/bracketPositioning';
 import { useTournament } from '../hooks/useTournament';
 import Connector from './Connector';
@@ -10,7 +9,7 @@ const TournamentBracketViewFinal = ({ isEditable = false, tournamentId = null })
   const [matches, setMatches] = useState([]);
   const [selectedMatch, setSelectedMatch] = useState(null);
   const [overlayPosition, setOverlayPosition] = useState({ x: 0, y: 0 });
-  
+
   // Use tournament hook for database integration (only if tournamentId is provided)
   const { bracket, participants, loading, error, updateMatchWinner } = useTournament(tournamentId);
 
@@ -52,7 +51,7 @@ const TournamentBracketViewFinal = ({ isEditable = false, tournamentId = null })
     } else {
       // Fallback to sample data if no tournament ID
       const savedData = localStorage.getItem('acm_tournament_data');
-      
+
       let needsRegeneration = false;
       if (savedData) {
         try {
@@ -66,14 +65,9 @@ const TournamentBracketViewFinal = ({ isEditable = false, tournamentId = null })
           needsRegeneration = true;
         }
       }
-      
+
       if (savedData && !needsRegeneration) {
         const tournamentData = JSON.parse(savedData);
-        setMatches(tournamentData);
-      } else {
-        const players = generateSamplePlayers(64);
-        const tournamentData = generateTournamentMatches(players);
-        localStorage.setItem('acm_tournament_data', JSON.stringify(tournamentData));
         setMatches(tournamentData);
       }
     }
@@ -113,31 +107,31 @@ const TournamentBracketViewFinal = ({ isEditable = false, tournamentId = null })
               state: 'SCORE_DONE'
             };
           }
-        return match;
-      });
+          return match;
+        });
 
-      // Advance winner to next round
-      const currentMatch = updatedMatches.find(m => m.id === matchId);
-      if (currentMatch && currentMatch.nextMatchId) {
-        const winner = currentMatch.participants.find(p => p.isWinner);
-        if (winner) {
-          const nextMatchIndex = updatedMatches.findIndex(m => m.id === currentMatch.nextMatchId);
-          if (nextMatchIndex !== -1) {
-            const nextMatch = updatedMatches[nextMatchIndex];
-            const updatedNextMatch = {
-              ...nextMatch,
-              participants: [...nextMatch.participants, {
-                id: winner.id,
-                name: winner.name,
-                resultText: null,
-                isWinner: false,
-                status: 'SCHEDULED'
-              }]
-            };
-            updatedMatches[nextMatchIndex] = updatedNextMatch;
+        // Advance winner to next round
+        const currentMatch = updatedMatches.find(m => m.id === matchId);
+        if (currentMatch && currentMatch.nextMatchId) {
+          const winner = currentMatch.participants.find(p => p.isWinner);
+          if (winner) {
+            const nextMatchIndex = updatedMatches.findIndex(m => m.id === currentMatch.nextMatchId);
+            if (nextMatchIndex !== -1) {
+              const nextMatch = updatedMatches[nextMatchIndex];
+              const updatedNextMatch = {
+                ...nextMatch,
+                participants: [...nextMatch.participants, {
+                  id: winner.id,
+                  name: winner.name,
+                  resultText: null,
+                  isWinner: false,
+                  status: 'SCHEDULED'
+                }]
+              };
+              updatedMatches[nextMatchIndex] = updatedNextMatch;
+            }
           }
         }
-      }
 
         // Save updated data to localStorage
         localStorage.setItem('acm_tournament_data', JSON.stringify(updatedMatches));
@@ -176,8 +170,9 @@ const TournamentBracketViewFinal = ({ isEditable = false, tournamentId = null })
   const columns = generateColumns(visibleMatches);
   const style = BRACKET_CONFIG;
 
+
   if (!columns.length) {
-    return <div className="loading">Loading tournament bracket...</div>;
+    return <div className="loading h-[100vh] flex justify-center items-center">Loading tournament bracket...</div>;
   }
 
   // Calculate SVG dimensions based on bracket structure

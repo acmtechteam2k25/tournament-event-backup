@@ -153,25 +153,25 @@ const DatabaseTestPage = () => {
       )}
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-        <div className="bg-gray-50 p-4 rounded-lg">
-          <h3 className="text-lg font-medium mb-2">Tournaments</h3>
+        <div className="bg-gray-100 p-4 rounded-lg">
+          <h3 className="text-lg text-blue-700 font-medium mb-2">Tournaments</h3>
           <p className="text-2xl font-bold text-blue-600">{tournaments.length}</p>
           {tournaments.length > 0 && (
             <div className="mt-2">
               <p className="text-sm text-gray-600">Latest:</p>
-              <p className="text-sm font-medium">{tournaments[0]?.name}</p>
+              <p className="text-sm font-medium text-blue-400">{tournaments[0]?.name}</p>
               <p className="text-xs text-gray-500">ID: {tournaments[0]?.id}</p>
             </div>
           )}
         </div>
 
         <div className="bg-gray-50 p-4 rounded-lg">
-          <h3 className="text-lg font-medium mb-2">Participants</h3>
+          <h3 className="text-lg font-medium mb-2 text-green-700">Participants</h3>
           <p className="text-2xl font-bold text-green-600">{participants.length}</p>
         </div>
 
         <div className="bg-gray-50 p-4 rounded-lg">
-          <h3 className="text-lg font-medium mb-2">Matches</h3>
+          <h3 className="text-lg font-medium mb-2 text-purple-700">Matches</h3>
           <p className="text-2xl font-bold text-purple-600">{matches.length}</p>
         </div>
       </div>

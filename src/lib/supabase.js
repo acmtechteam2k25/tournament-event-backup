@@ -61,6 +61,15 @@ export const tournamentAPI = {
     return data;
   },
 
+  // Get cumulative + round-wise scores
+  getCumulativeScores: async (tournamentId) => {
+    const { data, error } = await supabase.rpc('get_tournament_cumulative_scores', {
+      p_tournament_id: tournamentId
+    })
+    if (error) throw error
+    return data
+  },
+
   // Get tournament bracket
   getTournamentBracket: async (tournamentId) => {
     const { data, error } = await supabase.rpc('get_tournament_bracket', {
