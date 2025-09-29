@@ -12,7 +12,7 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey)
 
 // Database function helpers
 export const tournamentAPI = {
-  // Update match winner
+  // Update match winner (basic version)
   updateMatchWinner: async (matchId, winnerId, winnerScore = 0, loserScore = 0, isWalkover = false) => {
     const { data, error } = await supabase.rpc('update_match_winner', {
       p_match_id: matchId,
@@ -20,6 +20,41 @@ export const tournamentAPI = {
       p_winner_score: winnerScore,
       p_loser_score: loserScore,
       p_is_walkover: isWalkover
+    });
+    
+    if (error) throw error;
+    return data;
+  },
+
+  // Update match winner (advanced version with automatic round progression)
+  updateMatchWinnerAdvanced: async (matchId, winnerId, winnerScore = 0, loserScore = 0, isWalkover = false) => {
+    const { data, error } = await supabase.rpc('update_match_winner_advanced', {
+      p_match_id: matchId,
+      p_winner_id: winnerId,
+      p_winner_score: winnerScore,
+      p_loser_score: loserScore,
+      p_is_walkover: isWalkover
+    });
+    
+    if (error) throw error;
+    return data;
+  },
+
+  // Create complete tournament bracket with all rounds
+  createCompleteTournamentBracket: async (tournamentId, participantIds) => {
+    const { data, error } = await supabase.rpc('create_complete_tournament_bracket', {
+      p_tournament_id: tournamentId,
+      p_participant_ids: participantIds
+    });
+    
+    if (error) throw error;
+    return data;
+  },
+
+  // Get tournament status and progression
+  getTournamentStatus: async (tournamentId) => {
+    const { data, error } = await supabase.rpc('get_tournament_status', {
+      p_tournament_id: tournamentId
     });
     
     if (error) throw error;

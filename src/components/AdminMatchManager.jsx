@@ -80,83 +80,137 @@ const AdminMatchManager = ({ tournamentId }) => {
   }
 
   return (
-    <div className="admin-match-manager p-6 bg-white">
-      <h2 className="text-2xl font-bold mb-6 text-gray-800">Match Management</h2>
-      
-      {Object.keys(matchesByRound).sort((a, b) => parseInt(a) - parseInt(b)).map(round => (
-        <div key={round} className="mb-8">
-          <h3 className="text-xl font-semibold mb-4 text-blue-600">
-            {getRoundName(parseInt(round))}
-          </h3>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div className="admin-match-manager p-6 bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
+      <div className="max-w-7xl mx-auto">
+        <div className="text-center mb-8">
+          <h2 className="text-3xl font-bold text-gray-800 mb-2">🏆 Match Management</h2>
+          <p className="text-gray-600">Manage tournament matches and select winners</p>
+        </div>
+        
+        {Object.keys(matchesByRound).sort((a, b) => parseInt(a) - parseInt(b)).map(round => (
+          <div key={round} className="mb-10">
+            <div className="text-center mb-6">
+              <h3 className="inline-block text-2xl font-bold text-white bg-gradient-to-r from-blue-600 to-purple-600 px-6 py-2 rounded-full shadow-lg">
+                {getRoundName(parseInt(round))}
+              </h3>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {matchesByRound[round].map(match => (
               <div 
                 key={match.match_id} 
-                className={`border rounded-lg p-4 transition-all duration-200 ${
+                className={`bg-white rounded-xl shadow-lg p-5 transition-all duration-300 hover:shadow-xl transform hover:-translate-y-1 ${
                   match.status === 'completed' 
-                    ? 'bg-green-50 border-green-200' 
-                    : 'bg-gray-50 border-gray-200 hover:bg-blue-50 hover:border-blue-300'
+                    ? 'border-2 border-green-200 bg-green-50' 
+                    : 'border border-gray-200 hover:border-blue-300'
                 }`}
               >
-                <div className="flex justify-between items-center mb-3">
-                  <span className="text-sm font-medium text-gray-600">
+                <div className="flex justify-between items-center mb-4">
+                  <span className="text-sm font-bold text-gray-700 bg-gray-100 px-3 py-1 rounded-full">
                     Match {match.match_number}
                   </span>
-                  <span className={`px-2 py-1 rounded text-xs font-medium ${
+                  <span className={`px-3 py-1 rounded-full text-xs font-bold ${
                     match.status === 'completed' 
-                      ? 'bg-green-100 text-green-800' 
-                      : 'bg-yellow-100 text-yellow-800'
+                      ? 'bg-green-100 text-green-700 border border-green-200' 
+                      : 'bg-yellow-100 text-yellow-700 border border-yellow-200'
                   }`}>
-                    {match.status === 'completed' ? 'Completed' : 'Pending'}
+                    {match.status === 'completed' ? '✅ Completed' : '⏳ Pending'}
                   </span>
                 </div>
 
-                <div className="space-y-2 mb-4">
-                  <div className={`p-2 rounded ${
-                    match.winner_id === match.player1?.id ? 'bg-yellow-100 border border-yellow-300' : 'bg-white'
+                <div className="space-y-3 mb-4">
+                  <div className={`p-3 rounded-lg border-2 transition-all duration-200 ${
+                    match.winner_id === match.player1?.id 
+                      ? 'bg-green-50 border-green-300 shadow-md' 
+                      : 'bg-white border-gray-200 hover:border-blue-200'
                   }`}>
-                    <span className="font-medium">
-                      {match.player1?.seed_number && `(${match.player1.seed_number}) `}
-                      {match.player1?.name || 'TBD'}
-                    </span>
-                    {match.player1?.roll_number && (
-                      <span className="text-sm text-gray-500 ml-2">
-                        ({match.player1.roll_number})
-                      </span>
-                    )}
-                    {match.winner_id === match.player1?.id && (
-                      <span className="text-green-600 font-bold ml-2">✓ WINNER</span>
-                    )}
+                    <div className="flex items-center justify-between">
+                      <div className="flex-1">
+                        <div className="flex items-center">
+                          {match.player1?.seed_number && (
+                            <span className="inline-flex items-center justify-center w-6 h-6 bg-blue-100 text-blue-800 text-xs font-bold rounded-full mr-2">
+                              {match.player1.seed_number}
+                            </span>
+                          )}
+                          <span className="font-semibold text-gray-800">
+                            {match.player1?.name || 'TBD'}
+                          </span>
+                        </div>
+                        {match.player1?.roll_number && (
+                          <div className="text-center mt-1">
+                            <span className="inline-block bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded">
+                              {match.player1.roll_number}
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                      {match.winner_id === match.player1?.id && (
+                        <div className="ml-2">
+                          <span className="inline-flex items-center px-2 py-1 bg-green-100 text-green-700 text-xs font-bold rounded-full">
+                            ✓ WINNER
+                          </span>
+                        </div>
+                      )}
+                    </div>
                   </div>
                   
-                  <div className="text-center text-gray-400 text-sm">vs</div>
-                  
-                  <div className={`p-2 rounded ${
-                    match.winner_id === match.player2?.id ? 'bg-yellow-100 border border-yellow-300' : 'bg-white'
-                  }`}>
-                    <span className="font-medium">
-                      {match.player2?.seed_number && `(${match.player2.seed_number}) `}
-                      {match.player2?.name || 'TBD'}
+                  <div className="text-center">
+                    <span className="inline-block bg-gray-200 text-gray-600 text-sm font-medium px-3 py-1 rounded-full">
+                      VS
                     </span>
-                    {match.player2?.roll_number && (
-                      <span className="text-sm text-gray-500 ml-2">
-                        ({match.player2.roll_number})
-                      </span>
-                    )}
-                    {match.winner_id === match.player2?.id && (
-                      <span className="text-green-600 font-bold ml-2">✓ WINNER</span>
-                    )}
+                  </div>
+                  
+                  <div className={`p-3 rounded-lg border-2 transition-all duration-200 ${
+                    match.winner_id === match.player2?.id 
+                      ? 'bg-green-50 border-green-300 shadow-md' 
+                      : 'bg-white border-gray-200 hover:border-blue-200'
+                  }`}>
+                    <div className="flex items-center justify-between">
+                      <div className="flex-1">
+                        <div className="flex items-center">
+                          {match.player2?.seed_number && (
+                            <span className="inline-flex items-center justify-center w-6 h-6 bg-blue-100 text-blue-800 text-xs font-bold rounded-full mr-2">
+                              {match.player2.seed_number}
+                            </span>
+                          )}
+                          <span className="font-semibold text-gray-800">
+                            {match.player2?.name || 'TBD'}
+                          </span>
+                        </div>
+                        {match.player2?.roll_number && (
+                          <div className="text-center mt-1">
+                            <span className="inline-block bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded">
+                              {match.player2.roll_number}
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                      {match.winner_id === match.player2?.id && (
+                        <div className="ml-2">
+                          <span className="inline-flex items-center px-2 py-1 bg-green-100 text-green-700 text-xs font-bold rounded-full">
+                            ✓ WINNER
+                          </span>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
 
                 {match.status !== 'completed' && match.player1 && match.player2 && (
                   <button
                     onClick={() => setSelectedMatch(match)}
-                    className="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded transition-colors duration-200"
+                    className="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white py-3 px-4 rounded-lg font-medium shadow-md hover:shadow-lg transition-all duration-200 transform hover:scale-105"
                   >
-                    Set Winner
+                    🏆 Set Winner
                   </button>
+                )}
+                
+                {match.status === 'completed' && (
+                  <div className="w-full text-center py-2">
+                    <span className="inline-flex items-center px-3 py-1 bg-green-100 text-green-700 text-sm font-medium rounded-full">
+                      ✅ Match Completed
+                    </span>
+                  </div>
                 )}
               </div>
             ))}
@@ -166,82 +220,116 @@ const AdminMatchManager = ({ tournamentId }) => {
 
       {/* Winner Selection Modal */}
       {selectedMatch && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 w-full max-w-md mx-4">
-            <h3 className="text-lg font-bold mb-4">
-              Set Winner - Match {selectedMatch.match_number}
-            </h3>
+        <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-xl shadow-2xl p-6 w-full max-w-lg mx-4 transform transition-all">
+            <div className="text-center mb-6">
+              <h3 className="text-xl font-bold text-gray-800 mb-2">
+                🏆 Set Winner
+              </h3>
+              <p className="text-sm text-gray-600">
+                Match {selectedMatch.match_number} - {getRoundName(selectedMatch.round_number)}
+              </p>
+            </div>
             
-            <div className="mb-4">
-              <p className="text-sm text-gray-600 mb-2">Select Winner:</p>
-              <div className="space-y-2">
+            <div className="mb-6">
+              <p className="text-sm font-medium text-gray-700 mb-3">Select the winner:</p>
+              <div className="space-y-3">
                 <button
                   onClick={() => handleUpdateMatch(selectedMatch.match_id, selectedMatch.player1?.id)}
                   disabled={updating}
-                  className="w-full p-3 text-left border rounded hover:bg-blue-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full p-4 text-left border-2 border-gray-200 rounded-lg hover:border-blue-300 hover:bg-blue-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 group"
                 >
-                  <span className="font-medium">
-                    {selectedMatch.player1?.seed_number && `(${selectedMatch.player1.seed_number}) `}
-                    {selectedMatch.player1?.name}
-                  </span>
-                  <span className="text-sm text-gray-500 ml-2">
-                    ({selectedMatch.player1?.roll_number})
-                  </span>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center">
+                      {selectedMatch.player1?.seed_number && (
+                        <span className="inline-flex items-center justify-center w-7 h-7 bg-blue-100 text-blue-800 text-sm font-bold rounded-full mr-3">
+                          {selectedMatch.player1.seed_number}
+                        </span>
+                      )}
+                      <div>
+                        <span className="font-semibold text-gray-800 block">
+                          {selectedMatch.player1?.name}
+                        </span>
+                        <span className="text-sm text-gray-600">
+                          {selectedMatch.player1?.roll_number}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="text-blue-500 group-hover:text-blue-600 transition-colors">
+                      👑
+                    </div>
+                  </div>
                 </button>
                 
                 <button
                   onClick={() => handleUpdateMatch(selectedMatch.match_id, selectedMatch.player2?.id)}
                   disabled={updating}
-                  className="w-full p-3 text-left border rounded hover:bg-blue-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full p-4 text-left border-2 border-gray-200 rounded-lg hover:border-blue-300 hover:bg-blue-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 group"
                 >
-                  <span className="font-medium">
-                    {selectedMatch.player2?.seed_number && `(${selectedMatch.player2.seed_number}) `}
-                    {selectedMatch.player2?.name}
-                  </span>
-                  <span className="text-sm text-gray-500 ml-2">
-                    ({selectedMatch.player2?.roll_number})
-                  </span>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center">
+                      {selectedMatch.player2?.seed_number && (
+                        <span className="inline-flex items-center justify-center w-7 h-7 bg-blue-100 text-blue-800 text-sm font-bold rounded-full mr-3">
+                          {selectedMatch.player2.seed_number}
+                        </span>
+                      )}
+                      <div>
+                        <span className="font-semibold text-gray-800 block">
+                          {selectedMatch.player2?.name}
+                        </span>
+                        <span className="text-sm text-gray-600">
+                          {selectedMatch.player2?.roll_number}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="text-blue-500 group-hover:text-blue-600 transition-colors">
+                      👑
+                    </div>
+                  </div>
                 </button>
               </div>
             </div>
 
-            <div className="mb-4">
-              <label className="flex items-center">
+            <div className="mb-6">
+              <label className="flex items-center p-3 bg-gray-50 rounded-lg">
                 <input
                   type="checkbox"
                   checked={isWalkover}
                   onChange={(e) => setIsWalkover(e.target.checked)}
-                  className="mr-2"
+                  className="mr-3 w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
                 />
-                <span className="text-sm">Walkover (no scores needed)</span>
+                <span className="text-sm font-medium text-gray-700">Walkover (no scores needed)</span>
               </label>
             </div>
 
             {!isWalkover && (
-              <div className="mb-4 grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Winner Score
-                  </label>
-                  <input
-                    type="number"
-                    value={winnerScore}
-                    onChange={(e) => setWinnerScore(e.target.value)}
-                    placeholder="0"
-                    className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Loser Score
-                  </label>
-                  <input
-                    type="number"
-                    value={loserScore}
-                    onChange={(e) => setLoserScore(e.target.value)}
-                    placeholder="0"
-                    className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  />
+              <div className="mb-6">
+                <h4 className="text-sm font-medium text-gray-700 mb-3">Match Scores:</h4>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Winner Score
+                    </label>
+                    <input
+                      type="number"
+                      value={winnerScore}
+                      onChange={(e) => setWinnerScore(e.target.value)}
+                      placeholder="0"
+                      className="w-full px-4 py-2 text-black border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Loser Score
+                    </label>
+                    <input
+                      type="number"
+                      value={loserScore}
+                      onChange={(e) => setLoserScore(e.target.value)}
+                      placeholder="0"
+                      className="w-full px-4 py-2 text-black border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                    />
+                  </div>
                 </div>
               </div>
             )}
@@ -250,7 +338,7 @@ const AdminMatchManager = ({ tournamentId }) => {
               <button
                 onClick={() => setSelectedMatch(null)}
                 disabled={updating}
-                className="px-4 py-2 text-gray-600 border border-gray-300 rounded hover:bg-gray-50 disabled:opacity-50"
+                className="px-6 py-2 text-gray-600 bg-gray-100 border border-gray-300 rounded-lg hover:bg-gray-200 disabled:opacity-50 transition-colors font-medium"
               >
                 Cancel
               </button>
@@ -265,6 +353,7 @@ const AdminMatchManager = ({ tournamentId }) => {
           </div>
         </div>
       )}
+      </div>
     </div>
   );
 };

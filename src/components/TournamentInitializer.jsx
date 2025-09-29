@@ -190,7 +190,9 @@ const TournamentInitializer = ({ onTournamentCreated }) => {
     try {
       // Clear existing data (in proper order due to foreign key constraints)
       await supabase.from('bracket_positions').delete().eq('tournament_id', config.TOURNAMENT_ID);
+      await supabase.from('scores').delete().eq('tournament_id', config.TOURNAMENT_ID);
       await supabase.from('matches').delete().eq('tournament_id', config.TOURNAMENT_ID);
+      await supabase.from('rounds').delete().eq('tournament_id', config.TOURNAMENT_ID);
       await supabase.from('participants').delete().eq('tournament_id', config.TOURNAMENT_ID);
 
       // Insert participants with proper seeding
@@ -212,8 +214,17 @@ const TournamentInitializer = ({ onTournamentCreated }) => {
 
       if (participantsError) throw participantsError;
 
-      // Create Round 1 matches
-      await createRound1Matches(insertedParticipants);
+      // Sort participants by seed number and create the complete tournament bracket
+      const sortedParticipants = insertedParticipants.sort((a, b) => a.seed_number - b.seed_number);
+      const participantIds = sortedParticipants.map(p => p.id);
+
+      // Create complete tournament bracket with all rounds using the advanced function
+      const { data, error } = await supabase.rpc('create_complete_tournament_bracket', {
+        p_tournament_id: config.TOURNAMENT_ID,
+        p_participant_ids: participantIds
+      });
+
+      if (error) throw error;
       
       // Reload participants from database
       await loadParticipants();

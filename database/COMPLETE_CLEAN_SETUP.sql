@@ -286,7 +286,8 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Function to initialize tournament bracket
+-- Simple function to initialize tournament bracket (basic version)
+-- For advanced bracket management, use advanced_bracket_functions.sql
 CREATE OR REPLACE FUNCTION initialize_tournament_bracket(
   p_tournament_id UUID,
   p_participants UUID[]
@@ -294,29 +295,27 @@ CREATE OR REPLACE FUNCTION initialize_tournament_bracket(
 DECLARE
   v_participant_count INTEGER;
   v_round_1_matches INTEGER;
-  v_current_match_id INTEGER := 1;
-  v_participant_id UUID;
   v_match_id UUID;
+  v_round_id UUID;
   i INTEGER;
 BEGIN
   v_participant_count := array_length(p_participants, 1);
   v_round_1_matches := v_participant_count / 2;
   
   -- Create Round 1
-  INSERT INTO rounds (tournament_id, round_number, round_name, max_participants, total_matches)
-  VALUES (p_tournament_id, 1, 'Round 1', v_participant_count, v_round_1_matches);
+  INSERT INTO rounds (tournament_id, round_number, round_name, max_participants, total_matches, status)
+  VALUES (p_tournament_id, 1, 'Round 1', v_participant_count, v_round_1_matches, 'active')
+  RETURNING id INTO v_round_id;
   
-  -- Create Round 1 matches
+  -- Create Round 1 matches only
   FOR i IN 1..v_round_1_matches LOOP
     INSERT INTO matches (tournament_id, round_id, round_number, match_number, 
-                        player1_id, player2_id)
-    VALUES (p_tournament_id, 
-            (SELECT id FROM rounds WHERE tournament_id = p_tournament_id AND round_number = 1),
-            1, i,
-            p_participants[i*2-1], p_participants[i*2])
+                        player1_id, player2_id, status)
+    VALUES (p_tournament_id, v_round_id, 1, i,
+            p_participants[i*2-1], p_participants[i*2], 'scheduled')
     RETURNING id INTO v_match_id;
     
-    -- Add bracket positions (you can customize these based on your UI layout)
+    -- Add bracket positions for Round 1 only
     INSERT INTO bracket_positions (tournament_id, match_id, round_number, position_x, position_y, column_index, row_index)
     VALUES (p_tournament_id, v_match_id, 1, 0, (i-1) * 120, 0, i-1);
   END LOOP;
