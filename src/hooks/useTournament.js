@@ -45,13 +45,16 @@ export const useTournament = (tournamentId) => {
 
   const updateMatchWinner = async (matchId, winnerId, winnerScore = 0, loserScore = 0, isWalkover = false) => {
     try {
-      await tournamentAPI.updateMatchWinner(matchId, winnerId, winnerScore, loserScore, isWalkover)
+      const result = await tournamentAPI.updateMatchWinner(matchId, winnerId, winnerScore, loserScore, isWalkover);
+      
       // Refresh bracket after update
-      await fetchBracket()
-      await fetchParticipants()
+      await fetchBracket();
+      await fetchParticipants();
+      
+      return result;
     } catch (err) {
-      setError(err.message)
-      throw err
+      setError(err.message);
+      throw err;
     }
   }
 

@@ -67,9 +67,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Step 3: Test the function
 SELECT 'Function created successfully!' as status;
 
--- Step 4: Quick test (should return data if tournament exists)
 SELECT COUNT(*) as test_count 
 FROM get_tournament_bracket('550e8400-e29b-41d4-a716-446655440000');

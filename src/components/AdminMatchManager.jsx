@@ -25,7 +25,12 @@ const AdminMatchManager = ({ tournamentId }) => {
       const winner = parseInt(winnerScore) || 0;
       const loser = parseInt(loserScore) || 0;
       
-      await updateMatchWinner(matchId, winnerId, winner, loser, isWalkover);
+      const result = await updateMatchWinner(matchId, winnerId, winner, loser, isWalkover);
+      
+      // Check if the update was successful
+      if (result && result.success === false) {
+        throw new Error(result.error || 'Update failed');
+      }
       
       // Reset form
       setSelectedMatch(null);
@@ -33,9 +38,8 @@ const AdminMatchManager = ({ tournamentId }) => {
       setLoserScore('');
       setIsWalkover(false);
       
-      alert('Match updated successfully!');
     } catch (error) {
-      alert('Failed to update match. Please try again.');
+      alert(`Failed to update match: ${error.message}`);
     } finally {
       setUpdating(false);
     }

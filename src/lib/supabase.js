@@ -20,10 +20,10 @@ export const tournamentAPI = {
       p_winner_score: winnerScore,
       p_loser_score: loserScore,
       p_is_walkover: isWalkover
-    })
+    });
     
-    if (error) throw error
-    return data
+    if (error) throw error;
+    return data;
   },
 
   // Get tournament bracket

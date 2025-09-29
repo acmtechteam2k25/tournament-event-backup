@@ -27,25 +27,22 @@ const TournamentBracketViewFinal = ({ isEditable = false, tournamentId = null })
             match.player1 ? {
               id: match.player1.id,
               name: `(${match.player1.seed_number}) ${match.player1.name}`,
-              resultText: match.winner_id === match.player1.id ? 
-                (match.match_type === 'walkover' ? 'WALKOVER' : 'WINNER') : null,
+              resultText: match.winner_id === match.player1.id ? 'WINNER' : null,
               isWinner: match.winner_id === match.player1.id,
-              status: match.winner_id === match.player1.id && match.match_type === 'walkover' ? 'WALKOVER' : match.player1.status,
+              status: match.player1.status,
               seed: match.player1.seed_number
             } : { name: 'TBD', id: null },
             match.player2 ? {
               id: match.player2.id,
               name: `(${match.player2.seed_number}) ${match.player2.name}`,
-              resultText: match.winner_id === match.player2.id ? 
-                (match.match_type === 'walkover' ? 'WALKOVER' : 'WINNER') : null,
+              resultText: match.winner_id === match.player2.id ? 'WINNER' : null,
               isWinner: match.winner_id === match.player2.id,
-              status: match.winner_id === match.player2.id && match.match_type === 'walkover' ? 'WALKOVER' : match.player2.status,
+              status: match.player2.status,
               seed: match.player2.seed_number
             } : { name: 'TBD', id: null }
           ],
           nextMatchId: match.next_match_id,
-          position: match.match_position,
-          matchType: match.match_type
+          position: match.match_position
         }));
         setMatches(formattedMatches);
       } else {
