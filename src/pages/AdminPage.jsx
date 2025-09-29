@@ -35,7 +35,7 @@ const AdminPage = () => {
   return (
     <div className="admin-page">
       <div className="admin-header bg-white shadow-sm border-b">
-        <div className="flex justify-between items-center px-6 py-4">
+        <div className="flex justify-between items-center px-6 gap-5">
           <h1 className="text-2xl font-bold text-gray-800">Tournament Admin</h1>
           <button 
             onClick={handleLogout} 

@@ -5,12 +5,7 @@
   align-items: center;
   min-height: 100%;
   padding: 40px 20px;
-  background: linear-gradient(
-    135deg,
-    var(--primary-bg) 0%,
-    var(--secondary-bg) 50%,
-    var(--primary-bg) 100%
-  );
+ 
 }
 
 .login-card {
