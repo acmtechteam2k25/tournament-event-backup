@@ -23,18 +23,33 @@ type PlayerRow = {
 // Minimal XLSX writer using SheetJS lite CDN build
 import * as XLSX from 'https://cdn.sheetjs.com/xlsx-0.20.2/package/xlsx.mjs'
 
+function withCors(body: BodyInit | null, status = 200, extraHeaders: Record<string, string> = {}) {
+  return new Response(body, {
+    status,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+      'Access-Control-Allow-Methods': 'GET, OPTIONS',
+      ...extraHeaders,
+    },
+  })
+}
+
 serve(async (req) => {
+  if (req.method === 'OPTIONS') {
+    return withCors(null, 200)
+  }
   try {
     const url = new URL(req.url)
     const tournamentId = url.searchParams.get('tournamentId')
     if (!tournamentId) {
-      return new Response(JSON.stringify({ error: 'Missing tournamentId' }), { status: 400 })
+      return withCors(JSON.stringify({ error: 'Missing tournamentId' }), 400, { 'Content-Type': 'application/json' })
     }
 
     const supabaseUrl = Deno.env.get('SUPABASE_URL')
     const supabaseServiceRoleKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')
     if (!supabaseUrl || !supabaseServiceRoleKey) {
-      return new Response(JSON.stringify({ error: 'Server configuration missing' }), { status: 500 })
+      return withCors(JSON.stringify({ error: 'Server configuration missing' }), 500, { 'Content-Type': 'application/json' })
     }
 
     const supabase = createClient(supabaseUrl, supabaseServiceRoleKey)
@@ -78,15 +93,13 @@ serve(async (req) => {
     const out = XLSX.write(wb, { type: 'array', bookType: 'xlsx' })
     const filename = `tournament_${tournamentId}_report.xlsx`
 
-    return new Response(out, {
-      headers: {
-        'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-        'Content-Disposition': `attachment; filename="${filename}"`
-      }
+    return withCors(out, 200, {
+      'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      'Content-Disposition': `attachment; filename="${filename}"`
     })
 
   } catch (err) {
-    return new Response(JSON.stringify({ error: String(err?.message || err) }), { status: 500 })
+    return withCors(JSON.stringify({ error: String(err?.message || err) }), 500, { 'Content-Type': 'application/json' })
   }
 })
 
