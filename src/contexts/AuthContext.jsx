@@ -32,30 +32,31 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = async (username, password) => {
-    // Placeholder authentication - replace with Firebase later
-    const validCredentials = [
-      { username: 'admin', password: 'admin123', role: 'admin' },
-      { username: 'acm_admin', password: 'tournament2025', role: 'admin' }
-    ];
+    try {
+      const baseUrl = process.env.REACT_APP_SUPABASE_URL;
+      if (!baseUrl) throw new Error('Supabase URL missing');
+      const resp = await fetch(`${baseUrl}/functions/v1/admin_auth`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ username, password })
+      });
+      const data = await resp.json();
+      if (!resp.ok || !data?.success) {
+        return { success: false, error: data?.error || 'Invalid credentials' };
+      }
 
-    const validUser = validCredentials.find(
-      cred => cred.username === username && cred.password === password
-    );
-
-    if (validUser) {
-      const userData = { username: validUser.username, role: validUser.role };
+      const userData = { username: data.username || username, role: data.role || 'admin' };
       setIsAuthenticated(true);
       setUser(userData);
-      
-      // Save to localStorage
       localStorage.setItem('acm_tournament_auth', JSON.stringify({
         isAuthenticated: true,
         user: userData
       }));
-      
       return { success: true };
-    } else {
-      return { success: false, error: 'Invalid credentials' };
+    } catch (err) {
+      return { success: false, error: err.message || 'Login failed' };
     }
   };
 

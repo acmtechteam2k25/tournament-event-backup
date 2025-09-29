@@ -3,7 +3,7 @@
   height: 100vh;
   display: flex;
   flex-direction: column;
-  padding-top: 80px; /* Add padding to avoid navbar overlap */
+  padding: 10px;
 }
 
 .public-bracket-content {
@@ -14,6 +14,8 @@
 /* Public view specific styles */
 .bracket-view-page .tournament-bracket {
   height: 100%;
+  width: 98%;
+  border-radius: 0.5rem;
 }
 
 /* Disable editing features in public view */

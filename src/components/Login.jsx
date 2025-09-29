@@ -85,25 +85,7 @@ const Login = ({ onLoginSuccess }) => {
           </button>
         </form>
 
-        <div className="demo-credentials">
-          <p>Demo Credentials:</p>
-          <div className="demo-buttons">
-            <button 
-              type="button" 
-              className="demo-btn"
-              onClick={() => handleDemoCredentials('admin', 'admin123')}
-            >
-              admin / admin123
-            </button>
-            <button 
-              type="button" 
-              className="demo-btn"
-              onClick={() => handleDemoCredentials('acm_admin', 'tournament2025')}
-            >
-              acm_admin / tournament2025
-            </button>
-          </div>
-        </div>
+        {/* Demo credentials removed; Edge Function validates against server secrets */}
       </div>
     </div>
   );

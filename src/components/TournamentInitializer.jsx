@@ -30,19 +30,7 @@ const TournamentInitializer = ({ onTournamentCreated }) => {
     }
   };
 
-  const generateSampleParticipants = () => {
-    const sampleData = [];
-    for (let i = 1; i <= 64; i++) {
-      sampleData.push({
-        name: `Player ${i}`,
-        roll_number: `CS${String(i).padStart(3, '0')}`,
-        email: `player${i}@college.edu`,
-        seed_number: i // Simple 1-64 seeding
-      });
-    }
-    setParticipants(sampleData);
-    setError('');
-  };
+  // Removed sample participants generator to avoid mock data in production
 
   const importFromCSV = (event) => {
     const file = event.target.files[0];
@@ -269,13 +257,6 @@ const TournamentInitializer = ({ onTournamentCreated }) => {
 
       {/* Action Buttons */}
       <div className="mb-6 flex flex-wrap gap-4">
-        <button
-          onClick={generateSampleParticipants}
-          className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded transition-colors duration-200"
-        >
-          Generate 64 Sample Participants
-        </button>
-        
         <label className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded cursor-pointer transition-colors duration-200">
           Import 64 Participants from CSV
           <input
@@ -302,7 +283,7 @@ const TournamentInitializer = ({ onTournamentCreated }) => {
         
         {participants.length === 0 ? (
           <p className="text-gray-500 text-center py-8 bg-gray-50 rounded-lg">
-            No participants added yet. Generate sample data or upload CSV file.
+            No participants added yet. Please upload a CSV file with 64 participants.
           </p>
         ) : (
           <div className="max-h-96 overflow-y-auto border border-gray-200 rounded-lg">
