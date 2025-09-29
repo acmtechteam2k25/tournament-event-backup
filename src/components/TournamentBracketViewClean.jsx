@@ -1,56 +1,121 @@
 import React, { useState, useEffect } from 'react';
 import { generateSamplePlayers, generateTournamentMatches } from '../data/sampleData';
 import { generateColumns, calculatePositionOfMatch, getPreviousMatches, BRACKET_CONFIG } from '../utils/bracketPositioning';
+import { useTournament } from '../hooks/useTournament';
 import Connector from './Connector';
 import MatchBox from './MatchBox';
 import './TournamentBracketView.css';
 
-const TournamentBracketViewFinal = ({ isEditable = false }) => {
+const TournamentBracketViewFinal = ({ isEditable = false, tournamentId = null }) => {
   const [matches, setMatches] = useState([]);
   const [selectedMatch, setSelectedMatch] = useState(null);
   const [overlayPosition, setOverlayPosition] = useState({ x: 0, y: 0 });
+  
+  // Use tournament hook for database integration (only if tournamentId is provided)
+  const { bracket, participants, loading, error, updateMatchWinner } = useTournament(tournamentId);
 
   useEffect(() => {
-    // Load tournament data from localStorage if available, otherwise generate sample data
-    const savedData = localStorage.getItem('acm_tournament_data');
-    if (savedData) {
-      const tournamentData = JSON.parse(savedData);
-      setMatches(tournamentData);
+    if (tournamentId) {
+      // Always use database data when tournament ID is provided
+      if (bracket.length > 0) {
+        // Convert database format to component format
+        const formattedMatches = bracket.map(match => ({
+          id: match.match_id,
+          tournamentRoundText: match.round_number.toString(),
+          resultText: match.status === 'completed' ? 'Winner' : '',
+          participants: [
+            match.player1 ? {
+              id: match.player1.id,
+              name: `(${match.player1.seed_number}) ${match.player1.name}`,
+              resultText: match.winner_id === match.player1.id ? 
+                (match.match_type === 'walkover' ? 'WALKOVER' : 'WINNER') : null,
+              isWinner: match.winner_id === match.player1.id,
+              status: match.winner_id === match.player1.id && match.match_type === 'walkover' ? 'WALKOVER' : match.player1.status,
+              seed: match.player1.seed_number
+            } : { name: 'TBD', id: null },
+            match.player2 ? {
+              id: match.player2.id,
+              name: `(${match.player2.seed_number}) ${match.player2.name}`,
+              resultText: match.winner_id === match.player2.id ? 
+                (match.match_type === 'walkover' ? 'WALKOVER' : 'WINNER') : null,
+              isWinner: match.winner_id === match.player2.id,
+              status: match.winner_id === match.player2.id && match.match_type === 'walkover' ? 'WALKOVER' : match.player2.status,
+              seed: match.player2.seed_number
+            } : { name: 'TBD', id: null }
+          ],
+          nextMatchId: match.next_match_id,
+          position: match.match_position,
+          matchType: match.match_type
+        }));
+        setMatches(formattedMatches);
+      } else {
+        // Show empty bracket while loading database data
+        setMatches([]);
+      }
     } else {
-      // Generate 32 players for a complete 6-round tournament  
-      const players = generateSamplePlayers(32);
-      const tournamentData = generateTournamentMatches(players);
-      console.log('Tournament data generated:', tournamentData.slice(0, 3)); // Debug first 3 matches
-      setMatches(tournamentData);
+      // Fallback to sample data if no tournament ID
+      const savedData = localStorage.getItem('acm_tournament_data');
+      
+      let needsRegeneration = false;
+      if (savedData) {
+        try {
+          const tournamentData = JSON.parse(savedData);
+          const firstRoundMatches = tournamentData.filter(match => match.tournamentRoundText === '1');
+          const totalFirstRoundPlayers = firstRoundMatches.reduce((count, match) => count + match.participants.length, 0);
+          if (totalFirstRoundPlayers < 64) {
+            needsRegeneration = true;
+          }
+        } catch (error) {
+          needsRegeneration = true;
+        }
+      }
+      
+      if (savedData && !needsRegeneration) {
+        const tournamentData = JSON.parse(savedData);
+        setMatches(tournamentData);
+      } else {
+        const players = generateSamplePlayers(64);
+        const tournamentData = generateTournamentMatches(players);
+        localStorage.setItem('acm_tournament_data', JSON.stringify(tournamentData));
+        setMatches(tournamentData);
+      }
     }
-  }, []);
+  }, [tournamentId, bracket]);
 
   const handleMatchClick = (match, x, y) => {
     // Only allow clicking if in editable mode
     if (!isEditable) return;
-
-    console.log('Match clicked:', match.name);
     setSelectedMatch(selectedMatch?.id === match.id ? null : match);
     setOverlayPosition({ x: x + 200, y: y + 120 }); // Position overlay relative to match
   };
 
-  const handleWinnerSelect = (matchId, winnerId, isWalkover = false) => {
-    setMatches(prevMatches => {
-      const updatedMatches = prevMatches.map(match => {
-        if (match.id === matchId) {
-          const updatedParticipants = match.participants.map(p => ({
-            ...p,
-            isWinner: p.id === winnerId,
-            status: p.id === winnerId ? (isWalkover ? 'WALKOVER' : 'PLAYED') : 'PLAYED',
-            resultText: p.id === winnerId ? (isWalkover ? 'Won (W/O)' : 'Won') : 'Lost'
-          }));
+  const handleWinnerSelect = async (matchId, winnerId, isWalkover = false, winnerScore = 0, loserScore = 0) => {
+    if (tournamentId && updateMatchWinner) {
+      // Update via database
+      try {
+        await updateMatchWinner(matchId, winnerId, winnerScore, loserScore, isWalkover);
+        setSelectedMatch(null); // Close overlay after update
+      } catch (error) {
+        alert('Failed to update match. Please try again.');
+      }
+    } else {
+      // Fallback to local state update
+      setMatches(prevMatches => {
+        const updatedMatches = prevMatches.map(match => {
+          if (match.id === matchId) {
+            const updatedParticipants = match.participants.map(p => ({
+              ...p,
+              isWinner: p.id === winnerId,
+              status: p.id === winnerId ? (isWalkover ? 'WALKOVER' : 'PLAYED') : 'PLAYED',
+              resultText: p.id === winnerId ? (isWalkover ? 'Won (W/O)' : 'Won') : 'Lost'
+            }));
 
-          return {
-            ...match,
-            participants: updatedParticipants,
-            state: 'SCORE_DONE'
-          };
-        }
+            return {
+              ...match,
+              participants: updatedParticipants,
+              state: 'SCORE_DONE'
+            };
+          }
         return match;
       });
 
@@ -77,13 +142,14 @@ const TournamentBracketViewFinal = ({ isEditable = false }) => {
         }
       }
 
-      // Save updated data to localStorage
-      localStorage.setItem('acm_tournament_data', JSON.stringify(updatedMatches));
+        // Save updated data to localStorage
+        localStorage.setItem('acm_tournament_data', JSON.stringify(updatedMatches));
 
-      // Close overlay after selection
-      setSelectedMatch(null);
-      return updatedMatches;
-    });
+        // Close overlay after selection
+        setSelectedMatch(null);
+        return updatedMatches;
+      });
+    }
   };
 
   // In participant (public) view, only show:
@@ -120,6 +186,34 @@ const TournamentBracketViewFinal = ({ isEditable = false }) => {
   // Calculate SVG dimensions based on bracket structure
   const svgWidth = columns.length * style.columnWidth + style.canvasPadding * 2;
   const svgHeight = 32 * style.rowHeight + style.canvasPadding * 2; // 32 matches max in first round
+
+  // Show loading state
+  if (tournamentId && loading) {
+    return (
+      <div className="tournament-bracket">
+        <div className="flex items-center justify-center h-96">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
+            <p className="text-gray-600">Loading tournament bracket...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Show error state
+  if (error) {
+    return (
+      <div className="tournament-bracket">
+        <div className="flex items-center justify-center h-96">
+          <div className="text-center text-red-600">
+            <p className="text-lg font-medium">Error loading tournament</p>
+            <p className="text-sm mt-2">{error}</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="tournament-bracket">

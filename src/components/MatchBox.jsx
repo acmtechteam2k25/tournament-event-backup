@@ -2,7 +2,6 @@ import React from 'react';
 
 const MatchBox = ({ match, onMatchClick, isSelected, gameWidth, gameHeight }) => {
   const handleMatchClick = () => {
-    console.log('Match clicked:', match.name);
     onMatchClick();
   };
 

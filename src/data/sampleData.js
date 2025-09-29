@@ -51,20 +51,22 @@ export const generateTournamentMatches = (players) => {
     if (player1Index < players.length) {
       match.participants.push({
         id: players[player1Index].id,
-        name: players[player1Index].name,
+        name: `(${players[player1Index].seed}) ${players[player1Index].name}`,
         resultText: null,
         isWinner: false,
-        status: 'SCHEDULED'
+        status: 'SCHEDULED',
+        seed: players[player1Index].seed
       });
     }
     
     if (player2Index < players.length) {
       match.participants.push({
         id: players[player2Index].id,
-        name: players[player2Index].name,
+        name: `(${players[player2Index].seed}) ${players[player2Index].name}`,
         resultText: null,
         isWinner: false,
-        status: 'SCHEDULED'
+        status: 'SCHEDULED',
+        seed: players[player2Index].seed
       });
     }
     
