@@ -17,6 +17,7 @@ DECLARE
     v_match_id UUID;
     v_position_y INTEGER;
     v_position_x INTEGER;
+    v_result JSON;
     i INTEGER;
     j INTEGER;
 BEGIN
@@ -141,11 +142,15 @@ BEGIN
         v_round_number := v_round_number + 1;
     END LOOP;
     
+    -- Automatically process any byes in Round 1
+    SELECT process_automatic_byes(p_tournament_id) INTO v_result;
+    
     RETURN json_build_object(
         'success', true,
         'message', 'Complete tournament bracket created',
         'total_rounds', v_round_number - 1,
-        'total_participants', v_total_participants
+        'total_participants', v_total_participants,
+        'byes_processed', v_result
     );
     
 EXCEPTION WHEN OTHERS THEN
@@ -175,6 +180,10 @@ DECLARE
     v_next_round_number INTEGER;
     v_next_round_id UUID;
     v_round_completed BOOLEAN := FALSE;
+    v_player1_id UUID;
+    v_player2_id UUID;
+    v_is_bye BOOLEAN := FALSE;
+    v_result_type TEXT;
 BEGIN
     -- Get match details
     SELECT 
@@ -183,13 +192,17 @@ BEGIN
         round_number, 
         round_id, 
         match_number,
+        player1_id,
+        player2_id,
         CASE WHEN player1_id = p_winner_id THEN player2_id ELSE player1_id END
     INTO 
         v_tournament_id, 
         v_next_match_id, 
         v_round_number, 
         v_round_id, 
-        v_match_number, 
+        v_match_number,
+        v_player1_id,
+        v_player2_id, 
         v_loser_id
     FROM matches 
     WHERE id = p_match_id;
@@ -199,12 +212,22 @@ BEGIN
         RETURN json_build_object('success', false, 'error', 'Match not found');
     END IF;
     
+    -- Determine if this is a bye (one player is NULL/TBD)
+    v_is_bye := (v_player1_id IS NULL OR v_player2_id IS NULL);
+    
+    -- Set result type based on the situation
+    v_result_type := CASE 
+        WHEN v_is_bye THEN 'bye'
+        WHEN p_is_walkover THEN 'walkover'
+        ELSE 'regular'
+    END;
+    
     -- Update match with winner
     UPDATE matches 
     SET 
         winner_id = p_winner_id, 
         status = 'completed',
-        match_type = CASE WHEN p_is_walkover THEN 'walkover' ELSE 'regular' END
+        match_type = v_result_type
     WHERE id = p_match_id;
     
     -- Update participants
@@ -215,11 +238,14 @@ BEGIN
         status = CASE WHEN v_next_match_id IS NULL THEN 'champion' ELSE 'active' END
     WHERE id = p_winner_id;
     
-    UPDATE participants 
-    SET status = 'eliminated'
-    WHERE id = v_loser_id;
+    -- Only eliminate loser if it's not a bye
+    IF NOT v_is_bye THEN
+        UPDATE participants 
+        SET status = 'eliminated'
+        WHERE id = v_loser_id;
+    END IF;
     
-    -- Insert scores
+    -- Insert scores (winner always gets a score, loser only if not a bye)
     INSERT INTO scores (
         tournament_id, 
         player_id, 
@@ -233,11 +259,26 @@ BEGIN
         advancement_status
     ) VALUES 
         (v_tournament_id, p_winner_id, v_round_id, p_match_id, v_round_number, v_match_number,
-         p_winner_score, TRUE, 
-         CASE WHEN p_is_walkover THEN 'walkover' ELSE 'regular' END, 'advanced'),
-        (v_tournament_id, v_loser_id, v_round_id, p_match_id, v_round_number, v_match_number,
-         p_loser_score, FALSE, 
-         CASE WHEN p_is_walkover THEN 'walkover' ELSE 'regular' END, 'eliminated');
+         CASE WHEN v_is_bye THEN 0 ELSE p_winner_score END, TRUE, 
+         v_result_type, 'advanced');
+    
+    -- Insert loser score only if not a bye
+    IF NOT v_is_bye THEN
+        INSERT INTO scores (
+            tournament_id, 
+            player_id, 
+            round_id, 
+            match_id, 
+            round_number, 
+            match_number, 
+            score, 
+            is_winner, 
+            result_type, 
+            advancement_status
+        ) VALUES 
+            (v_tournament_id, v_loser_id, v_round_id, p_match_id, v_round_number, v_match_number,
+             p_loser_score, FALSE, v_result_type, 'eliminated');
+    END IF;
     
     -- Advance winner to next match if it exists
     IF v_next_match_id IS NOT NULL THEN
@@ -278,6 +319,9 @@ BEGIN
         SET status = 'active'
         WHERE tournament_id = v_tournament_id 
         AND round_number = v_next_round_number;
+        
+        -- Automatically process any byes in the newly activated round
+        PERFORM process_automatic_byes(v_tournament_id);
     END IF;
     
     -- Return success response with additional info
@@ -288,7 +332,56 @@ BEGIN
         'winner_id', p_winner_id,
         'next_match_id', v_next_match_id,
         'round_completed', v_round_completed,
-        'next_round_activated', v_round_completed
+        'next_round_activated', v_round_completed,
+        'result_type', v_result_type
+    );
+    
+EXCEPTION WHEN OTHERS THEN
+    RETURN json_build_object(
+        'success', false,
+        'error', SQLERRM,
+        'sqlstate', SQLSTATE
+    );
+END;
+$$ LANGUAGE plpgsql;
+
+-- Function to automatically process byes (matches with only one player)
+CREATE OR REPLACE FUNCTION process_automatic_byes(p_tournament_id UUID)
+RETURNS JSON AS $$
+DECLARE
+    v_bye_match RECORD;
+    v_result JSON;
+    v_bye_count INTEGER := 0;
+BEGIN
+    -- Find all matches where one player is missing (bye situations)
+    FOR v_bye_match IN 
+        SELECT id as match_id, 
+               COALESCE(player1_id, player2_id) as winner_id,
+               round_number
+        FROM matches 
+        WHERE tournament_id = p_tournament_id 
+        AND status = 'scheduled'
+        AND (player1_id IS NULL OR player2_id IS NULL)
+        AND (player1_id IS NOT NULL OR player2_id IS NOT NULL)
+    LOOP
+        -- Process the bye
+        SELECT update_match_winner_advanced(
+            v_bye_match.match_id,
+            v_bye_match.winner_id,
+            0, -- Winner score is 0 for bye
+            0, -- No loser score for bye
+            FALSE -- Not a walkover, it's a bye
+        ) INTO v_result;
+        
+        v_bye_count := v_bye_count + 1;
+        
+        RAISE NOTICE 'Processed bye for match % in round %', v_bye_match.match_id, v_bye_match.round_number;
+    END LOOP;
+    
+    RETURN json_build_object(
+        'success', true,
+        'message', 'Automatic byes processed',
+        'byes_processed', v_bye_count
     );
     
 EXCEPTION WHEN OTHERS THEN
@@ -330,7 +423,97 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+-- Function to get tournament bracket data for frontend
+DROP FUNCTION IF EXISTS get_tournament_bracket(UUID);
+
+CREATE OR REPLACE FUNCTION get_tournament_bracket(p_tournament_id UUID)
+RETURNS TABLE (
+  match_id UUID,
+  round_number INTEGER,
+  match_number INTEGER,
+  status VARCHAR(20),
+  player1 JSON,
+  player2 JSON,
+  winner_id UUID,
+  match_position JSON,
+  next_match_id UUID
+) AS $$
+BEGIN
+  RETURN QUERY
+    SELECT 
+      m.id as match_id,
+      m.round_number,
+      m.match_number,
+      m.status,
+      CASE 
+        WHEN m.player1_id IS NOT NULL THEN 
+          json_build_object(
+            'id', p1.id,
+            'name', p1.name,
+            'roll_number', p1.roll_number,
+            'seed_number', p1.seed_number,
+            'status', p1.status
+          )
+        ELSE NULL
+      END as player1,
+      CASE 
+        WHEN m.player2_id IS NOT NULL THEN 
+          json_build_object(
+            'id', p2.id,
+            'name', p2.name,
+            'roll_number', p2.roll_number,
+            'seed_number', p2.seed_number,
+            'status', p2.status
+          )
+        ELSE NULL
+      END as player2,
+      m.winner_id,
+      CASE 
+        WHEN bp.position_x IS NOT NULL THEN 
+          json_build_object(
+            'x', bp.position_x,
+            'y', bp.position_y,
+            'column_index', bp.column_index,
+            'row_index', bp.row_index
+          )
+        ELSE NULL
+      END as match_position,
+      m.next_match_id
+    FROM matches m
+    LEFT JOIN participants p1 ON m.player1_id = p1.id
+    LEFT JOIN participants p2 ON m.player2_id = p2.id
+    LEFT JOIN bracket_positions bp ON m.id = bp.match_id
+    WHERE m.tournament_id = p_tournament_id
+    ORDER BY m.round_number, m.match_number;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Simple update_match_winner function that calls the advanced version
+DROP FUNCTION IF EXISTS update_match_winner(UUID, UUID, INTEGER, INTEGER, BOOLEAN);
+
+CREATE OR REPLACE FUNCTION update_match_winner(
+    p_match_id UUID,
+    p_winner_id UUID,
+    p_winner_score INTEGER DEFAULT 0,
+    p_loser_score INTEGER DEFAULT 0,
+    p_is_walkover BOOLEAN DEFAULT FALSE
+) RETURNS JSON AS $$
+BEGIN
+    -- Call the advanced function
+    RETURN update_match_winner_advanced(
+        p_match_id,
+        p_winner_id,
+        p_winner_score,
+        p_loser_score,
+        p_is_walkover
+    );
+END;
+$$ LANGUAGE plpgsql;
+
 -- Grant permissions
 GRANT EXECUTE ON FUNCTION create_complete_tournament_bracket TO authenticated, anon;
 GRANT EXECUTE ON FUNCTION update_match_winner_advanced TO authenticated, anon;
+GRANT EXECUTE ON FUNCTION update_match_winner TO authenticated, anon;
+GRANT EXECUTE ON FUNCTION get_tournament_bracket TO authenticated, anon;
+GRANT EXECUTE ON FUNCTION process_automatic_byes TO authenticated, anon;
 GRANT EXECUTE ON FUNCTION get_tournament_status TO authenticated, anon;

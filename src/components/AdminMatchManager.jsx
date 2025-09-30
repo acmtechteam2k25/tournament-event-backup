@@ -118,6 +118,25 @@ const AdminMatchManager = ({ tournamentId }) => {
               <button
                 onClick={async () => {
                   try {
+                    const result = await tournamentAPI.processAutomaticByes(tournamentId);
+                    alert(`Processed ${result.byes_processed} automatic byes`);
+                    window.location.reload(); // Refresh to show updated matches
+                  } catch (error) {
+                    alert('Failed to process byes: ' + error.message);
+                  }
+                }}
+                className="px-4 py-2 rounded-lg bg-yellow-600 hover:bg-yellow-700 text-white shadow inline-flex items-center gap-2"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M9 12l2 2 4-4"/>
+                  <path d="M21 12c.552 0 1-.448 1-1s-.448-1-1-1-1 .448-1 1 .448 1 1 1z"/>
+                  <path d="M3 12c.552 0 1-.448 1-1s-.448-1-1-1-1 .448-1 1 .448 1 1 1z"/>
+                </svg>
+                Process Byes
+              </button>
+              <button
+                onClick={async () => {
+                  try {
                     const data = await tournamentAPI.getCumulativeScores(tournamentId);
                     setCumulativeScores(Array.isArray(data) ? data : []);
                     setShowScoresModal(true);

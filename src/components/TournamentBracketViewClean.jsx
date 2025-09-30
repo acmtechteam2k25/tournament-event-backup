@@ -12,6 +12,7 @@ const TournamentBracketViewFinal = ({ isEditable = false, tournamentId = null })
   const [winnerScore, setWinnerScore] = useState('');
   const [loserScore, setLoserScore] = useState('');
   const [isWalkover, setIsWalkover] = useState(false);
+  const [isBye, setIsBye] = useState(false);
   const [updating, setUpdating] = useState(false);
 
   // Use tournament hook for database integration (only if tournamentId is provided)
@@ -52,25 +53,34 @@ const TournamentBracketViewFinal = ({ isEditable = false, tournamentId = null })
           tournamentRoundText: match.round_number.toString(),
           roundNumber: match.round_number,
           matchNumber: match.match_number,
-          resultText: match.status === 'completed' ? 'Winner' : '',
+          matchType: match.match_type,
+          resultText: match.status === 'completed' ? 
+            (match.match_type === 'bye' ? 'BYE' : 
+             match.match_type === 'walkover' ? 'WALKOVER' : 'Winner') : '',
           state: match.status === 'completed' ? 'SCORE_DONE' : 'NO_SHOW',
           participants: [
             match.player1 ? {
               id: match.player1.id,
               name: match.player1.name,
               rollNumber: match.player1.roll_number,
-              resultText: match.winner_id === match.player1.id ? 'WINNER' : null,
+              resultText: match.winner_id === match.player1.id ? 
+                (match.match_type === 'bye' ? 'BYE' : 
+                 match.match_type === 'walkover' ? 'WALKOVER' : 'WINNER') : null,
               isWinner: match.winner_id === match.player1.id,
-              status: match.player1.status,
+              status: match.match_type === 'bye' ? 'BYE' : 
+                      match.match_type === 'walkover' ? 'WALKOVER' : match.player1.status,
               seed: match.player1.seed_number
             } : { name: 'TBD', id: null },
             match.player2 ? {
               id: match.player2.id,
               name: match.player2.name,
               rollNumber: match.player2.roll_number,
-              resultText: match.winner_id === match.player2.id ? 'WINNER' : null,
+              resultText: match.winner_id === match.player2.id ? 
+                (match.match_type === 'bye' ? 'BYE' : 
+                 match.match_type === 'walkover' ? 'WALKOVER' : 'WINNER') : null,
               isWinner: match.winner_id === match.player2.id,
-              status: match.player2.status,
+              status: match.match_type === 'bye' ? 'BYE' : 
+                      match.match_type === 'walkover' ? 'WALKOVER' : match.player2.status,
               seed: match.player2.seed_number
             } : { name: 'TBD', id: null }
           ],
@@ -116,6 +126,10 @@ const TournamentBracketViewFinal = ({ isEditable = false, tournamentId = null })
     setSelectedMatch(isCurrentlySelected ? null : match);
 
     if (!isCurrentlySelected && match) {
+      // Check if this is a BYE situation (one player vs TBD)
+      const realPlayers = match.participants.filter(p => p?.name && p.name !== 'TBD');
+      const isByeMatch = realPlayers.length === 1;
+
       // If match is completed, pre-populate form with existing data
       if (match.state === 'SCORE_DONE') {
         const winner = match.participants.find(p => p.isWinner);
@@ -128,19 +142,31 @@ const TournamentBracketViewFinal = ({ isEditable = false, tournamentId = null })
           setWinnerScore('10');
           setLoserScore('8');
           setIsWalkover(winner.status === 'walkover' || loser?.status === 'walkover');
+          setIsBye(winner.status === 'BYE' || match.matchType === 'bye');
         } else {
           // Reset form for completed match without clear winner
           setSelectedWinner(null);
           setWinnerScore('');
           setLoserScore('');
           setIsWalkover(false);
+          setIsBye(false);
         }
       } else {
-        // Reset form for new match selection
-        setSelectedWinner(null);
-        setWinnerScore('');
-        setLoserScore('');
-        setIsWalkover(false);
+        // Check for BYE and auto-select the only player
+        if (isByeMatch) {
+          setSelectedWinner(realPlayers[0]);
+          setWinnerScore('');
+          setLoserScore('');
+          setIsWalkover(false);
+          setIsBye(true);
+        } else {
+          // Reset form for new match selection
+          setSelectedWinner(null);
+          setWinnerScore('');
+          setLoserScore('');
+          setIsWalkover(false);
+          setIsBye(false);
+        }
       }
     } else {
       // Closing modal - reset form
@@ -148,6 +174,7 @@ const TournamentBracketViewFinal = ({ isEditable = false, tournamentId = null })
       setWinnerScore('');
       setLoserScore('');
       setIsWalkover(false);
+      setIsBye(false);
     }
   };
 
@@ -170,8 +197,8 @@ const TournamentBracketViewFinal = ({ isEditable = false, tournamentId = null })
       }
     }
 
-    // Validate scores if not a walkover
-    if (!isWalkover) {
+    // Validate scores if not a walkover or bye
+    if (!isWalkover && !isBye) {
       const winnerNum = parseInt(winnerScore);
       const loserNum = parseInt(loserScore);
 
@@ -205,10 +232,11 @@ const TournamentBracketViewFinal = ({ isEditable = false, tournamentId = null })
           winnerId: selectedWinner.id,
           winnerScore: winner,
           loserScore: loser,
-          isWalkover
+          isWalkover,
+          isBye
         });
 
-        const result = await updateMatchWinner(selectedMatch.id, selectedWinner.id, winner, loser, isWalkover);
+        const result = await updateMatchWinner(selectedMatch.id, selectedWinner.id, winner, loser, isWalkover || isBye);
 
         console.log('Update result:', result);
         console.log('Debug info from database:', result?.debug_info);
@@ -219,6 +247,7 @@ const TournamentBracketViewFinal = ({ isEditable = false, tournamentId = null })
         setWinnerScore('');
         setLoserScore('');
         setIsWalkover(false);
+        setIsBye(false);
       } catch (error) {
         console.error('Failed to update match:', error);
         alert('Failed to update match. Please try again.');
@@ -416,19 +445,35 @@ const TournamentBracketViewFinal = ({ isEditable = false, tournamentId = null })
               </div>
             </div>
 
-            <div className="mb-6">
+            <div className="mb-6 space-y-3">
               <label className="flex items-center p-3 bg-gray-50 rounded-lg">
                 <input
                   type="checkbox"
                   checked={isWalkover}
-                  onChange={(e) => setIsWalkover(e.target.checked)}
-                  className="mr-3 w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                  onChange={(e) => {
+                    setIsWalkover(e.target.checked);
+                    if (e.target.checked) setIsBye(false); // Can't be both walkover and bye
+                  }}
+                  className="mr-3 w-4 h-4 text-orange-600 border-gray-300 rounded focus:ring-orange-500"
                 />
                 <span className="text-sm font-medium text-gray-700">Walkover (no scores needed)</span>
               </label>
+              
+              <label className="flex items-center p-3 bg-gray-50 rounded-lg">
+                <input
+                  type="checkbox"
+                  checked={isBye}
+                  onChange={(e) => {
+                    setIsBye(e.target.checked);
+                    if (e.target.checked) setIsWalkover(false); // Can't be both walkover and bye
+                  }}
+                  className="mr-3 w-4 h-4 text-gray-600 border-gray-300 rounded focus:ring-gray-500"
+                />
+                <span className="text-sm font-medium text-gray-700">BYE (opponent absent)</span>
+              </label>
             </div>
 
-            {!isWalkover && selectedWinner && (
+            {!isWalkover && !isBye && selectedWinner && (
               <div className="mb-6">
                 <h4 className="text-sm font-medium text-gray-700 mb-3">Match Scores:</h4>
                 <div className="grid grid-cols-2 gap-4">

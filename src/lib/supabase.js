@@ -61,6 +61,16 @@ export const tournamentAPI = {
     return data;
   },
 
+  // Process automatic byes for matches with only one player
+  processAutomaticByes: async (tournamentId) => {
+    const { data, error } = await supabase.rpc('process_automatic_byes', {
+      p_tournament_id: tournamentId
+    });
+    
+    if (error) throw error;
+    return data;
+  },
+
   // Get cumulative + round-wise scores
   getCumulativeScores: async (tournamentId) => {
     const { data, error } = await supabase.rpc('get_tournament_cumulative_scores', {

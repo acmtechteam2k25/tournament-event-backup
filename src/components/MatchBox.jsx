@@ -56,6 +56,9 @@ const MatchBox = ({ match, onMatchClick, isSelected, gameWidth, gameHeight }) =>
               {participant?.status === 'WALKOVER' && (
                 <span className="walkover-indicator">W/O</span>
               )}
+              {participant?.status === 'BYE' && (
+                <span className="bye-indicator">BYE</span>
+              )}
             </div>
           );
         })}
