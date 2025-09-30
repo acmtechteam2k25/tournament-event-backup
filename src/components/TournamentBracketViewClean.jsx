@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { tournamentAPI } from '../lib/supabase';
 import { generateColumns, calculatePositionOfMatch, getPreviousMatches, BRACKET_CONFIG } from '../utils/bracketPositioning';
 import { useTournament } from '../hooks/useTournament';
 import Connector from './Connector';
@@ -14,6 +15,16 @@ const TournamentBracketViewFinal = ({ isEditable = false, tournamentId = null })
   const [isWalkover, setIsWalkover] = useState(false);
   const [isBye, setIsBye] = useState(false);
   const [updating, setUpdating] = useState(false);
+  const [isExporting, setIsExporting] = useState(false);
+  const [showScores, setShowScores] = useState(false);
+  const [cumulativeScores, setCumulativeScores] = useState([]);
+  const [scale, setScale] = useState(1);
+  const [translate, setTranslate] = useState({ x: 0, y: 0 });
+  const [isPanning, setIsPanning] = useState(false);
+  const [lastPanPoint, setLastPanPoint] = useState({ x: 0, y: 0 });
+  const [lastPinchDistance, setLastPinchDistance] = useState(null);
+  const [lastPinchCenter, setLastPinchCenter] = useState(null);
+  const containerRef = useRef(null);
 
   // Use tournament hook for database integration (only if tournamentId is provided)
   const { bracket, loading, error, updateMatchWinner } = useTournament(tournamentId);
@@ -279,6 +290,116 @@ const TournamentBracketViewFinal = ({ isEditable = false, tournamentId = null })
   const svgWidth = columns.length * style.columnWidth + style.canvasPadding * 2;
   const svgHeight = 32 * style.rowHeight + style.canvasPadding * 2; // 32 matches max in first round
 
+  // Zoom/Pan helpers
+  const MIN_SCALE = 0.4;
+  const MAX_SCALE = 2.5;
+  const clamp = (val, min, max) => Math.max(min, Math.min(max, val));
+
+  const handleWheel = (e) => {
+    if (!containerRef.current) return;
+    e.preventDefault();
+    const delta = -e.deltaY;
+    const zoomIntensity = 0.0015;
+    const newScale = clamp(scale * (1 + delta * zoomIntensity), MIN_SCALE, MAX_SCALE);
+
+    const rect = containerRef.current.getBoundingClientRect();
+    const cx = e.clientX - rect.left;
+    const cy = e.clientY - rect.top;
+    const dx = cx / scale - cx / newScale;
+    const dy = cy / scale - cy / newScale;
+    setTranslate({ x: translate.x + dx, y: translate.y + dy });
+    setScale(newScale);
+  };
+
+  const handleMouseDown = (e) => {
+    if (e.button !== 0) return;
+    setIsPanning(true);
+    setLastPanPoint({ x: e.clientX, y: e.clientY });
+  };
+
+  const handleMouseMove = (e) => {
+    if (!isPanning) return;
+    const dx = (e.clientX - lastPanPoint.x) / scale;
+    const dy = (e.clientY - lastPanPoint.y) / scale;
+    setTranslate({ x: translate.x + dx, y: translate.y + dy });
+    setLastPanPoint({ x: e.clientX, y: e.clientY });
+  };
+
+  const endPan = () => setIsPanning(false);
+
+  const getTouchDistance = (t1, t2) => {
+    const dx = t1.clientX - t2.clientX;
+    const dy = t1.clientY - t2.clientY;
+    return Math.hypot(dx, dy);
+  };
+
+  const getTouchCenter = (t1, t2) => ({
+    x: (t1.clientX + t2.clientX) / 2,
+    y: (t1.clientY + t2.clientY) / 2,
+  });
+
+  const handleTouchStart = (e) => {
+    if (e.touches.length === 1) {
+      setIsPanning(true);
+      setLastPanPoint({ x: e.touches[0].clientX, y: e.touches[0].clientY });
+    } else if (e.touches.length === 2) {
+      const dist = getTouchDistance(e.touches[0], e.touches[1]);
+      const center = getTouchCenter(e.touches[0], e.touches[1]);
+      setLastPinchDistance(dist);
+      setLastPinchCenter(center);
+    }
+  };
+
+  const handleTouchMove = (e) => {
+    if (e.touches.length === 1 && isPanning) {
+      const dx = (e.touches[0].clientX - lastPanPoint.x) / scale;
+      const dy = (e.touches[0].clientY - lastPanPoint.y) / scale;
+      setTranslate({ x: translate.x + dx, y: translate.y + dy });
+      setLastPanPoint({ x: e.touches[0].clientX, y: e.touches[0].clientY });
+    } else if (e.touches.length === 2) {
+      if (!containerRef.current) return;
+      const dist = getTouchDistance(e.touches[0], e.touches[1]);
+      const center = getTouchCenter(e.touches[0], e.touches[1]);
+      if (lastPinchDistance && lastPinchCenter) {
+        const factor = dist / lastPinchDistance;
+        const newScale = clamp(scale * factor, MIN_SCALE, MAX_SCALE);
+        const rect = containerRef.current.getBoundingClientRect();
+        const cx = center.x - rect.left;
+        const cy = center.y - rect.top;
+        const dx = cx / scale - cx / newScale;
+        const dy = cy / scale - cy / newScale;
+        setTranslate({ x: translate.x + dx, y: translate.y + dy });
+        setScale(newScale);
+      }
+      setLastPinchDistance(dist);
+      setLastPinchCenter(center);
+    }
+  };
+
+  const handleTouchEnd = () => {
+    setIsPanning(false);
+    setLastPinchDistance(null);
+    setLastPinchCenter(null);
+  };
+
+  const resetView = () => {
+    setScale(1);
+    setTranslate({ x: 0, y: 0 });
+  };
+
+  const fitToScreen = () => {
+    if (!containerRef.current) return;
+    const rect = containerRef.current.getBoundingClientRect();
+    const padding = 20;
+    const availableW = Math.max(100, rect.width - padding * 2);
+    const availableH = Math.max(100, rect.height - padding * 2);
+    const fitScale = clamp(Math.min(availableW / svgWidth, availableH / svgHeight), MIN_SCALE, MAX_SCALE);
+    setScale(fitScale);
+    const tx = (availableW / fitScale - svgWidth) / 2 + padding / fitScale;
+    const ty = (availableH / fitScale - svgHeight) / 2 + padding / fitScale;
+    setTranslate({ x: tx, y: ty });
+  };
+
   // Show loading state
   if (tournamentId && loading) {
     return (
@@ -309,7 +430,82 @@ const TournamentBracketViewFinal = ({ isEditable = false, tournamentId = null })
 
   return (
     <div className="tournament-bracket">
-      <div className="bracket-scrollable-container">
+      {/* Toolbar: export + cumulative scores */}
+      {isEditable && (
+        <div className="px-4 py-3 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+          <div className="text-white font-semibold">Bracket View</div>
+          {tournamentId && (
+            <div className="flex items-center gap-2">
+              <button
+                onClick={async () => {
+                  const base = process.env.REACT_APP_SUPABASE_URL;
+                  const anon = process.env.REACT_APP_SUPABASE_ANON_KEY;
+                  if (!base) {
+                    alert('Supabase URL not configured');
+                    return;
+                  }
+                  setIsExporting(true);
+                  try {
+                    const url = `${base}/functions/v1/export_excel?tournamentId=${tournamentId}`;
+                    const resp = await fetch(url, {
+                      method: 'GET',
+                      headers: anon ? { Authorization: `Bearer ${anon}` } : undefined,
+                    });
+                    if (!resp.ok) {
+                      const text = await resp.text();
+                      throw new Error(text || 'Export failed');
+                    }
+                    const blob = await resp.blob();
+                    const dlUrl = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = dlUrl;
+                    const filename = `tournament_${tournamentId}_report.xlsx`;
+                    a.download = filename;
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                    window.URL.revokeObjectURL(dlUrl);
+                  } catch (e) {
+                    alert(e.message || 'Failed to generate Excel');
+                  } finally {
+                    setIsExporting(false);
+                  }
+                }}
+                disabled={isExporting}
+                className={`px-4 py-2 rounded-lg text-white shadow inline-flex items-center gap-2 ${isExporting ? 'bg-emerald-400 cursor-wait' : 'bg-emerald-600 hover:bg-emerald-700'}`}
+              >
+                {isExporting ? 'Generating…' : 'Export Excel'}
+              </button>
+              <button
+                onClick={async () => {
+                  try {
+                    const data = await tournamentAPI.getCumulativeScores(tournamentId);
+                    setCumulativeScores(Array.isArray(data) ? data : []);
+                    setShowScores(true);
+                  } catch (e) {
+                    alert(`Failed to load scores: ${e.message || e}`);
+                  }
+                }}
+                className="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white shadow"
+              >
+                Cumulative Scores
+              </button>
+            </div>
+          )}
+        </div>
+      )}
+      <div
+        ref={containerRef}
+        className="bracket-scrollable-container"
+        onWheel={handleWheel}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={endPan}
+        onMouseLeave={endPan}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+      >
         <div className="bracket-content">
           <svg
             className="bracket-svg"
@@ -317,6 +513,7 @@ const TournamentBracketViewFinal = ({ isEditable = false, tournamentId = null })
             height={svgHeight}
             viewBox={`0 0 ${svgWidth} ${svgHeight}`}
           >
+            <g transform={`translate(${translate.x}, ${translate.y}) scale(${scale})`}>
             {columns.map((matchesColumn, columnIndex) =>
               matchesColumn.map((match, rowIndex) => {
                 const { x, y } = calculatePositionOfMatch(rowIndex, columnIndex, style);
@@ -384,8 +581,41 @@ const TournamentBracketViewFinal = ({ isEditable = false, tournamentId = null })
                 );
               })
             )}
+            </g>
           </svg>
         </div>
+      </div>
+
+      {/* Zoom Controls */}
+      <div className="fixed bottom-4 right-4 z-40 flex flex-col gap-2">
+        <button
+          onClick={() => setScale((s) => clamp(s * 1.15, MIN_SCALE, MAX_SCALE))}
+          className="px-3 py-2 rounded-full bg-gray-800 text-white shadow hover:bg-gray-700"
+          aria-label="Zoom in"
+        >
+          +
+        </button>
+        <button
+          onClick={() => setScale((s) => clamp(s / 1.15, MIN_SCALE, MAX_SCALE))}
+          className="px-3 py-2 rounded-full bg-gray-800 text-white shadow hover:bg-gray-700"
+          aria-label="Zoom out"
+        >
+          −
+        </button>
+        <button
+          onClick={resetView}
+          className="px-3 py-2 rounded-full bg-gray-800 text-white shadow hover:bg-gray-700"
+          aria-label="Reset view"
+        >
+          ⟳
+        </button>
+        <button
+          onClick={fitToScreen}
+          className="px-3 py-2 rounded-full bg-gray-800 text-white shadow hover:bg-gray-700"
+          aria-label="Fit to screen"
+        >
+          ⤢
+        </button>
       </div>
 
       {/* Enhanced Winner selection modal with score inputs - show in editable mode for all matches */}
@@ -541,6 +771,47 @@ const TournamentBracketViewFinal = ({ isEditable = false, tournamentId = null })
                 <p className="text-sm text-gray-600 mt-2">Updating match...</p>
               </div>
             )}
+          </div>
+        </div>
+      )}
+
+      {/* Cumulative Scores Modal */}
+      {showScores && (
+        <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-xl shadow-2xl p-6 w-full max-w-3xl mx-4">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-bold text-gray-800">Cumulative Scores</h3>
+              <button onClick={() => setShowScores(false)} className="px-3 py-1 rounded bg-gray-700 hover:bg-gray-500">Close</button>
+            </div>
+            <div className="overflow-auto max-h-[60vh]">
+              <table className="min-w-full text-sm">
+                <thead>
+                  <tr className="text-left border-b text-black">
+                    <th className="py-2 pr-4">Roll No</th>
+                    <th className="py-2 pr-4">Name</th>
+                    <th className="py-2 pr-4">Total Points</th>
+                    <th className="py-2 pr-4">Wins</th>
+                    <th className="py-2 pr-4">Losses</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {cumulativeScores.map((r) => (
+                    <tr key={r.player_id} className="border-b last:border-0 text-black">
+                      <td className="py-2 pr-4">{r.roll_number}</td>
+                      <td className="py-2 pr-4">{r.player_name}</td>
+                      <td className="py-2 pr-4">{r.total_points}</td>
+                      <td className="py-2 pr-4">{r.wins}</td>
+                      <td className="py-2 pr-4">{r.losses}</td>
+                    </tr>
+                  ))}
+                  {cumulativeScores.length === 0 && (
+                    <tr>
+                      <td colSpan={5} className="py-6 text-center text-gray-500">No data available</td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       )}

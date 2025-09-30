@@ -44,7 +44,7 @@ body {
 
 /* Main tournament bracket container */
 .tournament-bracket {
-  width: 90%;
+  width: 98%;
   flex: 1;
   /* Take remaining space after header and hero */
   margin: 0 auto;
