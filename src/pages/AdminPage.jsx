@@ -3,14 +3,13 @@ import { useAuth } from '../contexts/AuthContext';
 import { config } from '../config';
 import Login from '../components/Login';
 import TournamentBracketViewClean from '../components/TournamentBracketViewClean';
-import AdminMatchManager from '../components/AdminMatchManager';
 import TournamentInitializer from '../components/TournamentInitializer';
 import DatabaseTestPage from '../components/DatabaseTestPage';
 import './AdminPage.css';
 
 const AdminPage = () => {
   const { isAuthenticated, logout } = useAuth();
-  const [activeTab, setActiveTab] = useState('matches');
+  const [activeTab, setActiveTab] = useState('bracket');
   // Use the fixed tournament ID from config
   const tournamentId = config.TOURNAMENT_ID;
 
@@ -47,16 +46,6 @@ const AdminPage = () => {
         <div className="px-6">
           <nav className="flex space-x-8">
             <button
-              onClick={() => setActiveTab('matches')}
-              className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors duration-200 ${
-                activeTab === 'matches'
-                  ? 'border-blue-500 text-blue-600'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-              }`}
-            >
-              Match Management
-            </button>
-            <button
               onClick={() => setActiveTab('bracket')}
               className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors duration-200 ${
                 activeTab === 'bracket'
@@ -91,10 +80,6 @@ const AdminPage = () => {
       </div>
       
       <div className="admin-content">
-        {activeTab === 'matches' && (
-          <AdminMatchManager tournamentId={tournamentId} />
-        )}
-        
         {activeTab === 'bracket' && (
           <TournamentBracketViewClean isEditable={true} tournamentId={tournamentId} />
         )}
@@ -102,8 +87,8 @@ const AdminPage = () => {
         {activeTab === 'setup' && (
           <TournamentInitializer 
             onTournamentCreated={(tournament) => {
-              // Tournament ID is fixed, just switch to matches tab
-              setActiveTab('matches');
+              // Tournament ID is fixed, switch to bracket tab
+              setActiveTab('bracket');
             }}
           />
         )}

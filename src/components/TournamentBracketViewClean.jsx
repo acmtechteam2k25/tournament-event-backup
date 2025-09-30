@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { tournamentAPI } from '../lib/supabase';
 import { generateColumns, calculatePositionOfMatch, getPreviousMatches, BRACKET_CONFIG } from '../utils/bracketPositioning';
 import { useTournament } from '../hooks/useTournament';
 import Connector from './Connector';
@@ -13,6 +14,9 @@ const TournamentBracketViewFinal = ({ isEditable = false, tournamentId = null })
   const [loserScore, setLoserScore] = useState('');
   const [isWalkover, setIsWalkover] = useState(false);
   const [updating, setUpdating] = useState(false);
+  const [isExporting, setIsExporting] = useState(false);
+  const [showScores, setShowScores] = useState(false);
+  const [cumulativeScores, setCumulativeScores] = useState([]);
 
   // Use tournament hook for database integration (only if tournamentId is provided)
   const { bracket, loading, error, updateMatchWinner } = useTournament(tournamentId);
@@ -280,6 +284,70 @@ const TournamentBracketViewFinal = ({ isEditable = false, tournamentId = null })
 
   return (
     <div className="tournament-bracket">
+      {/* Toolbar: export + cumulative scores */}
+      {isEditable && (
+        <div className="px-4 py-3 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+          <div className="text-white font-semibold">Bracket View</div>
+          {tournamentId && (
+            <div className="flex items-center gap-2">
+              <button
+                onClick={async () => {
+                  const base = process.env.REACT_APP_SUPABASE_URL;
+                  const anon = process.env.REACT_APP_SUPABASE_ANON_KEY;
+                  if (!base) {
+                    alert('Supabase URL not configured');
+                    return;
+                  }
+                  setIsExporting(true);
+                  try {
+                    const url = `${base}/functions/v1/export_excel?tournamentId=${tournamentId}`;
+                    const resp = await fetch(url, {
+                      method: 'GET',
+                      headers: anon ? { Authorization: `Bearer ${anon}` } : undefined,
+                    });
+                    if (!resp.ok) {
+                      const text = await resp.text();
+                      throw new Error(text || 'Export failed');
+                    }
+                    const blob = await resp.blob();
+                    const dlUrl = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = dlUrl;
+                    const filename = `tournament_${tournamentId}_report.xlsx`;
+                    a.download = filename;
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                    window.URL.revokeObjectURL(dlUrl);
+                  } catch (e) {
+                    alert(e.message || 'Failed to generate Excel');
+                  } finally {
+                    setIsExporting(false);
+                  }
+                }}
+                disabled={isExporting}
+                className={`px-4 py-2 rounded-lg text-white shadow inline-flex items-center gap-2 ${isExporting ? 'bg-emerald-400 cursor-wait' : 'bg-emerald-600 hover:bg-emerald-700'}`}
+              >
+                {isExporting ? 'Generating…' : 'Export Excel'}
+              </button>
+              <button
+                onClick={async () => {
+                  try {
+                    const data = await tournamentAPI.getCumulativeScores(tournamentId);
+                    setCumulativeScores(Array.isArray(data) ? data : []);
+                    setShowScores(true);
+                  } catch (e) {
+                    alert(`Failed to load scores: ${e.message || e}`);
+                  }
+                }}
+                className="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white shadow"
+              >
+                Cumulative Scores
+              </button>
+            </div>
+          )}
+        </div>
+      )}
       <div className="bracket-scrollable-container">
         <div className="bracket-content">
           <svg
@@ -496,6 +564,47 @@ const TournamentBracketViewFinal = ({ isEditable = false, tournamentId = null })
                 <p className="text-sm text-gray-600 mt-2">Updating match...</p>
               </div>
             )}
+          </div>
+        </div>
+      )}
+
+      {/* Cumulative Scores Modal */}
+      {showScores && (
+        <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-xl shadow-2xl p-6 w-full max-w-3xl mx-4">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-bold text-gray-800">Cumulative Scores</h3>
+              <button onClick={() => setShowScores(false)} className="px-3 py-1 rounded bg-gray-700 hover:bg-gray-500">Close</button>
+            </div>
+            <div className="overflow-auto max-h-[60vh]">
+              <table className="min-w-full text-sm">
+                <thead>
+                  <tr className="text-left border-b text-black">
+                    <th className="py-2 pr-4">Roll No</th>
+                    <th className="py-2 pr-4">Name</th>
+                    <th className="py-2 pr-4">Total Points</th>
+                    <th className="py-2 pr-4">Wins</th>
+                    <th className="py-2 pr-4">Losses</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {cumulativeScores.map((r) => (
+                    <tr key={r.player_id} className="border-b last:border-0 text-black">
+                      <td className="py-2 pr-4">{r.roll_number}</td>
+                      <td className="py-2 pr-4">{r.player_name}</td>
+                      <td className="py-2 pr-4">{r.total_points}</td>
+                      <td className="py-2 pr-4">{r.wins}</td>
+                      <td className="py-2 pr-4">{r.losses}</td>
+                    </tr>
+                  ))}
+                  {cumulativeScores.length === 0 && (
+                    <tr>
+                      <td colSpan={5} className="py-6 text-center text-gray-500">No data available</td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       )}

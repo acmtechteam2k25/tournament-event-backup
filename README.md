@@ -1,3 +1,13 @@
+there is no edit functionality while updating marks for matches
+- Public bracket view
+- In the match management, score is compulsory to declare winners
+- The admin side bracket view itself should have updation of match results. We can just use modal pop up on clicking each match like the match management
+- zoom in/out for the bracket view
+- if there is no opponent in the match, it should be declared as bye, not a winner
+- on updating the match winner in round 1 for example, it is not changing in the round 2's subsequent match
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with[Create React App](https://github.com/facebook/create-react-app).
