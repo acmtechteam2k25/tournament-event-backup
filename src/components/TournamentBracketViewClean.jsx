@@ -21,11 +21,14 @@ const TournamentBracketViewFinal = ({ isEditable = false, tournamentId = null })
         const formattedMatches = bracket.map(match => ({
           id: match.match_id,
           tournamentRoundText: match.round_number.toString(),
+          roundNumber: match.round_number,
+          matchNumber: match.match_number,
           resultText: match.status === 'completed' ? 'Winner' : '',
           participants: [
             match.player1 ? {
               id: match.player1.id,
-              name: `(${match.player1.seed_number}) ${match.player1.name}`,
+              name: match.player1.name,
+              rollNumber: match.player1.roll_number,
               resultText: match.winner_id === match.player1.id ? 'WINNER' : null,
               isWinner: match.winner_id === match.player1.id,
               status: match.player1.status,
@@ -33,7 +36,8 @@ const TournamentBracketViewFinal = ({ isEditable = false, tournamentId = null })
             } : { name: 'TBD', id: null },
             match.player2 ? {
               id: match.player2.id,
-              name: `(${match.player2.seed_number}) ${match.player2.name}`,
+              name: match.player2.name,
+              rollNumber: match.player2.roll_number,
               resultText: match.winner_id === match.player2.id ? 'WINNER' : null,
               isWinner: match.winner_id === match.player2.id,
               status: match.player2.status,

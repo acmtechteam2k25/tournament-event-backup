@@ -323,6 +323,15 @@ body {
   font-weight: 500;
 }
 
+.svg-match .match-identifier {
+  color: var(--accent-glow);
+  font-weight: 600;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  text-shadow: 0 0 5px var(--accent-glow);
+}
+
 .svg-match .match-status {
   width: 12px;
   height: 12px;
@@ -703,6 +712,23 @@ body {
   border-radius: 8px;
   font-size: 0.8rem;
   font-weight: bold;
+}
+
+.player-roll {
+  background: rgba(128, 128, 128, 0.3);
+  color: var(--text-secondary);
+  padding: 2px 8px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  border: 1px solid rgba(128, 128, 128, 0.4);
+}
+
+.participant-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
 .vs-divider {

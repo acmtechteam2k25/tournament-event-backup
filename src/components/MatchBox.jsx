@@ -18,7 +18,9 @@ const MatchBox = ({ match, onMatchClick, isSelected, gameWidth, gameHeight }) =>
       }}
     >
       <div className="match-header">
-        <span className="match-name">{match.name}</span>
+        <span className="match-identifier">
+          {match.roundNumber && match.matchNumber ? `R${match.roundNumber}/M${match.matchNumber}` : match.name}
+        </span>
         <div className={`match-status ${match.state === 'SCORE_DONE' ? 'done' : 'scheduled'}`}>
           {match.state === 'SCORE_DONE' ? '✓' : '○'}
         </div>
@@ -33,9 +35,21 @@ const MatchBox = ({ match, onMatchClick, isSelected, gameWidth, gameHeight }) =>
               key={participant?.id || `tbd-${slotIndex}`}
               className={`participant ${participant?.isWinner ? 'winner' : ''} ${participant?.status === 'WALKOVER' ? 'walkover' : ''} ${!participant ? 'tbd' : ''}`}
             >
-              <span className="participant-name">
-                {participant?.name || 'TBD'}
-              </span>
+              <div className="participant-info">
+                {participant?.seed && (
+                  <span className="player-seed">
+                    {participant.seed}
+                  </span>
+                )}
+                <span className="participant-name">
+                  {participant?.name || 'TBD'}
+                </span>
+                {participant?.rollNumber && (
+                  <span className="player-roll">
+                    {participant.rollNumber}
+                  </span>
+                )}
+              </div>
               {participant?.resultText && (
                 <span className="participant-result">{participant.resultText}</span>
               )}
