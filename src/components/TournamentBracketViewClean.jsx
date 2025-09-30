@@ -8,15 +8,44 @@ import './TournamentBracketView.css';
 const TournamentBracketViewFinal = ({ isEditable = false, tournamentId = null }) => {
   const [matches, setMatches] = useState([]);
   const [selectedMatch, setSelectedMatch] = useState(null);
-  const [overlayPosition, setOverlayPosition] = useState({ x: 0, y: 0 });
+  const [selectedWinner, setSelectedWinner] = useState(null);
+  const [winnerScore, setWinnerScore] = useState('');
+  const [loserScore, setLoserScore] = useState('');
+  const [isWalkover, setIsWalkover] = useState(false);
+  const [updating, setUpdating] = useState(false);
 
   // Use tournament hook for database integration (only if tournamentId is provided)
-  const { bracket, participants, loading, error, updateMatchWinner } = useTournament(tournamentId);
+  const { bracket, loading, error, updateMatchWinner } = useTournament(tournamentId);
 
   useEffect(() => {
     if (tournamentId) {
       // Always use database data when tournament ID is provided
       if (bracket.length > 0) {
+        console.log('Database bracket data:', bracket);
+        console.log('Looking for matches with player advancement issues...');
+
+        // Debug: Check for TBD players in Round 2+ that should have been filled
+        const round2Matches = bracket.filter(m => m.round_number === 2);
+        round2Matches.forEach(match => {
+          console.log(`Round 2 Match ${match.match_number}:`, {
+            player1: match.player1?.name || 'TBD',
+            player2: match.player2?.name || 'TBD',
+            matchId: match.match_id
+          });
+        });
+
+        // Debug: Check Round 1 matches and their next_match_id relationships
+        const round1Matches = bracket.filter(m => m.round_number === 1);
+        round1Matches.forEach(match => {
+          console.log(`Round 1 Match ${match.match_number}:`, {
+            winner: match.winner_id ?
+              (match.player1?.id === match.winner_id ? match.player1.name : match.player2?.name) :
+              'No winner yet',
+            nextMatchId: match.next_match_id,
+            status: match.status
+          });
+        });
+
         // Convert database format to component format
         const formattedMatches = bracket.map(match => ({
           id: match.match_id,
@@ -24,6 +53,7 @@ const TournamentBracketViewFinal = ({ isEditable = false, tournamentId = null })
           roundNumber: match.round_number,
           matchNumber: match.match_number,
           resultText: match.status === 'completed' ? 'Winner' : '',
+          state: match.status === 'completed' ? 'SCORE_DONE' : 'NO_SHOW',
           participants: [
             match.player1 ? {
               id: match.player1.id,
@@ -47,6 +77,7 @@ const TournamentBracketViewFinal = ({ isEditable = false, tournamentId = null })
           nextMatchId: match.next_match_id,
           position: match.match_position
         }));
+        console.log('Formatted matches:', formattedMatches);
         setMatches(formattedMatches);
       } else {
         // Show empty bracket while loading database data
@@ -80,94 +111,130 @@ const TournamentBracketViewFinal = ({ isEditable = false, tournamentId = null })
   const handleMatchClick = (match, x, y) => {
     // Only allow clicking if in editable mode
     if (!isEditable) return;
-    setSelectedMatch(selectedMatch?.id === match.id ? null : match);
-    setOverlayPosition({ x: x + 200, y: y + 120 }); // Position overlay relative to match
+
+    const isCurrentlySelected = selectedMatch?.id === match.id;
+    setSelectedMatch(isCurrentlySelected ? null : match);
+
+    if (!isCurrentlySelected && match) {
+      // If match is completed, pre-populate form with existing data
+      if (match.state === 'SCORE_DONE') {
+        const winner = match.participants.find(p => p.isWinner);
+        const loser = match.participants.find(p => !p.isWinner);
+
+        if (winner) {
+          setSelectedWinner(winner);
+          // For editing, set reasonable default scores
+          // TODO: In future, fetch actual scores from database
+          setWinnerScore('10');
+          setLoserScore('8');
+          setIsWalkover(winner.status === 'walkover' || loser?.status === 'walkover');
+        } else {
+          // Reset form for completed match without clear winner
+          setSelectedWinner(null);
+          setWinnerScore('');
+          setLoserScore('');
+          setIsWalkover(false);
+        }
+      } else {
+        // Reset form for new match selection
+        setSelectedWinner(null);
+        setWinnerScore('');
+        setLoserScore('');
+        setIsWalkover(false);
+      }
+    } else {
+      // Closing modal - reset form
+      setSelectedWinner(null);
+      setWinnerScore('');
+      setLoserScore('');
+      setIsWalkover(false);
+    }
   };
 
-  const handleWinnerSelect = async (matchId, winnerId, isWalkover = false, winnerScore = 0, loserScore = 0) => {
+  const handleWinnerSelect = async () => {
+    if (!selectedWinner) {
+      alert('Please select a winner first.');
+      return;
+    }
+
+    // Add confirmation for editing completed matches
+    if (selectedMatch.state === 'SCORE_DONE') {
+      const confirmed = window.confirm(
+        `⚠️ This will update the winner for Round ${selectedMatch.roundNumber}, Match ${selectedMatch.matchNumber}.\n\n` +
+        `This may affect subsequent rounds if participants have already advanced.\n\n` +
+        `Are you sure you want to continue?`
+      );
+
+      if (!confirmed) {
+        return;
+      }
+    }
+
+    // Validate scores if not a walkover
+    if (!isWalkover) {
+      const winnerNum = parseInt(winnerScore);
+      const loserNum = parseInt(loserScore);
+
+      if (isNaN(winnerNum) || isNaN(loserNum)) {
+        alert('Please enter valid numeric scores.');
+        return;
+      }
+
+      if (winnerNum < 0 || loserNum < 0) {
+        alert('Scores cannot be negative.');
+        return;
+      }
+
+      // Validate that winner's score is higher than loser's score
+      if (winnerNum <= loserNum) {
+        alert('Winner must have a higher score than the opponent. Please check the scores or use walkover if appropriate.');
+        return;
+      }
+    }
+
+    setUpdating(true);
+
     if (tournamentId && updateMatchWinner) {
       // Update via database
       try {
-        await updateMatchWinner(matchId, winnerId, winnerScore, loserScore, isWalkover);
-        setSelectedMatch(null); // Close overlay after update
-      } catch (error) {
-        alert('Failed to update match. Please try again.');
-      }
-    } else {
-      // Fallback to local state update
-      setMatches(prevMatches => {
-        const updatedMatches = prevMatches.map(match => {
-          if (match.id === matchId) {
-            const updatedParticipants = match.participants.map(p => ({
-              ...p,
-              isWinner: p.id === winnerId,
-              status: p.id === winnerId ? (isWalkover ? 'WALKOVER' : 'PLAYED') : 'PLAYED',
-              resultText: p.id === winnerId ? (isWalkover ? 'Won (W/O)' : 'Won') : 'Lost'
-            }));
+        const winner = parseInt(winnerScore) || 0;
+        const loser = parseInt(loserScore) || 0;
 
-            return {
-              ...match,
-              participants: updatedParticipants,
-              state: 'SCORE_DONE'
-            };
-          }
-          return match;
+        console.log('Updating match winner:', {
+          matchId: selectedMatch.id,
+          winnerId: selectedWinner.id,
+          winnerScore: winner,
+          loserScore: loser,
+          isWalkover
         });
 
-        // Advance winner to next round
-        const currentMatch = updatedMatches.find(m => m.id === matchId);
-        if (currentMatch && currentMatch.nextMatchId) {
-          const winner = currentMatch.participants.find(p => p.isWinner);
-          if (winner) {
-            const nextMatchIndex = updatedMatches.findIndex(m => m.id === currentMatch.nextMatchId);
-            if (nextMatchIndex !== -1) {
-              const nextMatch = updatedMatches[nextMatchIndex];
-              const updatedNextMatch = {
-                ...nextMatch,
-                participants: [...nextMatch.participants, {
-                  id: winner.id,
-                  name: winner.name,
-                  resultText: null,
-                  isWinner: false,
-                  status: 'SCHEDULED'
-                }]
-              };
-              updatedMatches[nextMatchIndex] = updatedNextMatch;
-            }
-          }
-        }
+        const result = await updateMatchWinner(selectedMatch.id, selectedWinner.id, winner, loser, isWalkover);
 
-        // Save updated data to localStorage
-        localStorage.setItem('acm_tournament_data', JSON.stringify(updatedMatches));
+        console.log('Update result:', result);
+        console.log('Debug info from database:', result?.debug_info);
 
-        // Close overlay after selection
+        // Reset form
         setSelectedMatch(null);
-        return updatedMatches;
-      });
+        setSelectedWinner(null);
+        setWinnerScore('');
+        setLoserScore('');
+        setIsWalkover(false);
+      } catch (error) {
+        console.error('Failed to update match:', error);
+        alert('Failed to update match. Please try again.');
+      }
     }
-  };
 
-  // In participant (public) view, only show:
-  // - matches from the current (active) round, and
-  // - matches that have already finished (winners declared or walkover)
-  const getCurrentRound = (allMatches) => {
-    const roundOrder = ['1', '2', '3', '4', '5', '6'];
-    for (const round of roundOrder) {
-      const roundMatches = allMatches.filter(m => m.tournamentRoundText === round);
-      if (roundMatches.length === 0) continue;
-      const hasPending = roundMatches.some(m => m.state !== 'SCORE_DONE');
-      if (hasPending) return round;
-    }
-    // If everything is completed, treat final round as current for display
-    return '6';
+    setUpdating(false);
   };
 
   const getVisibleMatches = (allMatches) => {
+    // Admin view: show everything
     if (isEditable) return allMatches;
-    const currentRound = getCurrentRound(allMatches);
-    return allMatches.filter(m => (
-      m.tournamentRoundText === currentRound || m.state === 'SCORE_DONE'
-    ));
+
+    // Public view: show complete tournament tree (all rounds and matches)
+    // This allows viewers to see the full bracket structure including TBD matches
+    return allMatches;
   };
 
   const visibleMatches = getVisibleMatches(matches);
@@ -292,72 +359,145 @@ const TournamentBracketViewFinal = ({ isEditable = false, tournamentId = null })
         </div>
       </div>
 
-      {/* Minimal Winner selection overlay - only show in editable mode */}
-      {isEditable && selectedMatch && selectedMatch.state !== 'SCORE_DONE' && (
-        <div
-          className="minimal-match-overlay"
-          style={{
-            position: 'fixed',
-            left: '50%',
-            top: '50%',
-            transform: 'translate(-50%, -50%)',
-            zIndex: 10000
-          }}
-        >
-          <div className="overlay-header">
-            <h3>Update Match Result</h3>
-            <p>{selectedMatch.name}</p>
-          </div>
+      {/* Enhanced Winner selection modal with score inputs - show in editable mode for all matches */}
+      {isEditable && selectedMatch && (
+        <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-xl shadow-2xl p-6 w-full max-w-lg mx-4 transform transition-all">
+            <div className="text-center mb-6">
+              <h3 className="text-xl font-bold text-gray-800 mb-2">
+                {selectedMatch.state === 'SCORE_DONE' ? '🔄 Edit Winner' : '🏆 Set Winner'}
+              </h3>
+              <p className="text-sm text-gray-600">
+                Match {selectedMatch.matchNumber} - Round {selectedMatch.roundNumber}
+                {selectedMatch.state === 'SCORE_DONE' && (
+                  <span className="block text-orange-600 font-medium mt-1">
+                    ⚠️ Editing completed match
+                  </span>
+                )}
+              </p>
+            </div>
 
-          <div className="participants-list">
-            {/* Show buttons only if there are actual participants (not TBD) */}
-            {selectedMatch.participants.filter(p => p?.name && p.name !== 'TBD').length > 0 ? (
-              selectedMatch.participants.filter(p => p?.name && p.name !== 'TBD').map((participant) => (
-                <div key={participant.id} className="participant-option">
-                  <div className="participant-info">
-                    <div className="radio-circle"></div>
-                    <span className="participant-name">{participant.name}</span>
+            <div className="mb-6">
+              <p className="text-sm font-medium text-gray-700 mb-3">Select the winner:</p>
+              <div className="space-y-3">
+                {selectedMatch.participants.filter(p => p?.name && p.name !== 'TBD').map((participant) => (
+                  <button
+                    key={participant.id}
+                    onClick={() => setSelectedWinner(participant)}
+                    disabled={updating}
+                    className={`w-full p-4 text-left border-2 rounded-lg transition-all duration-200 ${selectedWinner?.id === participant.id
+                      ? 'border-blue-500 bg-blue-50'
+                      : 'border-gray-200 hover:border-blue-300 hover:bg-blue-50'
+                      } disabled:opacity-50 disabled:cursor-not-allowed`}
+                  >
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center">
+                        {participant.seed && (
+                          <span className="inline-flex items-center justify-center w-7 h-7 bg-blue-100 text-blue-800 text-sm font-bold rounded-full mr-3">
+                            {participant.seed}
+                          </span>
+                        )}
+                        <div>
+                          <span className="font-semibold text-gray-800 block">
+                            {participant.name}
+                          </span>
+                          <span className="text-sm text-gray-600">
+                            {participant.rollNumber}
+                          </span>
+                        </div>
+                      </div>
+                      <div className={`transition-colors ${selectedWinner?.id === participant.id ? 'text-blue-600' : 'text-blue-500'
+                        }`}>
+                        {selectedWinner?.id === participant.id ? '✓' : '👑'}
+                      </div>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="mb-6">
+              <label className="flex items-center p-3 bg-gray-50 rounded-lg">
+                <input
+                  type="checkbox"
+                  checked={isWalkover}
+                  onChange={(e) => setIsWalkover(e.target.checked)}
+                  className="mr-3 w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                />
+                <span className="text-sm font-medium text-gray-700">Walkover (no scores needed)</span>
+              </label>
+            </div>
+
+            {!isWalkover && selectedWinner && (
+              <div className="mb-6">
+                <h4 className="text-sm font-medium text-gray-700 mb-3">Match Scores:</h4>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      {selectedWinner.name} (Winner)
+                    </label>
+                    <input
+                      type="number"
+                      value={winnerScore}
+                      onChange={(e) => setWinnerScore(e.target.value)}
+                      placeholder="0"
+                      className="w-full px-4 py-2 text-black border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                    />
                   </div>
-                  <div className="participant-actions">
-                    <button
-                      className="compact-winner-btn"
-                      onClick={() => handleWinnerSelect(selectedMatch.id, participant.id, false)}
-                    >
-                      Win
-                    </button>
-                    <button
-                      className="compact-walkover-btn"
-                      onClick={() => handleWinnerSelect(selectedMatch.id, participant.id, true)}
-                    >
-                      W/O
-                    </button>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      {selectedMatch.participants.find(p => p.id !== selectedWinner.id)?.name || 'Opponent'}
+                    </label>
+                    <input
+                      type="number"
+                      value={loserScore}
+                      onChange={(e) => setLoserScore(e.target.value)}
+                      placeholder="0"
+                      className="w-full px-4 py-2 text-black border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                    />
                   </div>
                 </div>
-              ))
-            ) : (
-              <div className="no-participants">
-                <p>Waiting for participants from previous matches</p>
+                {selectedMatch.state === 'SCORE_DONE' && (
+                  <p className="text-xs text-orange-600 mt-2">
+                    💡 Editing completed match: Default scores shown. Update as needed.
+                  </p>
+                )}
+              </div>
+            )}
+
+            <div className="flex justify-end space-x-3">
+              <button
+                onClick={() => {
+                  setSelectedMatch(null);
+                  setSelectedWinner(null);
+                  setWinnerScore('');
+                  setLoserScore('');
+                  setIsWalkover(false);
+                }}
+                disabled={updating}
+                className="px-6 py-2 text-gray-600 bg-gray-100 border border-gray-300 rounded-lg hover:bg-gray-200 disabled:opacity-50 transition-colors font-medium"
+              >
+                Cancel
+              </button>
+              {selectedWinner && (
+                <button
+                  onClick={handleWinnerSelect}
+                  disabled={updating}
+                  className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg disabled:opacity-50 transition-colors font-medium"
+                >
+                  {updating ? 'Updating...' : selectedMatch.state === 'SCORE_DONE' ? 'Update Winner' : 'Confirm Winner'}
+                </button>
+              )}
+            </div>
+
+            {updating && (
+              <div className="mt-4 text-center">
+                <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-500 mx-auto"></div>
+                <p className="text-sm text-gray-600 mt-2">Updating match...</p>
               </div>
             )}
           </div>
-
-          <div className="overlay-footer">
-            <button
-              className="cancel-overlay-btn"
-              onClick={() => setSelectedMatch(null)}
-            >
-              Cancel
-            </button>
-          </div>
         </div>
-      )}
-
-      {/* Overlay backdrop - only show in editable mode */}
-      {isEditable && selectedMatch && selectedMatch.state !== 'SCORE_DONE' && (
-        <div
-          className="overlay-backdrop"
-          onClick={() => setSelectedMatch(null)}
-        />
       )}
     </div>
   );

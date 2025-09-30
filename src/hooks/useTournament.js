@@ -11,17 +11,21 @@ export const useTournament = (tournamentId) => {
   const fetchBracket = async () => {
     try {
       setLoading(true)
-      
+
       // Check if we should use database or fall back to local mode
       if (!config.USE_DATABASE || !config.checkEnvironment()) {
+        console.log('useTournament: Using local mode, skipping database fetch');
         setBracket([])
         setLoading(false)
         return
       }
-      
+
+      console.log('useTournament: Fetching bracket data for tournament:', tournamentId);
       const data = await tournamentAPI.getTournamentBracket(tournamentId)
+      console.log('useTournament: Received bracket data:', data);
       setBracket(data)
     } catch (err) {
+      console.error('useTournament: Error fetching bracket:', err);
       setError(err.message)
     } finally {
       setLoading(false)
@@ -35,7 +39,7 @@ export const useTournament = (tournamentId) => {
         setParticipants([])
         return
       }
-      
+
       const data = await tournamentAPI.getParticipants(tournamentId)
       setParticipants(data)
     } catch (err) {
@@ -45,14 +49,22 @@ export const useTournament = (tournamentId) => {
 
   const updateMatchWinner = async (matchId, winnerId, winnerScore = 0, loserScore = 0, isWalkover = false) => {
     try {
+      console.log('useTournament: Calling updateMatchWinnerAdvanced with:', {
+        matchId, winnerId, winnerScore, loserScore, isWalkover
+      });
+
       const result = await tournamentAPI.updateMatchWinnerAdvanced(matchId, winnerId, winnerScore, loserScore, isWalkover);
-      
+
+      console.log('useTournament: Update result:', result);
+
       // Refresh bracket after update
+      console.log('useTournament: Refreshing bracket data...');
       await fetchBracket();
       await fetchParticipants();
-      
+
       return result;
     } catch (err) {
+      console.error('useTournament: Error updating match winner:', err);
       setError(err.message);
       throw err;
     }
@@ -61,11 +73,11 @@ export const useTournament = (tournamentId) => {
   const createCompleteBracket = async (participantIds) => {
     try {
       const result = await tournamentAPI.createCompleteTournamentBracket(tournamentId, participantIds);
-      
+
       // Refresh bracket after creation
       await fetchBracket();
       await fetchParticipants();
-      
+
       return result;
     } catch (err) {
       setError(err.message);
