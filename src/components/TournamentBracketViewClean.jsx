@@ -562,9 +562,9 @@ const TournamentBracketViewFinal = ({
                                 : match.tournamentRoundText === "5"
                                 ? "Final Semi"
                                 : match.tournamentRoundText === "4"
-                                ? "Semi Final"
-                                : match.tournamentRoundText === "3"
                                 ? "Quarter Final"
+                                : match.tournamentRoundText === "3"
+                                ? "Pre Quarter"
                                 : `Round ${match.tournamentRoundText}`}
                             </h3>
                           </div>
