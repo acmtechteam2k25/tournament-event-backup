@@ -265,7 +265,28 @@ const TournamentBracketViewFinal = ({
     if (tournamentId && updateMatchWinner) {
       // Update via database
       try {
+        console.log('Updating match with:', {
+          matchId: selectedMatch.id,
+          winnerId: selectedWinner.id,
+          winnerScore: winnerNum,
+          loserScore: loserNum,
+          isWalkover: isWalkover || isBye
+        });
+
         const result = await updateMatchWinner(selectedMatch.id, selectedWinner.id, winnerNum, loserNum, isWalkover || isBye);
+        
+        console.log('Match update successful:', result);
+        console.log('Next match info:', {
+          next_match_id: result?.next_match_id,
+          next_match_player1: result?.next_match_player1,
+          next_match_player2: result?.next_match_player2,
+          round_completed: result?.round_completed
+        });
+
+        // Show success message for completed match updates
+        if (selectedMatch.state === "SCORE_DONE") {
+          alert(`✅ Match winner and scores updated successfully!\n\nRound ${selectedMatch.roundNumber}, Match ${selectedMatch.matchNumber}\nWinner: ${selectedWinner.name}\nScore: ${winnerNum} - ${loserNum}`);
+        }
 
         // Reset form
         setSelectedMatch(null);
@@ -275,7 +296,8 @@ const TournamentBracketViewFinal = ({
         setIsWalkover(false);
         setIsBye(false);
       } catch (error) {
-        alert("Failed to update match. Please try again.");
+        console.error('Match update failed:', error);
+        alert(`❌ Failed to update match: ${error.message || 'Unknown error'}\n\nPlease try again.`);
       }
     }
 
