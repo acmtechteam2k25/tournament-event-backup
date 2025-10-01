@@ -4,10 +4,14 @@ import Orb from './Orb';
 import PosterSection from './PosterSection';
 import CountSection from './CountSection';
 import AboutACM from './AboutACM';
+import ACMLogo from './ACMLogo';
 
 const Home = () => {
   return (
     <>
+      {/* ACM Logo */}
+      <ACMLogo />
+      
       {/* Hero Section */}
       <section className="relative h-screen flex items-center justify-center">
         {/* Background Orb */}

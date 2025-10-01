@@ -65,7 +65,7 @@ const FloatingDockDesktop = ({ items }) => {
   };
 
   return (
-    <div className="fixed top-4 right-4 z-50 hidden md:block">
+    <div className="fixed top-4 right-20 z-50 hidden md:block">
       <div
         ref={dockRef}
         onMouseMove={handleMouseMove}
@@ -100,9 +100,9 @@ const IconContainer = ({ mouseX, title, icon, href, index, totalItems }) => {
         const itemCenter = rect.left + rect.width / 2;
         const distance = Math.abs(mouseX - itemCenter);
         
-        // More aggressive scaling with smoother curve
-        const maxDistance = 120;
-        const maxScale = 2.2;
+        // Reduced scaling for less aggressive hover effect
+        const maxDistance = 100;
+        const maxScale = 1.4;
         const minScale = 1;
         
         if (distance < maxDistance) {
@@ -130,8 +130,8 @@ const IconContainer = ({ mouseX, title, icon, href, index, totalItems }) => {
         onMouseLeave={() => setHovered(false)}
         className="relative flex aspect-square items-center justify-center rounded-full bg-white/10 backdrop-blur-sm hover:bg-white/20 cursor-pointer"
         style={{
-          width: `${50 * scale}px`,
-          height: `${50 * scale}px`,
+          width: `${56 * scale}px`,
+          height: `${56 * scale}px`,
           transition: 'all 0.1s cubic-bezier(0.23, 1, 0.320, 1)',
           transformOrigin: 'center center'
         }}
@@ -153,8 +153,8 @@ const IconContainer = ({ mouseX, title, icon, href, index, totalItems }) => {
         <div
           className="flex items-center justify-center text-white"
           style={{
-            width: `${24 * scale}px`,
-            height: `${24 * scale}px`,
+            width: `${28 * scale}px`,
+            height: `${28 * scale}px`,
             transition: 'all 0.1s cubic-bezier(0.23, 1, 0.320, 1)'
           }}
         >
