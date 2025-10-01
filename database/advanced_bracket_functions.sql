@@ -259,7 +259,7 @@ BEGIN
         advancement_status
     ) VALUES 
         (v_tournament_id, p_winner_id, v_round_id, p_match_id, v_round_number, v_match_number,
-         CASE WHEN v_is_bye THEN 0 ELSE p_winner_score END, TRUE, 
+         p_winner_score, TRUE, 
          v_result_type, 'advanced');
     
     -- Insert loser score only if not a bye
@@ -432,6 +432,7 @@ RETURNS TABLE (
   round_number INTEGER,
   match_number INTEGER,
   status VARCHAR(20),
+  match_type VARCHAR(20),
   player1 JSON,
   player2 JSON,
   winner_id UUID,
@@ -445,6 +446,7 @@ BEGIN
       m.round_number,
       m.match_number,
       m.status,
+      m.match_type,
       CASE 
         WHEN m.player1_id IS NOT NULL THEN 
           json_build_object(

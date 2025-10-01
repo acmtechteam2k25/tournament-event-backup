@@ -13,7 +13,7 @@ const Home = () => {
           <Orb
             hoverIntensity={0}
             rotateOnHover={true}
-            hue={69}
+            hue={194}
             forceHoverState={false}
           />
         </div>

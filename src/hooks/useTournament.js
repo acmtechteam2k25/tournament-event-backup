@@ -14,18 +14,14 @@ export const useTournament = (tournamentId) => {
 
       // Check if we should use database or fall back to local mode
       if (!config.USE_DATABASE || !config.checkEnvironment()) {
-        console.log('useTournament: Using local mode, skipping database fetch');
         setBracket([])
         setLoading(false)
         return
       }
 
-      console.log('useTournament: Fetching bracket data for tournament:', tournamentId);
       const data = await tournamentAPI.getTournamentBracket(tournamentId)
-      console.log('useTournament: Received bracket data:', data);
       setBracket(data)
     } catch (err) {
-      console.error('useTournament: Error fetching bracket:', err);
       setError(err.message)
     } finally {
       setLoading(false)
