@@ -31,7 +31,7 @@ const AdminPage = () => {
   }
 
   return (
-    <div className="admin-page">
+    <div className="admin-page pt-28">
       <div className="admin-header bg-white shadow-sm border-b">
         <div className="flex justify-between items-center px-6 gap-5">
           <h1 className="text-2xl font-bold text-gray-800">Tournament Admin</h1>

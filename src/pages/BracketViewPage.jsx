@@ -8,7 +8,7 @@ const BracketViewPage = () => {
   const tournamentId = config.TOURNAMENTS?.[tournamentKey]?.id || config.TOURNAMENT_ID;
 
   return (
-    <div className="bracket-view-page">
+    <div className="bracket-view-page pt-28">
       <div className="px-4 py-3 flex items-center justify-end gap-2">
         <button
           onClick={() => setTournamentKey('secondYear')}

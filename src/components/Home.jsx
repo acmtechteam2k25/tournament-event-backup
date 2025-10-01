@@ -1,7 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Orb from './Orb';
+import PosterSection from './PosterSection';
 import CountSection from './CountSection';
+import AboutACM from './AboutACM';
 
 const Home = () => {
   return (
@@ -9,7 +11,7 @@ const Home = () => {
       {/* Hero Section */}
       <section className="relative h-screen flex items-center justify-center">
         {/* Background Orb */}
-        <div className="absolute inset-0 flex items-center justify-center">
+        <div className="absolute inset-0 flex items-center justify-center -translate-y-8">
           <Orb
             hoverIntensity={0}
             rotateOnHover={true}
@@ -19,7 +21,7 @@ const Home = () => {
         </div>
         
         {/* Hero Content over the orb */}
-        <main className="relative z-10 text-center px-4">
+        <main className="relative z-10 text-center px-4 -translate-y-8">
           <h1 className="cal-sans-regular text-5xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-white mb-6 sm:mb-8 leading-tight">
             Tournament
           </h1>
@@ -40,9 +42,16 @@ const Home = () => {
           </div>
         </main>
       </section>
+      {/* About ACM Section */}
+      <AboutACM />
+
+      {/* Poster Section */}
+      <PosterSection />
 
       {/* Count Section */}
       <CountSection />
+
+      
     </>
   );
 };
