@@ -20,7 +20,7 @@ const AboutACM = () => {
 
         <div className="max-w-3xl mx-auto text-center">
           <div className="prose prose-lg prose-invert mx-auto">
-            <p className="text-white/80  cal-sans-regular text-lg leading-relaxed mb-6">
+            <p className="text-white/80 cal-sans-regular text-lg leading-relaxed mb-6 text-justify">
               ACM is an international student chapter that brings together technology geeks, computer educators, 
               working professionals, among others and gives them a platform to share all things related to the 
               world of rapidly evolving technology. ACM has always been at the forefront of raising awareness 
@@ -30,7 +30,7 @@ const AboutACM = () => {
               professional careers.
             </p>
             
-            <p className="text-white/80 cal-sans-regular text-lg leading-relaxed">
+            <p className="text-white/80 cal-sans-regular text-lg leading-relaxed text-justify">
               With more than 100,000 members worldwide, the fraternity only continues to grow stronger in every 
               passing year. A chapter with such illustrious history, finds its place with a great prominence in 
               VNRVJIET. The team running the chapter constantly strives to bring about awareness and widen the 

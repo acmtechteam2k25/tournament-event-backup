@@ -86,24 +86,32 @@ const SimpleNavbar = () => {
 
       {/* Mobile Navbar */}
       <div className="fixed top-4 right-4 z-50 block md:hidden">
-        <div className="flex flex-col gap-2">
+        <div className="flex h-16 items-center gap-2 rounded-2xl bg-black/20 backdrop-blur-md px-3 py-3 border border-white/10 shadow-lg">
           {navItems.map((item) => (
             <Link
               key={item.title}
               to={item.href}
-              className="relative"
+              className="relative group"
             >
               <div
                 className={`flex items-center justify-center rounded-full cursor-pointer transition-all duration-200 ${
                   isActive(item.href)
                     ? 'bg-white text-black shadow-lg'
-                    : 'bg-black/80 text-white hover:bg-black/90'
+                    : 'bg-white/10 text-white hover:bg-white/20'
                 }`}
                 style={{
-                  width: '48px',
-                  height: '48px'
+                  width: '44px',
+                  height: '44px'
                 }}
               >
+                {/* Tooltip */}
+                <div
+                  className={`absolute -bottom-10 left-1/2 transform -translate-x-1/2 px-2 py-1 rounded-md bg-black/90 backdrop-blur-sm text-white text-xs whitespace-nowrap border border-white/10 opacity-0 group-hover:opacity-100 translate-y-1 group-hover:translate-y-0 scale-95 group-hover:scale-100 pointer-events-none transition-all duration-150`}
+                >
+                  {item.title}
+                  <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-2 border-r-2 border-b-2 border-transparent border-b-black/90"></div>
+                </div>
+
                 <div className="flex items-center justify-center" style={{ width: '20px', height: '20px' }}>
                   {item.icon}
                 </div>
