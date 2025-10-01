@@ -1,5 +1,7 @@
 import React from 'react';
 import FloatingDock from './FloatingDock';
+
+import SimpleNavbar from './SimpleNavbar';
 import acmLogo from '../assets/ACM.png';
 
 const Navbar = () => {
@@ -35,7 +37,7 @@ const Navbar = () => {
     }
   ];
 
-  return <FloatingDock items={navItems} />;
+  return <SimpleNavbar items={navItems} />;
 };
 
 export default Navbar;
