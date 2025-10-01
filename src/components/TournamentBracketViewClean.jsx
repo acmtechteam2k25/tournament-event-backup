@@ -268,18 +268,24 @@ const TournamentBracketViewFinal = ({ isEditable = false, tournamentId = null })
 
   const handleWheel = (e) => {
     if (!containerRef.current) return;
-    e.preventDefault();
-    const delta = -e.deltaY;
-    const zoomIntensity = 0.0015;
-    const newScale = clamp(scale * (1 + delta * zoomIntensity), MIN_SCALE, MAX_SCALE);
+    
+    // Only zoom when Ctrl key is held, otherwise allow normal scrolling
+    if (e.ctrlKey || e.metaKey) {
+      e.preventDefault();
+      const delta = -e.deltaY;
+      const zoomIntensity = 0.0015;
+      const newScale = clamp(scale * (1 + delta * zoomIntensity), MIN_SCALE, MAX_SCALE);
 
-    const rect = containerRef.current.getBoundingClientRect();
-    const cx = e.clientX - rect.left;
-    const cy = e.clientY - rect.top;
-    const dx = cx / scale - cx / newScale;
-    const dy = cy / scale - cy / newScale;
-    setTranslate({ x: translate.x + dx, y: translate.y + dy });
-    setScale(newScale);
+      const rect = containerRef.current.getBoundingClientRect();
+      const cx = e.clientX - rect.left;
+      const cy = e.clientY - rect.top;
+      const dx = cx / scale - cx / newScale;
+      const dy = cy / scale - cy / newScale;
+      setTranslate({ x: translate.x + dx, y: translate.y + dy });
+      setScale(newScale);
+    }
+    // For normal scrolling (without Ctrl), let the browser handle it naturally
+    // The container will scroll normally within the bracket view
   };
 
   const handleMouseDown = (e) => {
@@ -310,25 +316,21 @@ const TournamentBracketViewFinal = ({ isEditable = false, tournamentId = null })
   });
 
   const handleTouchStart = (e) => {
-    if (e.touches.length === 1) {
-      setIsPanning(true);
-      setLastPanPoint({ x: e.touches[0].clientX, y: e.touches[0].clientY });
-    } else if (e.touches.length === 2) {
+    // Only handle pinch-to-zoom with two fingers
+    if (e.touches.length === 2) {
       const dist = getTouchDistance(e.touches[0], e.touches[1]);
       const center = getTouchCenter(e.touches[0], e.touches[1]);
       setLastPinchDistance(dist);
       setLastPinchCenter(center);
     }
+    // Single finger touch should be handled by browser for natural scrolling
   };
 
   const handleTouchMove = (e) => {
-    if (e.touches.length === 1 && isPanning) {
-      const dx = (e.touches[0].clientX - lastPanPoint.x) / scale;
-      const dy = (e.touches[0].clientY - lastPanPoint.y) / scale;
-      setTranslate({ x: translate.x + dx, y: translate.y + dy });
-      setLastPanPoint({ x: e.touches[0].clientX, y: e.touches[0].clientY });
-    } else if (e.touches.length === 2) {
+    // Only handle pinch-to-zoom with two fingers
+    if (e.touches.length === 2) {
       if (!containerRef.current) return;
+      e.preventDefault(); // Prevent default for pinch zoom
       const dist = getTouchDistance(e.touches[0], e.touches[1]);
       const center = getTouchCenter(e.touches[0], e.touches[1]);
       if (lastPinchDistance && lastPinchCenter) {
@@ -345,10 +347,10 @@ const TournamentBracketViewFinal = ({ isEditable = false, tournamentId = null })
       setLastPinchDistance(dist);
       setLastPinchCenter(center);
     }
+    // Single finger touch should be handled by browser for natural scrolling
   };
 
   const handleTouchEnd = () => {
-    setIsPanning(false);
     setLastPinchDistance(null);
     setLastPinchCenter(null);
   };
@@ -473,6 +475,9 @@ const TournamentBracketViewFinal = ({ isEditable = false, tournamentId = null })
         onMouseMove={handleMouseMove}
         onMouseUp={endPan}
         onMouseLeave={endPan}
+        style={{
+          cursor: isPanning ? 'grabbing' : 'grab'
+        }}
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
@@ -559,10 +564,14 @@ const TournamentBracketViewFinal = ({ isEditable = false, tournamentId = null })
 
       {/* Zoom Controls */}
       <div className="fixed bottom-4 right-4 z-40 flex flex-col gap-2">
+        <div className="text-xs text-gray-400 text-center mb-2 px-2 py-1 bg-gray-800 rounded hidden md:block">
+          Hold Ctrl + Scroll to Zoom
+        </div>
         <button
           onClick={() => setScale((s) => clamp(s * 1.15, MIN_SCALE, MAX_SCALE))}
           className="px-3 py-2 rounded-full bg-gray-800 text-white shadow hover:bg-gray-700"
           aria-label="Zoom in"
+          title="Zoom in (or Ctrl+Scroll up)"
         >
           +
         </button>
@@ -570,6 +579,7 @@ const TournamentBracketViewFinal = ({ isEditable = false, tournamentId = null })
           onClick={() => setScale((s) => clamp(s / 1.15, MIN_SCALE, MAX_SCALE))}
           className="px-3 py-2 rounded-full bg-gray-800 text-white shadow hover:bg-gray-700"
           aria-label="Zoom out"
+          title="Zoom out (or Ctrl+Scroll down)"
         >
           −
         </button>
@@ -577,6 +587,7 @@ const TournamentBracketViewFinal = ({ isEditable = false, tournamentId = null })
           onClick={resetView}
           className="px-3 py-2 rounded-full bg-gray-800 text-white shadow hover:bg-gray-700"
           aria-label="Reset view"
+          title="Reset zoom and position"
         >
           ⟳
         </button>
@@ -584,6 +595,7 @@ const TournamentBracketViewFinal = ({ isEditable = false, tournamentId = null })
           onClick={fitToScreen}
           className="px-3 py-2 rounded-full bg-gray-800 text-white shadow hover:bg-gray-700"
           aria-label="Fit to screen"
+          title="Fit bracket to screen"
         >
           ⤢
         </button>
