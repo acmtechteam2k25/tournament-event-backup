@@ -1,29 +1,29 @@
-/* Tournament Bracket Orange Theme */
+/* Tournament Bracket Dark Theme with Radium White Glow */
 
 :root {
-  --primary-bg: #140f0b;
-  --secondary-bg: #2a1f17;
-  --tertiary-bg: #3d2e22;
-  --accent-bg: #4d3b2c;
+  --primary-bg: #0a0a0a;
+  --secondary-bg: #1a1a1a;
+  --tertiary-bg: #2a2a2a;
+  --accent-bg: #3a3a3a;
 
-  --primary-glow: #ffa366; /* Light orange */
-  --secondary-glow: #ff8c42; /* Medium orange */
-  --accent-glow: #ff7f50; /* Coral orange */
-  --winner-glow: #32cd32; /* Keep green for winners */
-  --pending-glow: #ffb347; /* Peach orange */
-  --completed-glow: #32cd32; /* Keep green for completed */
-  --walkover-glow: #ff6347; /* Tomato orange */
+  --primary-glow: #ffffff;
+  --secondary-glow: #f0f0f0;
+  --accent-glow: #00ffff;
+  --winner-glow: #00ff00;
+  --pending-glow: #ffff00;
+  --completed-glow: #00ff00;
+  --walkover-glow: #ff6600;
 
-  --text-primary: #fff5e6; /* Light cream */
-  --text-secondary: #ffcc99; /* Light orange text */
-  --text-muted: #cc9966; /* Muted orange */
+  --text-primary: #ffffff;
+  --text-secondary: #cccccc;
+  --text-muted: #888888;
 
-  --border-primary: rgba(255, 163, 102, 0.3); /* Light orange border */
-  --border-glow: rgba(255, 140, 66, 0.6); /* Medium orange border */
+  --border-primary: rgba(255, 255, 255, 0.3);
+  --border-glow: rgba(255, 255, 255, 0.6);
 
-  --shadow-glow: 0 0 20px rgba(255, 163, 102, 0.3);
-  --shadow-strong: 0 0 30px rgba(255, 140, 66, 0.5);
-  --shadow-accent: 0 0 25px rgba(255, 127, 80, 0.4);
+  --shadow-glow: 0 0 20px rgba(255, 255, 255, 0.3);
+  --shadow-strong: 0 0 30px rgba(255, 255, 255, 0.5);
+  --shadow-accent: 0 0 25px rgba(0, 255, 255, 0.4);
 }
 
 * {
@@ -75,8 +75,8 @@ body {
 
 .tournament-container {
   min-height: 100vh;
-  background: radial-gradient(circle at 20% 20%, rgba(255, 163, 102, 0.08) 0%, transparent 50%),
-    radial-gradient(circle at 80% 80%, rgba(255, 140, 66, 0.05) 0%, transparent 50%),
+  background: radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(0, 255, 255, 0.03) 0%, transparent 50%),
     var(--primary-bg);
   padding: 20px;
 }
@@ -127,7 +127,7 @@ body {
   color: var(--text-primary);
   text-shadow: 0 0 10px var(--primary-glow);
   margin-bottom: 10px;
-  background: linear-gradient(45deg, var(--primary-glow), var(--secondary-glow));
+  background: linear-gradient(45deg, var(--primary-glow), var(--accent-glow));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -151,9 +151,9 @@ body {
 }
 
 .progress-indicator {
-  background: var(--primary-glow) !important;
+  background: var(--accent-glow) !important;
   color: var(--primary-bg) !important;
-  box-shadow: 0 0 20px var(--primary-glow) !important;
+  box-shadow: 0 0 20px var(--accent-glow) !important;
   animation: pulse 2s infinite;
 }
 
@@ -161,12 +161,12 @@ body {
 
   0%,
   100% {
-    box-shadow: 0 0 20px var(--primary-glow);
+    box-shadow: 0 0 20px var(--accent-glow);
     transform: scale(1);
   }
 
   50% {
-    box-shadow: 0 0 30px var(--primary-glow);
+    box-shadow: 0 0 30px var(--accent-glow);
     transform: scale(1.02);
   }
 }
@@ -194,11 +194,11 @@ body {
 }
 
 .round-header-label .round-title {
-  color: var(--primary-glow);
+  color: var(--accent-glow);
   font-size: 1.3rem;
   font-weight: 600;
   margin: 0 0 0.5rem 0;
-  text-shadow: 0 0 10px var(--primary-glow);
+  text-shadow: 0 0 10px var(--accent-glow);
 }
 
 .round-header-label .round-number {
@@ -233,15 +233,15 @@ body {
 }
 
 .tree-match:hover {
-  border-color: var(--primary-glow);
+  border-color: var(--accent-glow);
   box-shadow: var(--shadow-accent);
   transform: translateY(-3px);
 }
 
 .tree-match.selected {
-  border-color: var(--primary-glow);
-  box-shadow: 0 0 25px var(--primary-glow);
-  background: rgba(255, 163, 102, 0.1);
+  border-color: var(--accent-glow);
+  box-shadow: 0 0 25px var(--accent-glow);
+  background: rgba(0, 255, 255, 0.05);
 }
 
 /* Connector lines */
@@ -250,14 +250,14 @@ body {
 }
 
 .connector-horizontal {
-  background: var(--primary-glow);
-  box-shadow: 0 0 8px var(--primary-glow);
+  background: var(--accent-glow);
+  box-shadow: 0 0 8px var(--accent-glow);
   border-radius: 1px;
 }
 
 .connector-vertical {
-  background: var(--primary-glow);
-  box-shadow: 0 0 8px var(--primary-glow);
+  background: var(--accent-glow);
+  box-shadow: 0 0 8px var(--accent-glow);
   border-radius: 1px;
 }
 
@@ -269,16 +269,16 @@ body {
 
 .svg-round-header {
   text-align: center;
-  color: var(--primary-glow);
+  color: var(--accent-glow);
   font-weight: 600;
-  text-shadow: 0 0 8px var(--primary-glow);
+  text-shadow: 0 0 8px var(--accent-glow);
   margin-bottom: 1rem;
 }
 
 .svg-round-header h3 {
   margin: 0;
   font-size: 1.1rem;
-  color: var(--primary-glow);
+  color: var(--accent-glow);
 }
 
 .svg-match {
@@ -305,15 +305,15 @@ body {
 }
 
 .svg-match:hover {
-  border-color: var(--primary-glow);
+  border-color: var(--accent-glow);
   border-width: 4px;
   box-shadow: var(--shadow-accent);
 }
 
 .svg-match.selected {
-  border-color: var(--primary-glow);
-  box-shadow: 0 0 25px var(--primary-glow);
-  background: rgba(255, 163, 102, 0.1);
+  border-color: var(--accent-glow);
+  box-shadow: 0 0 25px var(--accent-glow);
+  background: rgba(0, 255, 255, 0.1);
   border-width: 5px;
 }
 
@@ -332,12 +332,12 @@ body {
 }
 
 .svg-match .match-identifier {
-  color: var(--primary-glow);
+  color: var(--accent-glow);
   font-weight: 600;
   font-size: 0.7rem;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  text-shadow: 0 0 5px var(--primary-glow);
+  text-shadow: 0 0 5px var(--accent-glow);
 }
 
 .svg-match .match-status {
@@ -425,7 +425,7 @@ body {
 .svg-match .winner-btn {
   flex: 1;
   padding: 0.25rem 0.5rem;
-  background: var(--primary-glow);
+  background: var(--accent-glow);
   color: var(--primary-bg);
   border: none;
   border-radius: 4px;
@@ -436,8 +436,8 @@ body {
 }
 
 .svg-match .winner-btn:hover {
-  background: var(--secondary-glow);
-  box-shadow: 0 0 8px var(--primary-glow);
+  background: var(--primary-glow);
+  box-shadow: 0 0 8px var(--accent-glow);
   transform: translateY(-1px);
 }
 
@@ -460,11 +460,11 @@ body {
 }
 
 .byes-title {
-  color: var(--primary-glow);
+  color: var(--accent-glow);
   font-size: 1rem;
   font-weight: 600;
   margin-bottom: 0.5rem;
-  text-shadow: 0 0 6px var(--primary-glow);
+  text-shadow: 0 0 6px var(--accent-glow);
 }
 
 .bye-item {
@@ -572,13 +572,13 @@ body {
 }
 
 .round-number {
-  background: var(--primary-glow);
+  background: var(--accent-glow);
   color: var(--primary-bg);
   padding: 4px 12px;
   border-radius: 12px;
   font-weight: bold;
   font-size: 0.9rem;
-  box-shadow: 0 0 15px var(--primary-glow);
+  box-shadow: 0 0 15px var(--accent-glow);
 }
 
 .matches-container {
@@ -626,7 +626,7 @@ body {
 }
 
 .match.selected {
-  border-color: var(--primary-glow);
+  border-color: var(--accent-glow);
   box-shadow: var(--shadow-accent);
 }
 
@@ -808,9 +808,9 @@ body {
   padding: 12px 15px;
   background: var(--tertiary-bg);
   border-radius: 10px;
-  border: 1px solid var(--primary-glow);
+  border: 1px solid var(--accent-glow);
   margin-bottom: 10px;
-  box-shadow: 0 0 10px rgba(255, 163, 102, 0.2);
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
 }
 
 .bye-player {
@@ -1009,7 +1009,7 @@ body {
   }
   
   .bracket-scrollable-container::-webkit-scrollbar-thumb {
-    background: rgba(255, 163, 102, 0.4);
+    background: rgba(0, 255, 255, 0.3);
   }
 }
 
@@ -1020,11 +1020,11 @@ body {
   left: 50%;
   transform: translateX(-50%);
   background: var(--secondary-bg);
-  border: 2px solid var(--primary-glow);
+  border: 2px solid var(--accent-glow);
   border-radius: 12px;
   padding: 15px;
   min-width: 320px;
-  box-shadow: 0 0 30px var(--primary-glow);
+  box-shadow: 0 0 30px var(--accent-glow);
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   z-index: 9999;
@@ -1041,14 +1041,14 @@ body {
   height: 0;
   border-left: 8px solid transparent;
   border-right: 8px solid transparent;
-  border-bottom: 8px solid var(--primary-glow);
+  border-bottom: 8px solid var(--accent-glow);
 }
 
 .match-actions h4 {
-  color: var(--primary-glow);
+  color: var(--accent-glow);
   margin-bottom: 10px;
   text-align: center;
-  text-shadow: 0 0 8px var(--primary-glow);
+  text-shadow: 0 0 8px var(--accent-glow);
   font-size: 14px;
 }
 
