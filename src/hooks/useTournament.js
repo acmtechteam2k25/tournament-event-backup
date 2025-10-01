@@ -45,22 +45,14 @@ export const useTournament = (tournamentId) => {
 
   const updateMatchWinner = async (matchId, winnerId, winnerScore = 0, loserScore = 0, isWalkover = false) => {
     try {
-      console.log('useTournament: Calling updateMatchWinnerAdvanced with:', {
-        matchId, winnerId, winnerScore, loserScore, isWalkover
-      });
-
       const result = await tournamentAPI.updateMatchWinnerAdvanced(matchId, winnerId, winnerScore, loserScore, isWalkover);
 
-      console.log('useTournament: Update result:', result);
-
       // Refresh bracket after update
-      console.log('useTournament: Refreshing bracket data...');
       await fetchBracket();
       await fetchParticipants();
 
       return result;
     } catch (err) {
-      console.error('useTournament: Error updating match winner:', err);
       setError(err.message);
       throw err;
     }

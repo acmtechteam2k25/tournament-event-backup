@@ -47,10 +47,6 @@ const TournamentBracketViewFinal = ({
 
         // Convert database format to component format
         const formattedMatches = bracket.map((match) => {
-          // Debug: log match data to see what we're getting from database
-          if (match.match_id === '1992c7ee-e14f-4f01-9327-7882ddd97db3') {
-            console.log('Debug - Match data from database:', match);
-          }
           
           return {
             id: match.match_id,
@@ -163,7 +159,6 @@ const TournamentBracketViewFinal = ({
               setLoserScore('');
             }
           } catch (error) {
-            console.error('Error fetching match scores:', error);
             // Fallback to empty scores on error
             setWinnerScore('');
             setLoserScore('');
@@ -265,23 +260,7 @@ const TournamentBracketViewFinal = ({
     if (tournamentId && updateMatchWinner) {
       // Update via database
       try {
-        console.log('Updating match with:', {
-          matchId: selectedMatch.id,
-          winnerId: selectedWinner.id,
-          winnerScore: winnerNum,
-          loserScore: loserNum,
-          isWalkover: isWalkover || isBye
-        });
-
         const result = await updateMatchWinner(selectedMatch.id, selectedWinner.id, winnerNum, loserNum, isWalkover || isBye);
-        
-        console.log('Match update successful:', result);
-        console.log('Next match info:', {
-          next_match_id: result?.next_match_id,
-          next_match_player1: result?.next_match_player1,
-          next_match_player2: result?.next_match_player2,
-          round_completed: result?.round_completed
-        });
 
         // Show success message for completed match updates
         if (selectedMatch.state === "SCORE_DONE") {
@@ -296,7 +275,6 @@ const TournamentBracketViewFinal = ({
         setIsWalkover(false);
         setIsBye(false);
       } catch (error) {
-        console.error('Match update failed:', error);
         alert(`❌ Failed to update match: ${error.message || 'Unknown error'}\n\nPlease try again.`);
       }
     }
