@@ -127,7 +127,7 @@ const TournamentBracketViewFinal = ({
     }
   }, [tournamentId, bracket]);
 
-  const handleMatchClick = (match, x, y) => {
+  const handleMatchClick = async (match, x, y) => {
     // Only allow clicking if in editable mode
     if (!isEditable) return;
 
@@ -146,10 +146,29 @@ const TournamentBracketViewFinal = ({
 
         if (winner) {
           setSelectedWinner(winner);
-          // For editing, set reasonable default scores
-          // TODO: In future, fetch actual scores from database
-          setWinnerScore('10');
-          setLoserScore('8');
+          
+          // Fetch actual scores from database
+          try {
+            const matchScores = await tournamentAPI.getMatchScores(match.id);
+            if (matchScores && matchScores.length > 0) {
+              // Find winner and loser scores
+              const winnerScore = matchScores.find(s => s.player_id === winner.id);
+              const loserScore = matchScores.find(s => s.player_id === loser?.id);
+              
+              setWinnerScore(winnerScore?.score?.toString() || '');
+              setLoserScore(loserScore?.score?.toString() || '');
+            } else {
+              // Fallback to empty scores if no data found
+              setWinnerScore('');
+              setLoserScore('');
+            }
+          } catch (error) {
+            console.error('Error fetching match scores:', error);
+            // Fallback to empty scores on error
+            setWinnerScore('');
+            setLoserScore('');
+          }
+          
           setIsWalkover(winner.status === 'walkover' || loser?.status === 'walkover');
           setIsBye(winner.status === 'BYE' || match.matchType === 'bye');
         } else {
@@ -598,7 +617,7 @@ const TournamentBracketViewFinal = ({
                       >
                         <MatchBox
                           match={match}
-                          onMatchClick={() => handleMatchClick(match, x, y)}
+                          onMatchClick={async () => handleMatchClick(match, x, y)}
                           isSelected={selectedMatch?.id === match.id}
                           gameWidth={style.gameWidth}
                           gameHeight={style.gameHeight}
@@ -826,7 +845,7 @@ const TournamentBracketViewFinal = ({
                 })()}
                 {selectedMatch.state === "SCORE_DONE" && (
                   <p className="text-xs text-orange-600 mt-2">
-                    💡 Editing completed match: Default scores shown. Update as
+                    💡 Editing completed match: Update as
                     needed.
                   </p>
                 )}

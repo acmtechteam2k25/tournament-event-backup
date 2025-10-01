@@ -134,5 +134,20 @@ export const tournamentAPI = {
     
     if (error) throw error
     return data
+  },
+
+  // Get scores for a specific match
+  getMatchScores: async (matchId) => {
+    const { data, error } = await supabase
+      .from('scores')
+      .select(`
+        *,
+        participant:player_id(name)
+      `)
+      .eq('match_id', matchId)
+      .order('score', { ascending: false })
+    
+    if (error) throw error
+    return data
   }
 }
