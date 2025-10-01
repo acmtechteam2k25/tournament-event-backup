@@ -3,8 +3,24 @@ export const config = {
   // Set to true to use Supabase database
   USE_DATABASE: true,
   
-  // Tournament 2k25 - Single tournament ID for entire application
+  // Backward-compat single tournament ID (kept for legacy code paths)
   TOURNAMENT_ID: '550e8400-e29b-41d4-a716-446655440000',
+  
+  // Multiple tournaments support
+  // Provide distinct IDs so data stays isolated per tournament in Supabase
+  TOURNAMENTS: {
+    // Current initialized tournament mapped to 2nd year
+    secondYear: {
+      id: '550e8400-e29b-41d4-a716-446655440000',
+      name: '2nd Year Tournament 2k25'
+    },
+    // New tournament for 3rd year (replace with actual ID once created)
+    thirdYear: {
+      id: 'd6c14a2b-4b7b-4f7e-9b3d-3c2e9b9f1234',
+      name: '3rd Year Tournament 2k25'
+    }
+  },
+  DEFAULT_TOURNAMENT_KEY: 'secondYear',
   
   // Tournament details
   TOURNAMENT_NAME: 'Tournament 2k25',

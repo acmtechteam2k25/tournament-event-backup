@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 import { config } from '../config';
 
-const TournamentInitializer = ({ onTournamentCreated }) => {
+const TournamentInitializer = ({ tournamentId: propTournamentId, onTournamentCreated }) => {
   const [participants, setParticipants] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const tournamentId = propTournamentId || config.TOURNAMENT_ID;
 
   // Give participants simple 1-64 seed numbers based on their order
   // The bracket positions will handle the tournament seeding logic
@@ -13,14 +14,14 @@ const TournamentInitializer = ({ onTournamentCreated }) => {
   // Load existing participants from database
   useEffect(() => {
     loadParticipants();
-  }, []);
+  }, [tournamentId]);
 
   const loadParticipants = async () => {
     try {
       const { data, error } = await supabase
         .from('participants')
         .select('*')
-        .eq('tournament_id', config.TOURNAMENT_ID)
+        .eq('tournament_id', tournamentId)
         .order('seed_number');
 
       if (error) throw error;
@@ -84,7 +85,7 @@ const TournamentInitializer = ({ onTournamentCreated }) => {
       const { data: round1 } = await supabase
         .from('rounds')
         .select('id')
-        .eq('tournament_id', config.TOURNAMENT_ID)
+        .eq('tournament_id', tournamentId)
         .eq('round_number', 1)
         .single();
 
@@ -117,7 +118,7 @@ const TournamentInitializer = ({ onTournamentCreated }) => {
         const player2 = sortedParticipants.find(p => p.seed_number === seed2);
         
         matchesData.push({
-          tournament_id: config.TOURNAMENT_ID,
+          tournament_id: tournamentId,
           round_id: round1.id,
           round_number: 1,
           match_number: i + 1,
@@ -129,7 +130,7 @@ const TournamentInitializer = ({ onTournamentCreated }) => {
 
         // Create bracket position for this match (Round 1 positioning)
         bracketPositionsData.push({
-          tournament_id: config.TOURNAMENT_ID,
+          tournament_id: tournamentId,
           round_number: 1,
           position_x: 50, // Left side of bracket
           position_y: 50 + (i * 120), // Vertical spacing
@@ -176,24 +177,44 @@ const TournamentInitializer = ({ onTournamentCreated }) => {
     setError('');
 
     try {
+      // Ensure tournament exists to satisfy FK (temporary safeguard)
+      const tournamentsMap = config.TOURNAMENTS || {};
+      const tournamentEntry = Object.values(tournamentsMap).find(t => t.id === tournamentId);
+      const tournamentName = tournamentEntry?.name || config.TOURNAMENT_NAME || 'ACM Tournament';
+      await supabase
+        .from('tournament')
+        .upsert({ id: tournamentId, name: tournamentName }, { onConflict: 'id' });
+
       // Clear existing data (in proper order due to foreign key constraints)
-      await supabase.from('bracket_positions').delete().eq('tournament_id', config.TOURNAMENT_ID);
-      await supabase.from('scores').delete().eq('tournament_id', config.TOURNAMENT_ID);
-      await supabase.from('matches').delete().eq('tournament_id', config.TOURNAMENT_ID);
-      await supabase.from('rounds').delete().eq('tournament_id', config.TOURNAMENT_ID);
-      await supabase.from('participants').delete().eq('tournament_id', config.TOURNAMENT_ID);
+      await supabase.from('bracket_positions').delete().eq('tournament_id', tournamentId);
+      await supabase.from('scores').delete().eq('tournament_id', tournamentId);
+      await supabase.from('matches').delete().eq('tournament_id', tournamentId);
+      await supabase.from('rounds').delete().eq('tournament_id', tournamentId);
+      await supabase.from('participants').delete().eq('tournament_id', tournamentId);
 
       // Insert participants with proper seeding
-      const participantsData = participants.map(participant => ({
-        tournament_id: config.TOURNAMENT_ID,
-        name: participant.name,
-        roll_number: participant.roll_number,
-        email: participant.email,
-        seed_number: participant.seed_number,
-        status: 'active',
-        current_round: 1,
-        total_wins: 0
-      }));
+      // TEMPORARY: Alias emails to avoid global unique email constraint across tournaments
+      // Revert by using participant.email directly once DB allows (tournament_id, email) uniqueness
+      const participantsData = participants.map(participant => {
+        const email = (participant.email || '').trim();
+        const atIndex = email.indexOf('@');
+        let aliasedEmail = email;
+        if (atIndex > 0) {
+          const local = email.slice(0, atIndex);
+          const domain = email.slice(atIndex + 1);
+          aliasedEmail = `${local}+${tournamentId}@${domain}`;
+        }
+        return {
+          tournament_id: tournamentId,
+          name: participant.name,
+          roll_number: participant.roll_number,
+          email: aliasedEmail,
+          seed_number: participant.seed_number,
+          status: 'active',
+          current_round: 1,
+          total_wins: 0
+        };
+      });
 
       const { data: insertedParticipants, error: participantsError } = await supabase
         .from('participants')
@@ -208,7 +229,7 @@ const TournamentInitializer = ({ onTournamentCreated }) => {
 
       // Create complete tournament bracket with all rounds using the advanced function
       const { data, error } = await supabase.rpc('create_complete_tournament_bracket', {
-        p_tournament_id: config.TOURNAMENT_ID,
+        p_tournament_id: tournamentId,
         p_participant_ids: participantIds
       });
 
@@ -218,7 +239,7 @@ const TournamentInitializer = ({ onTournamentCreated }) => {
       await loadParticipants();
 
       if (onTournamentCreated) {
-        onTournamentCreated({ id: config.TOURNAMENT_ID, name: config.TOURNAMENT_NAME });
+        onTournamentCreated({ id: tournamentId, name: config.TOURNAMENT_NAME });
       }
 
       alert('Tournament initialized successfully!');

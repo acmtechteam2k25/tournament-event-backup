@@ -10,8 +10,9 @@ import './AdminPage.css';
 const AdminPage = () => {
   const { isAuthenticated, logout } = useAuth();
   const [activeTab, setActiveTab] = useState('bracket');
-  // Use the fixed tournament ID from config
-  const tournamentId = config.TOURNAMENT_ID;
+  // Year switcher state
+  const [tournamentKey, setTournamentKey] = useState(config.DEFAULT_TOURNAMENT_KEY);
+  const tournamentId = config.TOURNAMENTS?.[tournamentKey]?.id || config.TOURNAMENT_ID;
 
   const handleLoginSuccess = () => {
     // no-op, auth is managed by context/localStorage
@@ -44,7 +45,7 @@ const AdminPage = () => {
         
         {/* Admin Navigation Tabs */}
         <div className="px-6">
-          <nav className="flex space-x-8">
+          <nav className="flex space-x-8 items-end">
             <button
               onClick={() => setActiveTab('bracket')}
               className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors duration-200 ${
@@ -75,6 +76,22 @@ const AdminPage = () => {
             >
               Database Status
             </button>
+
+            {/* Year Toggle */}
+            <div className="ml-auto flex items-center gap-2">
+              <button
+                onClick={() => setTournamentKey('secondYear')}
+                className={`px-3 py-1 rounded-l border ${tournamentKey === 'secondYear' ? 'bg-blue-600 text-white border-blue-600' : 'bg-white text-gray-700 border-gray-300'}`}
+              >
+                2nd Year
+              </button>
+              <button
+                onClick={() => setTournamentKey('thirdYear')}
+                className={`px-3 py-1 rounded-r border-t border-b border-r ${tournamentKey === 'thirdYear' ? 'bg-blue-600 text-white border-blue-600' : 'bg-white text-gray-700 border-gray-300'}`}
+              >
+                3rd Year
+              </button>
+            </div>
           </nav>
         </div>
       </div>
@@ -86,6 +103,7 @@ const AdminPage = () => {
         
         {activeTab === 'setup' && (
           <TournamentInitializer 
+            tournamentId={tournamentId}
             onTournamentCreated={(tournament) => {
               // Tournament ID is fixed, switch to bracket tab
               setActiveTab('bracket');
