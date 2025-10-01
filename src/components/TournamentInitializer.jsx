@@ -70,6 +70,31 @@ const TournamentInitializer = ({ tournamentId: propTournamentId, onTournamentCre
           return;
         }
 
+        // Restore duplicate validation: block duplicates by roll_number, email, or name
+        const rollSet = new Set();
+        const emailSet = new Set();
+        const nameSet = new Set();
+        for (const p of imported) {
+          const r = p.roll_number.toLowerCase();
+          const e = p.email.toLowerCase();
+          const n = p.name.toLowerCase();
+          if (rollSet.has(r)) {
+            setError(`Duplicate roll number found: ${p.roll_number}`);
+            return;
+          }
+          if (emailSet.has(e)) {
+            setError(`Duplicate email found: ${p.email}`);
+            return;
+          }
+          if (nameSet.has(n)) {
+            setError(`Duplicate name found: ${p.name}`);
+            return;
+          }
+          rollSet.add(r);
+          emailSet.add(e);
+          nameSet.add(n);
+        }
+
         setParticipants(imported);
         setError('');
       } catch (err) {
@@ -192,29 +217,22 @@ const TournamentInitializer = ({ tournamentId: propTournamentId, onTournamentCre
       await supabase.from('rounds').delete().eq('tournament_id', tournamentId);
       await supabase.from('participants').delete().eq('tournament_id', tournamentId);
 
+      // Determine academic year (2 or 3) based on selected tournament
+      const tmap = config.TOURNAMENTS || {};
+      const yearValue = tmap?.secondYear?.id === tournamentId ? 2 : (tmap?.thirdYear?.id === tournamentId ? 3 : null);
+
       // Insert participants with proper seeding
-      // TEMPORARY: Alias emails to avoid global unique email constraint across tournaments
-      // Revert by using participant.email directly once DB allows (tournament_id, email) uniqueness
-      const participantsData = participants.map(participant => {
-        const email = (participant.email || '').trim();
-        const atIndex = email.indexOf('@');
-        let aliasedEmail = email;
-        if (atIndex > 0) {
-          const local = email.slice(0, atIndex);
-          const domain = email.slice(atIndex + 1);
-          aliasedEmail = `${local}+${tournamentId}@${domain}`;
-        }
-        return {
-          tournament_id: tournamentId,
-          name: participant.name,
-          roll_number: participant.roll_number,
-          email: aliasedEmail,
-          seed_number: participant.seed_number,
-          status: 'active',
-          current_round: 1,
-          total_wins: 0
-        };
-      });
+      const participantsData = participants.map(participant => ({
+        tournament_id: tournamentId,
+        name: participant.name,
+        roll_number: participant.roll_number,
+        email: participant.email,
+        seed_number: participant.seed_number,
+        status: 'active',
+        current_round: 1,
+        total_wins: 0,
+        year: yearValue
+      }));
 
       const { data: insertedParticipants, error: participantsError } = await supabase
         .from('participants')
