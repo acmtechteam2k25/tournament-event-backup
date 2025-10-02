@@ -97,7 +97,7 @@ const AdminMatchManager = ({ tournamentId }) => {
                   }
                 }}
                 disabled={isExporting}
-                className={`px-4 py-2 rounded-lg text-white shadow inline-flex items-center gap-2 ${isExporting ? 'bg-emerald-400 cursor-wait' : 'bg-emerald-600 hover:bg-emerald-700'
+                className={`px-4 py-2 rounded-lg text-black shadow inline-flex items-center gap-2 ${isExporting ? 'bg-amber-400 cursor-wait' : 'bg-amber-500 hover:bg-amber-600'
                   }`}
               >
                 {isExporting ? (
@@ -144,7 +144,7 @@ const AdminMatchManager = ({ tournamentId }) => {
                     alert(`Failed to load scores: ${e.message || e}`);
                   }
                 }}
-                className="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white shadow inline-flex items-center gap-2"
+                className="px-4 py-2 rounded-lg bg-orange-500 hover:bg-orange-600 text-white shadow inline-flex items-center gap-2"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                   <line x1="18" y1="20" x2="18" y2="10" />

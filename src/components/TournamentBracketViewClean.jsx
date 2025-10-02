@@ -519,9 +519,9 @@ const TournamentBracketViewFinal = ({
                   }
                 }}
                 disabled={isExporting}
-                className={`px-4 py-2 rounded-lg text-yellow-950 font-bold shadow inline-flex items-center gap-2 ${isExporting
-                  ? "bg-[#f59e0b] cursor-wait"
-                  : "bg-[#f59e0b] hover:bg-[#d97706]"
+                className={`px-4 py-2 rounded-lg text-black font-bold shadow inline-flex items-center gap-2 ${isExporting
+                  ? "bg-amber-400 cursor-wait"
+                  : "bg-amber-500 hover:bg-amber-600"
                   }`}
               >
                 {isExporting ? "Generating…" : "Export Excel"}
@@ -538,7 +538,7 @@ const TournamentBracketViewFinal = ({
                     alert(`Failed to load scores: ${e.message || e}`);
                   }
                 }}
-                className="px-4 py-2 rounded-lg bg-[#ff6600] hover:bg-[#cc5200] text-orange-200 font-bold shadow"
+                className="px-4 py-2 rounded-lg bg-orange-500 hover:bg-orange-600 text-white font-bold shadow"
               >
                 Cumulative Scores
               </button>
@@ -650,51 +650,6 @@ const TournamentBracketViewFinal = ({
               )}
             </g>
           </svg>
-        </div>
-      </div>
-
-      {/* Zoom Controls */}
-      <div className="fixed bottom-4 right-4 z-40 flex flex-col gap-2 items-center">
-        <div className="text-xs text-gray-400 text-center mb-2 px-2 py-1 bg-gray-800 rounded hidden md:block w-50">
-          Hold Ctrl + Scroll to Zoom
-        </div>
-        <div className="w-10 flex flex-col gap-2">
-          <button
-            onClick={() =>
-              setScale((s) => clamp(s * 1.15, MIN_SCALE, MAX_SCALE))
-            }
-            className="px-3 py-2 rounded-full bg-gray-800 text-white shadow hover:bg-gray-700"
-            aria-label="Zoom in"
-            title="Zoom in (or Ctrl+Scroll up)"
-          >
-            +
-          </button>
-          <button
-            onClick={() =>
-              setScale((s) => clamp(s / 1.15, MIN_SCALE, MAX_SCALE))
-            }
-            className="px-3 py-2 rounded-full bg-gray-800 text-white shadow hover:bg-gray-700"
-            aria-label="Zoom out"
-            title="Zoom out (or Ctrl+Scroll down)"
-          >
-            −
-          </button>
-          <button
-            onClick={resetView}
-            className="px-3 py-2 rounded-full bg-gray-800 text-white shadow hover:bg-gray-700"
-            aria-label="Reset view"
-            title="Reset zoom and position"
-          >
-            ⟳
-          </button>
-          <button
-            onClick={fitToScreen}
-            className="px-3 py-2 rounded-full bg-gray-800 text-white shadow hover:bg-gray-700"
-            aria-label="Fit to screen"
-            title="Fit bracket to screen"
-          >
-            ⤢
-          </button>
         </div>
       </div>
 
