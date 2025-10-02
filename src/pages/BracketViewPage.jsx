@@ -12,13 +12,13 @@ const BracketViewPage = () => {
       <div className="px-4 py-6 flex items-center justify-start gap-2">
         <button
           onClick={() => setTournamentKey('secondYear')}
-          className={`px-3 py-1 rounded-l border ${tournamentKey === 'secondYear' ? 'bg-blue-600 text-white border-blue-600' : 'bg-white text-gray-700 border-gray-300'}`}
+          className={`px-4 py-2 rounded-l backdrop-blur-md border transition-all duration-200 ${tournamentKey === 'secondYear' ? 'bg-black/20 text-orange-200 border-orange-400/60' : 'bg-black/10 text-white/70 border-white/20 hover:bg-black/20 hover:text-orange-200 hover:border-orange-400/30'}`}
         >
           2nd Year
         </button>
         <button
           onClick={() => setTournamentKey('thirdYear')}
-          className={`px-3 py-1 rounded-r border-t border-b border-r ${tournamentKey === 'thirdYear' ? 'bg-blue-600 text-white border-blue-600' : 'bg-white text-gray-700 border-gray-300'}`}
+          className={`px-4 py-2 rounded-r backdrop-blur-md border transition-all duration-200 ${tournamentKey === 'thirdYear' ? 'bg-black/20 text-orange-200 border-orange-400/60' : 'bg-black/10 text-white/70 border-white/20 hover:bg-black/20 hover:text-orange-200 hover:border-orange-400/30'}`}
         >
           3rd Year
         </button>

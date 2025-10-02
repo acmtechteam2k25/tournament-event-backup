@@ -1,14 +1,14 @@
 /* Tournament Bracket Dark Theme with Radium White Glow */
 
 :root {
-  --primary-bg: #0a0a0a;
+  --primary-bg: #130e0b;
   --secondary-bg: #1a1a1a;
   --tertiary-bg: #2a2a2a;
   --accent-bg: #3a3a3a;
 
   --primary-glow: #ffffff;
   --secondary-glow: #f0f0f0;
-  --accent-glow: #00ffff;
+  --accent-glow: #f59e0b;
   --winner-glow: #00ff00;
   --pending-glow: #ffff00;
   --completed-glow: #00ff00;
@@ -282,13 +282,14 @@ body {
 }
 
 .svg-match {
-  background: var(--secondary-bg);
-  border: 2px solid var(--border-primary);
-  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
   padding: 8px;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
-  box-shadow: var(--shadow-glow);
   width: 100%;
   height: 100%;
   display: flex;
@@ -302,19 +303,17 @@ body {
   /* Improve touch targets on mobile */
   min-height: 44px;
   -webkit-tap-highlight-color: transparent;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .svg-match:hover {
-  border-color: var(--accent-glow);
-  border-width: 4px;
-  box-shadow: var(--shadow-accent);
+  border: 2px solid rgba(245, 158, 11, 0.6);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .svg-match.selected {
-  border-color: var(--accent-glow);
-  box-shadow: 0 0 25px var(--accent-glow);
-  background: rgba(0, 255, 255, 0.1);
-  border-width: 5px;
+  border: 2px solid rgba(245, 158, 11, 0.8);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .svg-match .match-header {
@@ -374,7 +373,7 @@ body {
   align-items: center;
   padding: 6px 8px;
   border-radius: 4px;
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.02);
   transition: all 0.2s ease;
   min-height: 22px;
   flex: 1;
@@ -591,8 +590,10 @@ body {
 }
 
 .match {
-  background: var(--secondary-bg);
-  border: 1px solid var(--border-primary);
+  background: rgba(0, 0, 0, 0.2);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(245, 158, 11, 0.3);
   border-radius: 15px;
   padding: 20px;
   cursor: pointer;
@@ -620,9 +621,7 @@ body {
 }
 
 .match:hover {
-  border-color: var(--border-glow);
-  box-shadow: var(--shadow-strong);
-  transform: translateY(-2px);
+  border-color: rgba(245, 158, 11, 0.6);
 }
 
 .match.selected {
