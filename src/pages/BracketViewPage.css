@@ -1,29 +1,22 @@
 /* Bracket View Page Styles */
-.bracket-view-page {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  padding: 10px;
+.bracket-component {
+  overflow-x: auto;
+  overflow-y: hidden;
+  min-height: 500px;
 }
 
-.public-bracket-content {
-  flex: 1;
-  overflow: hidden;
-}
-
-/* Public view specific styles */
-.bracket-view-page .tournament-bracket {
+/* Tournament bracket within the component */
+.bracket-component .tournament-bracket {
   height: 100%;
-  width: 98%;
-  border-radius: 0.5rem;
+  width: 100%;
 }
 
 /* Disable editing features in public view */
-.bracket-view-page .match-box {
+.bracket-component .match-box {
   cursor: default !important;
 }
 
-.bracket-view-page .match-box:hover {
+.bracket-component .match-box:hover {
   transform: none !important;
   box-shadow: var(--shadow-glow) !important;
 }

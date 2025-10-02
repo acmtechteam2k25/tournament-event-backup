@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
 import Navbar from "./components/Navbar";
+import ACMLogo from "./components/ACMLogo";
 import Footer from "./components/Footer";
 import Home from "./components/Home";
 import BracketViewPage from "./pages/BracketViewPage";
@@ -15,6 +16,9 @@ function App() {
         <div className="relative w-screen overflow-x-hidden" style={{ backgroundColor: '#000000ff' }}>
           {/* Navbar */}
           <Navbar />
+          
+          {/* ACM Logo */}
+          <ACMLogo />
         
         {/* Routes */}
         <Routes>

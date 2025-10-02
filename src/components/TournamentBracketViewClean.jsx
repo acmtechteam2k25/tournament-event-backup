@@ -14,6 +14,8 @@ import "./TournamentBracketView.css";
 const TournamentBracketViewFinal = ({
   isEditable = false,
   tournamentId = null,
+  viewMode = 'full',
+  visibleRounds = null,
 }) => {
   const [matches, setMatches] = useState([]);
   const [selectedMatch, setSelectedMatch] = useState(null);
@@ -285,6 +287,14 @@ const TournamentBracketViewFinal = ({
   const getVisibleMatches = (allMatches) => {
     // Admin view: show everything
     if (isEditable) return allMatches;
+
+    // Apply round filtering if specified
+    if (viewMode === 'round' && visibleRounds && visibleRounds.length > 0) {
+      return allMatches.filter(match => {
+        // Filter matches based on their round number
+        return visibleRounds.includes(match.roundNumber);
+      });
+    }
 
     // Public view: show complete tournament tree (all rounds and matches)
     // This allows viewers to see the full bracket structure including TBD matches

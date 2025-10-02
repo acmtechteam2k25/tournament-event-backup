@@ -4,14 +4,10 @@ import Orb from './Orb';
 import PosterSection from './PosterSection';
 import CountSection from './CountSection';
 import AboutACM from './AboutACM';
-import ACMLogo from './ACMLogo';
 
 const Home = () => {
   return (
     <>
-      {/* ACM Logo */}
-      <ACMLogo />
-      
       {/* Hero Section */}
       <section className="relative h-screen flex items-center justify-center">
         {/* Background Orb */}
@@ -27,7 +23,7 @@ const Home = () => {
         {/* Hero Content over the orb */}
         <main className="relative z-10 text-center px-4 -translate-y-8">
           <h1 className="cal-sans-regular text-5xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-white mb-6 sm:mb-8 leading-tight">
-            Tournament
+            Tesseract
           </h1>
           <h4 className="cal-sans-regular text-3xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-white mb-6 sm:mb-8 leading-tight">
             Fight to the Top

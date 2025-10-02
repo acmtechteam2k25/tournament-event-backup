@@ -4,7 +4,7 @@ import acmLogo from '../assets/ACM.png';
 const ACMLogo = () => {
   return (
     <div className="fixed top-4 left-20 z-50 hidden md:block">
-      <div className="bg-black/20 backdrop-blur-md border border-white/10 rounded-full p-6 shadow-lg flex items-center justify-center">
+      <div className="bg-black/20 backdrop-blur-md  rounded-full shadow-lg flex items-center justify-center p-1 w-22 h-22">
         <img 
           src={acmLogo} 
           alt="ACM Logo" 
