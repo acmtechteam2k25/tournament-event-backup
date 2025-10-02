@@ -44,7 +44,7 @@ const BracketViewPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-black px-2 sm:px-4 py-6">
+    <div className="min-h-screen bg-black px-2 sm:px-4 pb-6">
       {/* Tournament Selection Buttons - positioned below navbar */}
       <div className="pt-20 pb-4 flex justify-center">
         <div className="flex gap-2">

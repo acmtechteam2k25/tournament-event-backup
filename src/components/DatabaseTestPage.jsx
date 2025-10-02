@@ -68,9 +68,9 @@ const DatabaseTestPage = () => {
   }
 
   return (
-    <div className="w-[90%] mx-auto p-6 bg-black/20 backdrop-blur-md border border-white/20 rounded-lg shadow-xl">
+    <div className="mx-auto p-6 bg-black/20 backdrop-blur-md">
       <h2 className="text-2xl font-bold mb-6 text-white bodoni-moda">Database Status Check</h2>
-      
+
       {error && (
         <div className="bg-red-500/10 border border-red-400/30 text-red-400 px-4 py-3 rounded mb-4 backdrop-blur-sm">
           <strong>Error:</strong> {error}
@@ -83,9 +83,9 @@ const DatabaseTestPage = () => {
           <p className="text-2xl font-bold text-amber-400">{tournaments.length}</p>
           {tournaments.length > 0 && (
             <div className="mt-2">
-              <p className="text-sm text-white/60 cal-sans-regular">Latest:</p>
-              <p className="text-sm font-medium text-amber-300 cal-sans-regular">{tournaments[0]?.name}</p>
-              <p className="text-xs text-white/50 cal-sans-regular">ID: {tournaments[0]?.id}</p>
+              <p className="text-sm text-white/60">Latest:</p>
+              <p className="text-sm font-medium text-amber-300">{tournaments[0]?.name}</p>
+              <p className="text-xs text-white/50">ID: {tournaments[0]?.id}</p>
             </div>
           )}
         </div>
@@ -104,7 +104,7 @@ const DatabaseTestPage = () => {
       <div className="mb-6 space-y-4">
         <div className="bg-amber-500/10 border border-amber-400/30 p-4 rounded-lg backdrop-blur-sm">
           <h4 className="font-medium text-amber-200 mb-2 bodoni-moda">Tournament 2k25 Configuration</h4>
-          <div className="text-sm text-amber-100 space-y-1 cal-sans-regular">
+          <div className="text-sm text-amber-100 space-y-1">
             <p><strong>ID:</strong> <code className="bg-black/30 px-1 rounded">{config.TOURNAMENT_ID}</code></p>
             <p><strong>Name:</strong> {config.TOURNAMENT_NAME}</p>
             <p><strong>Max Participants:</strong> {config.MAX_PARTICIPANTS}</p>
@@ -120,10 +120,10 @@ const DatabaseTestPage = () => {
           <h4 className="font-medium text-orange-200 mb-2 bodoni-moda">✅ Available Tournaments:</h4>
           {tournaments.map(tournament => (
             <div key={tournament.id} className="mb-2 p-2 bg-black/20 rounded border border-white/10">
-              <p className="font-medium text-white cal-sans-regular">{tournament.name}</p>
-              <p className="text-sm text-white/60 cal-sans-regular">ID: <code className="bg-black/30 px-1 rounded">{tournament.id}</code></p>
-              <p className="text-sm text-white/60 cal-sans-regular">
-                Max Participants: {tournament.max_participants} | 
+              <p className="font-medium text-white ">{tournament.name}</p>
+              <p className="text-sm text-white/60 ">ID: <code className="bg-black/30 px-1 rounded">{tournament.id}</code></p>
+              <p className="text-sm text-white/60 ">
+                Max Participants: {tournament.max_participants} |
                 Current Round: {tournament.current_round}
               </p>
             </div>

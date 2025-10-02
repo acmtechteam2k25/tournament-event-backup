@@ -49,45 +49,45 @@ const TournamentBracketViewFinal = ({
 
         // Convert database format to component format
         const formattedMatches = bracket.map((match) => {
-          
+
           return {
             id: match.match_id,
             tournamentRoundText: match.round_number.toString(),
             roundNumber: match.round_number,
             matchNumber: match.match_number,
             matchType: match.match_type,
-          resultText: match.status === 'completed' ? 
-            (match.match_type === 'bye' ? 'BYE' : 
-             match.match_type === 'walkover' ? 'W/O' : 'Winner') : '',
-          state: match.status === 'completed' ? 'SCORE_DONE' : 'NO_SHOW',
-          participants: [
-            match.player1 ? {
-              id: match.player1.id,
-              name: match.player1.name,
-              rollNumber: match.player1.roll_number,
-              resultText: match.winner_id === match.player1.id ? 
-                (match.match_type === 'bye' ? 'BYE' : 
-                 match.match_type === 'walkover' ? 'W/O' : 'WINNER') : null,
-              isWinner: match.winner_id === match.player1.id,
-              status: match.match_type === 'bye' ? 'BYE' : 
-                      match.match_type === 'walkover' ? 'W/O' : match.player1.status,
-              seed: match.player1.seed_number
-            } : { name: 'TBD', id: null },
-            match.player2 ? {
-              id: match.player2.id,
-              name: match.player2.name,
-              rollNumber: match.player2.roll_number,
-              resultText: match.winner_id === match.player2.id ? 
-                (match.match_type === 'bye' ? 'BYE' : 
-                 match.match_type === 'walkover' ? 'W/O' : 'WINNER') : null,
-              isWinner: match.winner_id === match.player2.id,
-              status: match.match_type === 'bye' ? 'BYE' : 
-                      match.match_type === 'walkover' ? 'W/O' : match.player2.status,
-              seed: match.player2.seed_number
-            } : { name: 'TBD', id: null }
-          ],
-          nextMatchId: match.next_match_id,
-          position: match.match_position,
+            resultText: match.status === 'completed' ?
+              (match.match_type === 'bye' ? 'BYE' :
+                match.match_type === 'walkover' ? 'W/O' : 'Winner') : '',
+            state: match.status === 'completed' ? 'SCORE_DONE' : 'NO_SHOW',
+            participants: [
+              match.player1 ? {
+                id: match.player1.id,
+                name: match.player1.name,
+                rollNumber: match.player1.roll_number,
+                resultText: match.winner_id === match.player1.id ?
+                  (match.match_type === 'bye' ? 'BYE' :
+                    match.match_type === 'walkover' ? 'W/O' : 'WINNER') : null,
+                isWinner: match.winner_id === match.player1.id,
+                status: match.match_type === 'bye' ? 'BYE' :
+                  match.match_type === 'walkover' ? 'W/O' : match.player1.status,
+                seed: match.player1.seed_number
+              } : { name: 'TBD', id: null },
+              match.player2 ? {
+                id: match.player2.id,
+                name: match.player2.name,
+                rollNumber: match.player2.roll_number,
+                resultText: match.winner_id === match.player2.id ?
+                  (match.match_type === 'bye' ? 'BYE' :
+                    match.match_type === 'walkover' ? 'W/O' : 'WINNER') : null,
+                isWinner: match.winner_id === match.player2.id,
+                status: match.match_type === 'bye' ? 'BYE' :
+                  match.match_type === 'walkover' ? 'W/O' : match.player2.status,
+                seed: match.player2.seed_number
+              } : { name: 'TBD', id: null }
+            ],
+            nextMatchId: match.next_match_id,
+            position: match.match_position,
           };
         });
         setMatches(formattedMatches);
@@ -144,7 +144,7 @@ const TournamentBracketViewFinal = ({
 
         if (winner) {
           setSelectedWinner(winner);
-          
+
           // Fetch actual scores from database
           try {
             const matchScores = await tournamentAPI.getMatchScores(match.id);
@@ -152,7 +152,7 @@ const TournamentBracketViewFinal = ({
               // Find winner and loser scores
               const winnerScore = matchScores.find(s => s.player_id === winner.id);
               const loserScore = matchScores.find(s => s.player_id === loser?.id);
-              
+
               setWinnerScore(winnerScore?.score?.toString() || '');
               setLoserScore(loserScore?.score?.toString() || '');
             } else {
@@ -165,7 +165,7 @@ const TournamentBracketViewFinal = ({
             setWinnerScore('');
             setLoserScore('');
           }
-          
+
           setIsWalkover(winner.status === 'walkover' || loser?.status === 'walkover');
           setIsBye(winner.status === 'BYE' || match.matchType === 'bye');
         } else {
@@ -213,8 +213,8 @@ const TournamentBracketViewFinal = ({
     if (selectedMatch.state === "SCORE_DONE") {
       const confirmed = window.confirm(
         `⚠️ This will update the winner for Round ${selectedMatch.roundNumber}, Match ${selectedMatch.matchNumber}.\n\n` +
-          `This may affect subsequent rounds if participants have already advanced.\n\n` +
-          `Are you sure you want to continue?`
+        `This may affect subsequent rounds if participants have already advanced.\n\n` +
+        `Are you sure you want to continue?`
       );
 
       if (!confirmed) {
@@ -225,11 +225,11 @@ const TournamentBracketViewFinal = ({
     // Check if this is a BYE match (opponent is TBD)
     const opponent = selectedMatch.participants.find(p => p.id !== selectedWinner.id);
     const isByeMatch = !opponent || opponent.name === "TBD" || !opponent.id;
-    
+
     // Validate scores based on match type
     const winnerNum = parseInt(winnerScore) || 0;
     let loserNum = parseInt(loserScore) || 0;
-    
+
     // For BYE matches, automatically set loser score to 0 (since there's no opponent)
     if (isByeMatch) {
       loserNum = 0;
@@ -519,11 +519,10 @@ const TournamentBracketViewFinal = ({
                   }
                 }}
                 disabled={isExporting}
-                className={`px-4 py-2 rounded-lg text-white shadow inline-flex items-center gap-2 ${
-                  isExporting
-                    ? "bg-emerald-400 cursor-wait"
-                    : "bg-emerald-600 hover:bg-emerald-700"
-                }`}
+                className={`px-4 py-2 rounded-lg text-yellow-950 font-bold shadow inline-flex items-center gap-2 ${isExporting
+                  ? "bg-[#f59e0b] cursor-wait"
+                  : "bg-[#f59e0b] hover:bg-[#d97706]"
+                  }`}
               >
                 {isExporting ? "Generating…" : "Export Excel"}
               </button>
@@ -539,7 +538,7 @@ const TournamentBracketViewFinal = ({
                     alert(`Failed to load scores: ${e.message || e}`);
                   }
                 }}
-                className="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white shadow"
+                className="px-4 py-2 rounded-lg bg-[#ff6600] hover:bg-[#cc5200] text-orange-200 font-bold shadow"
               >
                 Cumulative Scores
               </button>
@@ -597,16 +596,16 @@ const TournamentBracketViewFinal = ({
                               {match.tournamentRoundText === "6"
                                 ? "Finals"
                                 : match.tournamentRoundText === "5"
-                                ? "Semi Finals"
-                                : match.tournamentRoundText === "4"
-                                ? "Quarter Finals"
-                                : match.tournamentRoundText === "3"
-                                ? "Knockout 3"
-                                : match.tournamentRoundText === "2"
-                                ? "Knockout 2"
-                                : match.tournamentRoundText === "1"
-                                ? "Knockout 1"
-                                : `Round ${match.tournamentRoundText}`}
+                                  ? "Semi Finals"
+                                  : match.tournamentRoundText === "4"
+                                    ? "Quarter Finals"
+                                    : match.tournamentRoundText === "3"
+                                      ? "Knockout 3"
+                                      : match.tournamentRoundText === "2"
+                                        ? "Knockout 2"
+                                        : match.tournamentRoundText === "1"
+                                          ? "Knockout 1"
+                                          : `Round ${match.tournamentRoundText}`}
                             </h3>
                           </div>
                         </foreignObject>
@@ -732,11 +731,10 @@ const TournamentBracketViewFinal = ({
                       key={participant.id}
                       onClick={() => setSelectedWinner(participant)}
                       disabled={updating}
-                      className={`w-full p-4 text-left border rounded-lg backdrop-blur-xl transition-all duration-200 ${
-                        selectedWinner?.id === participant.id
-                          ? "border-orange-400/40 bg-orange-500/10"
-                          : "border-white/10 bg-white/5 hover:border-orange-400/20 hover:bg-orange-500/5"
-                      } disabled:opacity-50 disabled:cursor-not-allowed`}
+                      className={`w-full p-4 text-left border rounded-lg backdrop-blur-xl transition-all duration-200 ${selectedWinner?.id === participant.id
+                        ? "border-orange-400/40 bg-orange-500/10"
+                        : "border-white/10 bg-white/5 hover:border-orange-400/20 hover:bg-orange-500/5"
+                        } disabled:opacity-50 disabled:cursor-not-allowed`}
                     >
                       <div className="flex items-center justify-between">
                         <div className="flex items-center">
@@ -755,11 +753,10 @@ const TournamentBracketViewFinal = ({
                           </div>
                         </div>
                         <div
-                          className={`transition-colors ${
-                            selectedWinner?.id === participant.id
-                              ? "text-orange-400"
-                              : "text-orange-300"
-                          }`}
+                          className={`transition-colors ${selectedWinner?.id === participant.id
+                            ? "text-orange-400"
+                            : "text-orange-300"
+                            }`}
                         >
                           {selectedWinner?.id === participant.id ? "✓" : "👑"}
                         </div>
@@ -784,7 +781,7 @@ const TournamentBracketViewFinal = ({
                   Walkover (opponent unable to compete)
                 </span>
               </label>
-              
+
               <label className="flex items-center p-3 bg-white/5 backdrop-blur-xl rounded-lg border border-white/10">
                 <input
                   type="checkbox"
@@ -814,7 +811,7 @@ const TournamentBracketViewFinal = ({
                     (p) => p.id !== selectedWinner.id
                   );
                   const isByeMatch = !opponent || opponent.name === "TBD" || !opponent.id;
-                  
+
                   if (isByeMatch) {
                     // Only show winner's score for BYE matches
                     return (
@@ -898,8 +895,8 @@ const TournamentBracketViewFinal = ({
                   {updating
                     ? "Updating..."
                     : selectedMatch.state === "SCORE_DONE"
-                    ? "Update Winner"
-                    : "Confirm Winner"}
+                      ? "Update Winner"
+                      : "Confirm Winner"}
                 </button>
               )}
             </div>

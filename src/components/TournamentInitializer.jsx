@@ -42,7 +42,7 @@ const TournamentInitializer = ({ tournamentId: propTournamentId, onTournamentCre
       try {
         const csv = e.target.result;
         const lines = csv.split('\n').filter(line => line.trim());
-        
+
         if (lines.length < 65) {
           setError('CSV must contain exactly 64 participants');
           return;
@@ -132,16 +132,16 @@ const TournamentInitializer = ({ tournamentId: propTournamentId, onTournamentCre
       // Create 32 matches for Round 1 with proper tournament bracket seeding
       const matchesData = [];
       const bracketPositionsData = [];
-      
+
       for (let i = 0; i < 32; i++) {
         // Get seeds from bracket seeding order
         const seed1 = BRACKET_SEEDING[i * 2];
         const seed2 = BRACKET_SEEDING[i * 2 + 1];
-        
+
         // Find participants with these seeds
         const player1 = sortedParticipants.find(p => p.seed_number === seed1);
         const player2 = sortedParticipants.find(p => p.seed_number === seed2);
-        
+
         matchesData.push({
           tournament_id: tournamentId,
           round_id: round1.id,
@@ -252,7 +252,7 @@ const TournamentInitializer = ({ tournamentId: propTournamentId, onTournamentCre
       });
 
       if (error) throw error;
-      
+
       // Reload participants from database
       await loadParticipants();
 
@@ -274,13 +274,13 @@ const TournamentInitializer = ({ tournamentId: propTournamentId, onTournamentCre
   };
 
   return (
-    <div className="w-[90%] mx-auto p-6 bg-black/20 backdrop-blur-md border border-white/20 rounded-lg shadow-xl">
+    <div className="mx-auto p-6 bg-black/20 backdrop-blur-md">
       <h2 className="text-2xl font-bold mb-6 text-white bodoni-moda">Tournament 2k25 Setup</h2>
-      
+
       {/* Info Banner */}
       <div className="bg-amber-500/10 border border-amber-400/30 text-amber-200 px-4 py-3 rounded mb-6 backdrop-blur-sm">
         <h3 className="font-medium mb-2 bodoni-moda">Tournament Requirements</h3>
-        <ul className="text-sm space-y-1 cal-sans-regular">
+        <ul className="text-sm space-y-1">
           <li>• Exactly <strong>64 participants</strong> required</li>
           <li>• CSV format: <code className="bg-black/30 px-1 rounded">name,roll_number,email</code></li>
           <li>• Seeding calculated automatically using tournament bracket order</li>
@@ -305,7 +305,7 @@ const TournamentInitializer = ({ tournamentId: propTournamentId, onTournamentCre
             className="hidden"
           />
         </label>
-        
+
         <button
           onClick={clearAll}
           className="bg-white/10 hover:bg-white/20 border border-white/30 text-white px-4 py-2 rounded backdrop-blur-sm transition-all duration-200 cal-sans-regular"
@@ -319,7 +319,7 @@ const TournamentInitializer = ({ tournamentId: propTournamentId, onTournamentCre
         <h3 className="text-lg font-semibold mb-4 text-white bodoni-moda">
           Participants ({participants.length}/64)
         </h3>
-        
+
         {participants.length === 0 ? (
           <p className="text-white/60 text-center py-8 bg-white/5 backdrop-blur-sm rounded-lg border border-white/10 cal-sans-regular">
             No participants added yet. Please upload a CSV file with 64 participants.
@@ -339,15 +339,15 @@ const TournamentInitializer = ({ tournamentId: propTournamentId, onTournamentCre
                 {participants
                   .sort((a, b) => a.seed_number - b.seed_number)
                   .map((participant, index) => (
-                  <tr key={index} className="border-t border-white/10 hover:bg-white/5">
-                    <td className="px-4 py-2 text-sm font-medium text-amber-400">
-                      {participant.seed_number}
-                    </td>
-                    <td className="px-4 py-2 text-sm text-white">{participant.name}</td>
-                    <td className="px-4 py-2 text-sm text-white/80">{participant.roll_number}</td>
-                    <td className="px-4 py-2 text-sm text-white/80">{participant.email}</td>
-                  </tr>
-                ))}
+                    <tr key={index} className="border-t border-white/10 hover:bg-white/5">
+                      <td className="px-4 py-2 text-sm font-medium text-amber-400">
+                        {participant.seed_number}
+                      </td>
+                      <td className="px-4 py-2 text-sm text-white">{participant.name}</td>
+                      <td className="px-4 py-2 text-sm text-white/80">{participant.roll_number}</td>
+                      <td className="px-4 py-2 text-sm text-white/80">{participant.email}</td>
+                    </tr>
+                  ))}
               </tbody>
             </table>
           </div>
@@ -359,19 +359,17 @@ const TournamentInitializer = ({ tournamentId: propTournamentId, onTournamentCre
         <button
           onClick={initializeTournament}
           disabled={participants.length !== 64 || loading}
-          className={`px-8 py-3 rounded-lg font-semibold transition-all duration-200 ${
-            participants.length === 64 && !loading
-              ? 'bg-gradient-to-r from-amber-400 to-orange-500 hover:from-amber-500 hover:to-orange-600 text-black transform hover:scale-105 shadow-lg hover:shadow-amber-400/20'
-              : 'bg-white/10 text-white/50 cursor-not-allowed border border-white/20'
-          }`}
+          className={`px-8 py-3 rounded-lg font-semibold transition-all duration-200 ${participants.length === 64 && !loading
+            ? 'bg-gradient-to-r from-amber-400 to-orange-500 hover:from-amber-500 hover:to-orange-600 text-black transform hover:scale-105 shadow-lg hover:shadow-amber-400/20'
+            : 'bg-white/10 text-white/50 cursor-not-allowed border border-white/20'
+            }`}
         >
           {loading ? 'Initializing...' : 'Initialize Tournament 2k25'}
         </button>
-        
+
         <div className="mt-4">
-          <p className={`text-sm font-medium ${
-            participants.length === 64 ? 'text-amber-400' : 'text-white/60'
-          }`}>
+          <p className={`text-sm font-medium ${participants.length === 64 ? 'text-amber-400' : 'text-white/60'
+            }`}>
             Current: {participants.length}/64 participants
           </p>
           {participants.length === 64 && (

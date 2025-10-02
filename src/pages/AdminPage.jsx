@@ -28,8 +28,7 @@ const AdminPage = () => {
     setActiveTab(tab);
     if (year) {
       setTournamentKey(year);
-    }
-    setIsMenuOpen(false); // Close menu after selection
+    } // Close menu after selection
   };
 
   // Close menu when clicking outside
@@ -58,9 +57,9 @@ const AdminPage = () => {
   }
 
   return (
-    <div className="admin-page pt-28 bg-black min-h-screen">
+    <div className="admin-page pt-10 bg-black min-h-screen">
       <div className="admin-header bg-black border-b border-white/20 relative" ref={menuRef}>
-        <div className="flex items-center justify-between w-full px-6 py-4">
+        <div className="flex items-center justify-between w-full sm:px-6">
           {/* Hamburger Menu Button */}
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -78,48 +77,45 @@ const AdminPage = () => {
           </h1>
 
           {/* Logout Button */}
-          <button 
-            onClick={handleLogout} 
-            className="bg-orange-500/20 hover:bg-orange-500/30 border border-orange-400/30 text-orange-200 hover:text-orange-100 px-4 py-2 rounded backdrop-blur-sm transition-all duration-200 text-md"
+          <button
+            onClick={handleLogout}
+            className="bg-orange-500/20 hover:bg-orange-500/30 border border-orange-400/30 text-orange-200 hover:text-orange-100 px-2 py-1 rounded backdrop-blur-sm transition-all duration-200 text-md"
           >
             Logout
           </button>
         </div>
-        
+
         {/* Minimal Dropdown Menu */}
         {isMenuOpen && (
-          <div className="absolute top-full left-6 w-80 bg-black/20 backdrop-blur-md border border-white/20 rounded-lg shadow-xl z-50 mt-2">
+          <div className="absolute top-3/4 left-4 sm:left-6 w-72 sm:w-80 bg-black/20 backdrop-blur-lg border border-white/20 rounded-lg shadow-xl z-50 mt-2">
             <div className="p-4">
               {/* Navigation Section */}
               <div className="mb-4">
                 <div className="space-y-2">
                   <button
                     onClick={() => handleMenuItemClick('bracket')}
-                    className={`w-full text-left px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
-                      activeTab === 'bracket'
-                        ? 'bg-white/20 text-white border border-white/30'
-                        : 'text-white/80 hover:bg-white/10 hover:text-white'
-                    }`}
+                    className={`w-full text-left px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 ${activeTab === 'bracket'
+                      ? 'bg-white/20 text-white border border-white/30'
+                      : 'text-white/80 hover:bg-white/10 hover:text-white'
+                      }`}
                   >
                     Bracket View
                   </button>
                   <button
                     onClick={() => handleMenuItemClick('setup')}
-                    className={`w-full text-left px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
-                      activeTab === 'setup'
-                        ? 'bg-white/20 text-white border border-white/30'
-                        : 'text-white/80 hover:bg-white/10 hover:text-white'
-                    }`}
+                    className={`w-full text-left px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 ${activeTab === 'setup'
+                      ? 'bg-white/20 text-white border border-white/30'
+                      : 'text-white/80 hover:bg-white/10 hover:text-white'
+                      }`}
                   >
                     Tournament Setup
                   </button>
                   <button
                     onClick={() => handleMenuItemClick('database')}
-                    className={`w-full text-left px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
-                      activeTab === 'database'
-                        ? 'bg-white/20 text-white border border-white/30'
-                        : 'text-white/80 hover:bg-white/10 hover:text-white'
-                    }`}
+                    className={`w-full text-left px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 ${activeTab === 'database'
+                      ? 'bg-white/20 text-white border border-white/30'
+                      : 'text-white/80 hover:bg-white/10 hover:text-white'
+                      }`}
                   >
                     Database Status
                   </button>
@@ -128,28 +124,19 @@ const AdminPage = () => {
 
               {/* Year Toggle Switch */}
               <div className="border-t border-white/20 pt-4">
-                <div className="relative bg-white/10 backdrop-blur-sm rounded-full p-1">
-                  <div className={`absolute top-1 w-1/2 h-8 bg-white/30 backdrop-blur-md rounded-full transition-transform duration-300 ${
-                    tournamentKey === 'thirdYear' ? 'translate-x-full' : 'translate-x-0'
-                  }`}></div>
+                <div className="relative border-2 border-white/20 rounded-xl">
+                  <div className={`absolute w-1/2 h-full bg-white/30 backdrop-blur-md rounded-md transition-transform duration-300 ${tournamentKey === 'thirdYear' ? 'translate-x-full' : 'translate-x-0'
+                    }`}></div>
                   <div className="relative flex">
                     <button
                       onClick={() => handleMenuItemClick(activeTab, 'secondYear')}
-                      className={`flex-1 px-4 py-2 text-sm font-medium rounded-full transition-colors duration-300 ${
-                        tournamentKey === 'secondYear'
-                          ? 'text-gray-800'
-                          : 'text-white/80 hover:text-white'
-                      }`}
+                      className='flex-1 px-4 py-2 text-sm font-medium rounded-full transition-colors duration-300 text-white/80'
                     >
                       2nd Year
                     </button>
                     <button
                       onClick={() => handleMenuItemClick(activeTab, 'thirdYear')}
-                      className={`flex-1 px-4 py-2 text-sm font-medium rounded-full transition-colors duration-300 ${
-                        tournamentKey === 'thirdYear'
-                          ? 'text-gray-800'
-                          : 'text-white/80 hover:text-white'
-                      }`}
+                      className='flex-1 px-4 py-2 text-sm font-medium rounded-full transition-colors duration-300 text-white/80'
                     >
                       3rd Year
                     </button>
@@ -160,14 +147,14 @@ const AdminPage = () => {
           </div>
         )}
       </div>
-      
+
       <div className="admin-content">
         {activeTab === 'bracket' && (
           <TournamentBracketViewClean isEditable={true} tournamentId={tournamentId} />
         )}
-        
+
         {activeTab === 'setup' && (
-          <TournamentInitializer 
+          <TournamentInitializer
             tournamentId={tournamentId}
             onTournamentCreated={(tournament) => {
               // Tournament ID is fixed, switch to bracket tab
@@ -175,12 +162,12 @@ const AdminPage = () => {
             }}
           />
         )}
-        
+
         {activeTab === 'database' && (
           <DatabaseTestPage />
         )}
       </div>
-    </div>
+    </div >
   );
 };
 
