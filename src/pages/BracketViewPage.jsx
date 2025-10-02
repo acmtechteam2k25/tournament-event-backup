@@ -44,7 +44,7 @@ const BracketViewPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-black px-4 py-6">
+    <div className="min-h-screen bg-black px-2 sm:px-4 py-6">
       {/* Tournament Selection Buttons - positioned below navbar */}
       <div className="pt-20 pb-4 flex justify-center">
         <div className="flex gap-2">
@@ -103,8 +103,8 @@ const BracketViewPage = () => {
       </div>
       
       {/* Bracket Component - Read-only bracket viewer */}
-      <div className="max-w-[90%] mx-auto bg-[#140f0b] rounded-lg border border-white/10 overflow-hidden shadow-xl">
-        <div className="bracket-component p-4">
+      <div className="max-w-[95%] sm:max-w-[90%] mx-auto bg-[#140f0b] rounded-lg border border-white/10 overflow-hidden shadow-xl">
+        <div className="bracket-component">
           <TournamentBracketViewClean 
             isEditable={false} 
             tournamentId={tournamentId}
