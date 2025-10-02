@@ -275,12 +275,12 @@ const TournamentInitializer = ({ tournamentId: propTournamentId, onTournamentCre
 
   return (
     <div className="w-[90%] mx-auto p-6 bg-black/20 backdrop-blur-md border border-white/20 rounded-lg shadow-xl">
-      <h2 className="text-2xl font-bold mb-6 text-white">Tournament 2k25 Setup</h2>
+      <h2 className="text-2xl font-bold mb-6 text-white bodoni-moda">Tournament 2k25 Setup</h2>
       
       {/* Info Banner */}
       <div className="bg-amber-500/10 border border-amber-400/30 text-amber-200 px-4 py-3 rounded mb-6 backdrop-blur-sm">
-        <h3 className="font-medium mb-2">Tournament Requirements</h3>
-        <ul className="text-sm space-y-1">
+        <h3 className="font-medium mb-2 bodoni-moda">Tournament Requirements</h3>
+        <ul className="text-sm space-y-1 cal-sans-regular">
           <li>• Exactly <strong>64 participants</strong> required</li>
           <li>• CSV format: <code className="bg-black/30 px-1 rounded">name,roll_number,email</code></li>
           <li>• Seeding calculated automatically using tournament bracket order</li>
@@ -296,7 +296,7 @@ const TournamentInitializer = ({ tournamentId: propTournamentId, onTournamentCre
 
       {/* Action Buttons */}
       <div className="mb-6 flex flex-wrap gap-4">
-        <label className="bg-gradient-to-r from-amber-400 to-orange-500 hover:from-amber-500 hover:to-orange-600 text-black font-semibold px-4 py-2 rounded cursor-pointer transition-all duration-200 transform hover:scale-[1.02]">
+        <label className="bg-gradient-to-r from-amber-400 to-orange-500 hover:from-amber-500 hover:to-orange-600 text-black font-semibold px-4 py-2 rounded cursor-pointer transition-all duration-200 transform hover:scale-[1.02] cal-sans-regular">
           Import 64 Participants from CSV
           <input
             type="file"
@@ -308,7 +308,7 @@ const TournamentInitializer = ({ tournamentId: propTournamentId, onTournamentCre
         
         <button
           onClick={clearAll}
-          className="bg-white/10 hover:bg-white/20 border border-white/30 text-white px-4 py-2 rounded backdrop-blur-sm transition-all duration-200"
+          className="bg-white/10 hover:bg-white/20 border border-white/30 text-white px-4 py-2 rounded backdrop-blur-sm transition-all duration-200 cal-sans-regular"
         >
           Clear All
         </button>
@@ -316,12 +316,12 @@ const TournamentInitializer = ({ tournamentId: propTournamentId, onTournamentCre
 
       {/* Participants Table */}
       <div className="mb-6">
-        <h3 className="text-lg font-semibold mb-4 text-white">
+        <h3 className="text-lg font-semibold mb-4 text-white bodoni-moda">
           Participants ({participants.length}/64)
         </h3>
         
         {participants.length === 0 ? (
-          <p className="text-white/60 text-center py-8 bg-white/5 backdrop-blur-sm rounded-lg border border-white/10">
+          <p className="text-white/60 text-center py-8 bg-white/5 backdrop-blur-sm rounded-lg border border-white/10 cal-sans-regular">
             No participants added yet. Please upload a CSV file with 64 participants.
           </p>
         ) : (
