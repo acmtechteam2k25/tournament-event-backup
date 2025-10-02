@@ -679,19 +679,19 @@ const TournamentBracketViewFinal = ({
 
       {/* Enhanced Winner selection modal with score inputs - show in editable mode for all matches */}
       {isEditable && selectedMatch && (
-        <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-xl shadow-2xl p-6 w-full max-w-lg mx-4 transform transition-all">
+        <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 p-4">
+          <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-xl shadow-2xl p-6 w-full max-w-lg mx-4 transform transition-all">
             <div className="text-center mb-6">
-              <h3 className="text-xl font-bold text-gray-800 mb-2">
+              <h3 className="text-xl font-bold text-white mb-2">
                 {selectedMatch.state === "SCORE_DONE"
                   ? "🔄 Edit Winner"
                   : "🏆 Set Winner"}
               </h3>
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-white/70">
                 Match {selectedMatch.matchNumber} - Round{" "}
                 {selectedMatch.roundNumber}
                 {selectedMatch.state === "SCORE_DONE" && (
-                  <span className="block text-orange-600 font-medium mt-1">
+                  <span className="block text-orange-400 font-medium mt-1">
                     ⚠️ Editing completed match
                   </span>
                 )}
@@ -699,7 +699,7 @@ const TournamentBracketViewFinal = ({
             </div>
 
             <div className="mb-6">
-              <p className="text-sm font-medium text-gray-700 mb-3">
+              <p className="text-sm font-medium text-white mb-3">
                 Select the winner:
               </p>
               <div className="space-y-3">
@@ -710,24 +710,24 @@ const TournamentBracketViewFinal = ({
                       key={participant.id}
                       onClick={() => setSelectedWinner(participant)}
                       disabled={updating}
-                      className={`w-full p-4 text-left border-2 rounded-lg transition-all duration-200 ${
+                      className={`w-full p-4 text-left border rounded-lg backdrop-blur-xl transition-all duration-200 ${
                         selectedWinner?.id === participant.id
-                          ? "border-blue-500 bg-blue-50"
-                          : "border-gray-200 hover:border-blue-300 hover:bg-blue-50"
+                          ? "border-orange-400/40 bg-orange-500/10"
+                          : "border-white/10 bg-white/5 hover:border-orange-400/20 hover:bg-orange-500/5"
                       } disabled:opacity-50 disabled:cursor-not-allowed`}
                     >
                       <div className="flex items-center justify-between">
                         <div className="flex items-center">
                           {participant.seed && (
-                            <span className="inline-flex items-center justify-center w-7 h-7 bg-blue-100 text-blue-800 text-sm font-bold rounded-full mr-3">
+                            <span className="inline-flex items-center justify-center w-7 h-7 bg-orange-500/15 backdrop-blur-md border border-orange-400/30 text-orange-200 text-sm font-bold rounded-full mr-3">
                               {participant.seed}
                             </span>
                           )}
                           <div>
-                            <span className="font-semibold text-gray-800 block">
+                            <span className="font-semibold text-white block">
                               {participant.name}
                             </span>
-                            <span className="text-sm text-gray-600">
+                            <span className="text-sm text-white/70">
                               {participant.rollNumber}
                             </span>
                           </div>
@@ -735,8 +735,8 @@ const TournamentBracketViewFinal = ({
                         <div
                           className={`transition-colors ${
                             selectedWinner?.id === participant.id
-                              ? "text-blue-600"
-                              : "text-blue-500"
+                              ? "text-orange-400"
+                              : "text-orange-300"
                           }`}
                         >
                           {selectedWinner?.id === participant.id ? "✓" : "👑"}
@@ -748,7 +748,7 @@ const TournamentBracketViewFinal = ({
             </div>
 
             <div className="mb-6 space-y-3">
-              <label className="flex items-center p-3 bg-gray-50 rounded-lg">
+              <label className="flex items-center p-3 bg-white/5 backdrop-blur-xl rounded-lg border border-white/10">
                 <input
                   type="checkbox"
                   checked={isWalkover}
@@ -756,14 +756,14 @@ const TournamentBracketViewFinal = ({
                     setIsWalkover(e.target.checked);
                     if (e.target.checked) setIsBye(false); // Can't be both walkover and bye
                   }}
-                  className="mr-3 w-4 h-4 text-orange-600 border-gray-300 rounded focus:ring-orange-500"
+                  className="mr-3 w-4 h-4 text-orange-500 border-white/30 rounded focus:ring-orange-500"
                 />
-                <span className="text-sm font-medium text-gray-700">
+                <span className="text-sm font-medium text-white">
                   Walkover (opponent unable to compete)
                 </span>
               </label>
               
-              <label className="flex items-center p-3 bg-gray-50 rounded-lg">
+              <label className="flex items-center p-3 bg-white/5 backdrop-blur-xl rounded-lg border border-white/10">
                 <input
                   type="checkbox"
                   checked={isBye}
@@ -771,18 +771,18 @@ const TournamentBracketViewFinal = ({
                     setIsBye(e.target.checked);
                     if (e.target.checked) setIsWalkover(false); // Can't be both walkover and bye
                   }}
-                  className="mr-3 w-4 h-4 text-gray-600 border-gray-300 rounded focus:ring-gray-500"
+                  className="mr-3 w-4 h-4 text-orange-500 border-white/30 rounded focus:ring-orange-500"
                 />
-                <span className="text-sm font-medium text-gray-700">BYE (opponent absent)</span>
+                <span className="text-sm font-medium text-white">BYE (opponent absent)</span>
               </label>
             </div>
 
             {selectedWinner && (
               <div className="mb-6">
-                <h4 className="text-sm font-medium text-gray-700 mb-3">
+                <h4 className="text-sm font-medium text-white mb-3">
                   Match Scores:
                   {(isWalkover || isBye) && (
-                    <span className="text-xs text-gray-500 ml-2">
+                    <span className="text-xs text-white/60 ml-2">
                       (Enter attempted score if applicable)
                     </span>
                   )}
@@ -798,7 +798,7 @@ const TournamentBracketViewFinal = ({
                     return (
                       <div className="grid grid-cols-1 gap-4">
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                          <label className="block text-sm font-medium text-white mb-2">
                             {selectedWinner.name} (Winner - BYE)
                           </label>
                           <input
@@ -806,7 +806,7 @@ const TournamentBracketViewFinal = ({
                             value={winnerScore}
                             onChange={(e) => setWinnerScore(e.target.value)}
                             placeholder="0"
-                            className="w-full px-4 py-2 text-black border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                            className="w-full px-4 py-2 text-white bg-white/5 backdrop-blur-xl border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors placeholder-white/40"
                           />
                         </div>
                       </div>
@@ -816,7 +816,7 @@ const TournamentBracketViewFinal = ({
                     return (
                       <div className="grid grid-cols-2 gap-4">
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                          <label className="block text-sm font-medium text-white mb-2">
                             {selectedWinner.name} (Winner)
                           </label>
                           <input
@@ -824,11 +824,11 @@ const TournamentBracketViewFinal = ({
                             value={winnerScore}
                             onChange={(e) => setWinnerScore(e.target.value)}
                             placeholder="0"
-                            className="w-full px-4 py-2 text-black border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                            className="w-full px-4 py-2 text-white bg-white/5 backdrop-blur-xl border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors placeholder-white/40"
                           />
                         </div>
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                          <label className="block text-sm font-medium text-white mb-2">
                             {opponent.name}
                           </label>
                           <input
@@ -836,7 +836,7 @@ const TournamentBracketViewFinal = ({
                             value={loserScore}
                             onChange={(e) => setLoserScore(e.target.value)}
                             placeholder="0"
-                            className="w-full px-4 py-2 text-black border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                            className="w-full px-4 py-2 text-white bg-white/5 backdrop-blur-xl border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors placeholder-white/40"
                           />
                         </div>
                       </div>
@@ -844,7 +844,7 @@ const TournamentBracketViewFinal = ({
                   }
                 })()}
                 {selectedMatch.state === "SCORE_DONE" && (
-                  <p className="text-xs text-orange-600 mt-2">
+                  <p className="text-xs text-orange-400 mt-2">
                     💡 Editing completed match: Update as
                     needed.
                   </p>
@@ -863,7 +863,7 @@ const TournamentBracketViewFinal = ({
                   setIsBye(false);
                 }}
                 disabled={updating}
-                className="px-6 py-2 text-gray-600 bg-gray-100 border border-gray-300 rounded-lg hover:bg-gray-200 disabled:opacity-50 transition-colors font-medium"
+                className="px-6 py-2 text-white/70 bg-white/5 backdrop-blur-xl border border-white/10 rounded-lg hover:bg-white/10 hover:text-white disabled:opacity-50 transition-colors font-medium"
               >
                 Cancel
               </button>
@@ -871,7 +871,7 @@ const TournamentBracketViewFinal = ({
                 <button
                   onClick={handleWinnerSelect}
                   disabled={updating}
-                  className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg disabled:opacity-50 transition-colors font-medium"
+                  className="px-6 py-2 bg-orange-500/15 hover:bg-orange-500/25 border border-orange-400/30 text-orange-100 backdrop-blur-xl rounded-lg disabled:opacity-50 transition-colors font-medium"
                 >
                   {updating
                     ? "Updating..."
@@ -884,8 +884,8 @@ const TournamentBracketViewFinal = ({
 
             {updating && (
               <div className="mt-4 text-center">
-                <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-500 mx-auto"></div>
-                <p className="text-sm text-gray-600 mt-2">Updating match...</p>
+                <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-orange-500 mx-auto"></div>
+                <p className="text-sm text-white/70 mt-2">Updating match...</p>
               </div>
             )}
           </div>
