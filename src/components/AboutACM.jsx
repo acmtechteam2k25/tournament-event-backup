@@ -2,10 +2,10 @@ import React from 'react';
 
 const AboutACM = () => {
   return (
-    <section className="py-16 px-4">
+    <section className="py-16 px-6 sm:px-8 md:px-4">
       <div className="max-w-4xl mx-auto">
-        <div className="text-center mb-12">
-          <h2 className="bodoni-moda text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-6">
+        <div className="text-center mb-8 sm:mb-12">
+          <h2 className="bodoni-moda text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 sm:mb-6">
             About ACM VNR VJIET
           </h2>
           <div className="relative w-20 h-1 mx-auto mb-8">
@@ -18,9 +18,9 @@ const AboutACM = () => {
           </div>
         </div>
 
-        <div className="max-w-3xl mx-auto text-center">
+        <div className="max-w-3xl mx-auto text-center px-2 sm:px-4">
           <div className="prose prose-lg prose-invert mx-auto">
-            <p className="text-white/80 cal-sans-regular text-lg leading-relaxed mb-6 text-justify">
+            <p className="text-white/80 cal-sans-regular text-sm sm:text-base md:text-lg leading-relaxed mb-4 sm:mb-6 text-justify">
               ACM is an international student chapter that brings together technology geeks, computer educators, 
               working professionals, among others and gives them a platform to share all things related to the 
               world of rapidly evolving technology. ACM has always been at the forefront of raising awareness 
@@ -30,7 +30,7 @@ const AboutACM = () => {
               professional careers.
             </p>
             
-            <p className="text-white/80 cal-sans-regular text-lg leading-relaxed text-justify">
+            <p className="text-white/80 cal-sans-regular text-sm sm:text-base md:text-lg leading-relaxed text-justify">
               With more than 100,000 members worldwide, the fraternity only continues to grow stronger in every 
               passing year. A chapter with such illustrious history, finds its place with a great prominence in 
               VNRVJIET. The team running the chapter constantly strives to bring about awareness and widen the 

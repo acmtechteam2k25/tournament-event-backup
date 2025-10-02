@@ -274,29 +274,29 @@ const TournamentInitializer = ({ tournamentId: propTournamentId, onTournamentCre
   };
 
   return (
-    <div className="tournament-initializer p-6 bg-white rounded-lg shadow">
-      <h2 className="text-2xl font-bold mb-6 text-gray-800">Tournament 2k25 Setup</h2>
+    <div className="w-[90%] mx-auto p-6 bg-black/20 backdrop-blur-md border border-white/20 rounded-lg shadow-xl">
+      <h2 className="text-2xl font-bold mb-6 text-white">Tournament 2k25 Setup</h2>
       
       {/* Info Banner */}
-      <div className="bg-blue-100 border border-blue-400 text-blue-800 px-4 py-3 rounded mb-6">
+      <div className="bg-amber-500/10 border border-amber-400/30 text-amber-200 px-4 py-3 rounded mb-6 backdrop-blur-sm">
         <h3 className="font-medium mb-2">Tournament Requirements</h3>
         <ul className="text-sm space-y-1">
           <li>• Exactly <strong>64 participants</strong> required</li>
-          <li>• CSV format: <code>name,roll_number,email</code></li>
+          <li>• CSV format: <code className="bg-black/30 px-1 rounded">name,roll_number,email</code></li>
           <li>• Seeding calculated automatically using tournament bracket order</li>
           <li>• Creates 32 Round 1 matches automatically</li>
         </ul>
       </div>
 
       {error && (
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+        <div className="bg-red-500/10 border border-red-400/30 text-red-400 px-4 py-3 rounded mb-4 backdrop-blur-sm">
           {error}
         </div>
       )}
 
       {/* Action Buttons */}
       <div className="mb-6 flex flex-wrap gap-4">
-        <label className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded cursor-pointer transition-colors duration-200">
+        <label className="bg-gradient-to-r from-amber-400 to-orange-500 hover:from-amber-500 hover:to-orange-600 text-black font-semibold px-4 py-2 rounded cursor-pointer transition-all duration-200 transform hover:scale-[1.02]">
           Import 64 Participants from CSV
           <input
             type="file"
@@ -308,7 +308,7 @@ const TournamentInitializer = ({ tournamentId: propTournamentId, onTournamentCre
         
         <button
           onClick={clearAll}
-          className="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded transition-colors duration-200"
+          className="bg-white/10 hover:bg-white/20 border border-white/30 text-white px-4 py-2 rounded backdrop-blur-sm transition-all duration-200"
         >
           Clear All
         </button>
@@ -316,36 +316,36 @@ const TournamentInitializer = ({ tournamentId: propTournamentId, onTournamentCre
 
       {/* Participants Table */}
       <div className="mb-6">
-        <h3 className="text-lg font-semibold mb-4 text-gray-700">
+        <h3 className="text-lg font-semibold mb-4 text-white">
           Participants ({participants.length}/64)
         </h3>
         
         {participants.length === 0 ? (
-          <p className="text-gray-500 text-center py-8 bg-gray-50 rounded-lg">
+          <p className="text-white/60 text-center py-8 bg-white/5 backdrop-blur-sm rounded-lg border border-white/10">
             No participants added yet. Please upload a CSV file with 64 participants.
           </p>
         ) : (
-          <div className="max-h-96 overflow-y-auto border border-gray-200 rounded-lg">
+          <div className="max-h-96 overflow-y-auto border border-white/20 rounded-lg bg-black/30 backdrop-blur-sm">
             <table className="w-full">
-              <thead className="bg-gray-50 sticky top-0">
+              <thead className="bg-white/10 backdrop-blur-sm sticky top-0">
                 <tr>
-                  <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Seed</th>
-                  <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Name</th>
-                  <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Roll Number</th>
-                  <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Email</th>
+                  <th className="px-4 py-2 text-left text-sm font-medium text-amber-200">Seed</th>
+                  <th className="px-4 py-2 text-left text-sm font-medium text-amber-200">Name</th>
+                  <th className="px-4 py-2 text-left text-sm font-medium text-amber-200">Roll Number</th>
+                  <th className="px-4 py-2 text-left text-sm font-medium text-amber-200">Email</th>
                 </tr>
               </thead>
               <tbody>
                 {participants
                   .sort((a, b) => a.seed_number - b.seed_number)
                   .map((participant, index) => (
-                  <tr key={index} className="border-t border-gray-200 hover:bg-gray-50">
-                    <td className="px-4 py-2 text-sm font-medium text-blue-600">
+                  <tr key={index} className="border-t border-white/10 hover:bg-white/5">
+                    <td className="px-4 py-2 text-sm font-medium text-amber-400">
                       {participant.seed_number}
                     </td>
-                    <td className="px-4 py-2 text-sm text-gray-900">{participant.name}</td>
-                    <td className="px-4 py-2 text-sm text-gray-600">{participant.roll_number}</td>
-                    <td className="px-4 py-2 text-sm text-gray-600">{participant.email}</td>
+                    <td className="px-4 py-2 text-sm text-white">{participant.name}</td>
+                    <td className="px-4 py-2 text-sm text-white/80">{participant.roll_number}</td>
+                    <td className="px-4 py-2 text-sm text-white/80">{participant.email}</td>
                   </tr>
                 ))}
               </tbody>
@@ -359,10 +359,10 @@ const TournamentInitializer = ({ tournamentId: propTournamentId, onTournamentCre
         <button
           onClick={initializeTournament}
           disabled={participants.length !== 64 || loading}
-          className={`px-8 py-3 rounded-lg font-medium text-white transition-all duration-200 ${
+          className={`px-8 py-3 rounded-lg font-semibold transition-all duration-200 ${
             participants.length === 64 && !loading
-              ? 'bg-purple-600 hover:bg-purple-700 transform hover:scale-105'
-              : 'bg-gray-400 cursor-not-allowed'
+              ? 'bg-gradient-to-r from-amber-400 to-orange-500 hover:from-amber-500 hover:to-orange-600 text-black transform hover:scale-105 shadow-lg hover:shadow-amber-400/20'
+              : 'bg-white/10 text-white/50 cursor-not-allowed border border-white/20'
           }`}
         >
           {loading ? 'Initializing...' : 'Initialize Tournament 2k25'}
@@ -370,13 +370,13 @@ const TournamentInitializer = ({ tournamentId: propTournamentId, onTournamentCre
         
         <div className="mt-4">
           <p className={`text-sm font-medium ${
-            participants.length === 64 ? 'text-green-600' : 'text-gray-500'
+            participants.length === 64 ? 'text-amber-400' : 'text-white/60'
           }`}>
             Current: {participants.length}/64 participants
           </p>
           {participants.length === 64 && (
-            <p className="text-xs text-green-600 flex items-center justify-center mt-1">
-              <span className="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
+            <p className="text-xs text-amber-400 flex items-center justify-center mt-1">
+              <span className="w-2 h-2 bg-amber-400 rounded-full mr-2 shadow-[0_0_6px_rgba(251,191,36,0.6)]"></span>
               Ready to initialize tournament!
             </p>
           )}

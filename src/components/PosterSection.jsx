@@ -6,10 +6,10 @@ const PosterSection = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-12 sm:mb-16">
-          <h2 className="cal-sans-regular text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-4">
+          <h2 className=" bodoni-moda  text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-4">
             What is it?
           </h2>
-          <p className="text-lg sm:text-xl text-gray-300 max-w-2xl mx-auto">
+          <p className="cal-sans-regular text-lg sm:text-xl text-gray-300 max-w-2xl mx-auto">
             Join us for the ultimate tournament experience - where champions are made and legends are born.
           </p>
         </div>

@@ -58,38 +58,32 @@ const AdminPage = () => {
   }
 
   return (
-    <div className="admin-page pt-28">
-      <div className="admin-header bg-white shadow-sm border-b relative" ref={menuRef}>
-        <div className="grid grid-cols-3 items-center px-6 py-4">
+    <div className="admin-page pt-28 bg-black min-h-screen">
+      <div className="admin-header bg-black border-b border-white/20 relative" ref={menuRef}>
+        <div className="flex items-center justify-between w-full px-6 py-4">
           {/* Hamburger Menu Button */}
-          <div className="flex justify-start">
-            <button
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="flex flex-col justify-center items-center w-8 h-8 bg-gray-100 hover:bg-gray-200 rounded-md transition-colors duration-200"
-              aria-label="Toggle menu"
-            >
-              <span className={`block w-5 h-0.5 bg-gray-600 transition-all duration-300 ${isMenuOpen ? 'rotate-45 translate-y-1.5' : ''}`}></span>
-              <span className={`block w-5 h-0.5 bg-gray-600 my-1 transition-all duration-300 ${isMenuOpen ? 'opacity-0' : ''}`}></span>
-              <span className={`block w-5 h-0.5 bg-gray-600 transition-all duration-300 ${isMenuOpen ? '-rotate-45 -translate-y-1.5' : ''}`}></span>
-            </button>
-          </div>
+          <button
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="flex flex-col justify-center items-center w-8 h-8 p-1 transition-all duration-200 group"
+            aria-label="Toggle menu"
+          >
+            <span className={`block w-6 h-0.5 bg-white transition-all duration-300 shadow-[0_0_8px_rgba(255,255,255,0.6)] group-hover:shadow-[0_0_12px_rgba(255,255,255,0.8)] ${isMenuOpen ? 'rotate-45 translate-y-1.5' : 'mb-1'}`}></span>
+            <span className={`block w-6 h-0.5 bg-white transition-all duration-300 shadow-[0_0_8px_rgba(255,255,255,0.6)] group-hover:shadow-[0_0_12px_rgba(255,255,255,0.8)] ${isMenuOpen ? 'opacity-0' : 'mb-1'}`}></span>
+            <span className={`block w-6 h-0.5 bg-white transition-all duration-300 shadow-[0_0_8px_rgba(255,255,255,0.6)] group-hover:shadow-[0_0_12px_rgba(255,255,255,0.8)] ${isMenuOpen ? '-rotate-45 -translate-y-1.5' : ''}`}></span>
+          </button>
 
           {/* Centered Title */}
-          <div className="flex justify-center">
-            <h1 className="text-2xl font-bold text-gray-800 whitespace-nowrap">
-              Tournament Admin
-            </h1>
-          </div>
+          <h1 className="absolute left-1/2 transform -translate-x-1/2 text-2xl font-bold text-white whitespace-nowrap">
+            Tournament Admin
+          </h1>
 
           {/* Logout Button */}
-          <div className="flex justify-end">
-            <button 
-              onClick={handleLogout} 
-              className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded transition-colors duration-200 text-sm"
-            >
-              Logout
-            </button>
-          </div>
+          <button 
+            onClick={handleLogout} 
+            className="bg-orange-500/20 hover:bg-orange-500/30 border border-orange-400/30 text-orange-200 hover:text-orange-100 px-4 py-2 rounded backdrop-blur-sm transition-all duration-200 text-md"
+          >
+            Logout
+          </button>
         </div>
         
         {/* Minimal Dropdown Menu */}

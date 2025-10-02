@@ -9,7 +9,7 @@ const BracketViewPage = () => {
 
   return (
     <div className="bracket-view-page pt-40">
-      <div className="px-4 py-6 flex items-center justify-end gap-2">
+      <div className="px-4 py-6 flex items-center justify-start gap-2">
         <button
           onClick={() => setTournamentKey('secondYear')}
           className={`px-3 py-1 rounded-l border ${tournamentKey === 'secondYear' ? 'bg-blue-600 text-white border-blue-600' : 'bg-white text-gray-700 border-gray-300'}`}

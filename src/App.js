@@ -12,7 +12,7 @@ function App() {
   return (
     <AuthProvider>
       <Router>
-        <div className="relative w-screen overflow-x-hidden" style={{ backgroundColor: '#020004ff' }}>
+        <div className="relative w-screen overflow-x-hidden" style={{ backgroundColor: '#000000ff' }}>
           {/* Navbar */}
           <Navbar />
         
