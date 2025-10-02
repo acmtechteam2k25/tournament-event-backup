@@ -22,12 +22,14 @@ const Home = () => {
       <section className="relative h-screen flex items-center justify-center">
         {/* Background Orb */}
         <div className="absolute inset-0 flex items-center justify-center -translate-y-8">
-          <Orb
-            hoverIntensity={0}
-            rotateOnHover={true}
-            hue={194}
-            forceHoverState={false}
-          />
+          <div className="w-full h-full max-w-[120vw] max-h-[120vw] sm:max-w-full sm:max-h-full">
+            <Orb
+              hoverIntensity={0}
+              rotateOnHover={true}
+              hue={194}
+              forceHoverState={false}
+            />
+          </div>
         </div>
         
         {/* Hero Content over the orb */}
