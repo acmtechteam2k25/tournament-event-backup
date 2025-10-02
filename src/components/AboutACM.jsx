@@ -6,7 +6,7 @@ const AboutACM = () => {
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-8 sm:mb-12">
           <h2 className="bodoni-moda text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 sm:mb-6">
-            About ACM VNR VJIET
+            About ACM 
           </h2>
           <div className="relative w-20 h-1 mx-auto mb-8">
             {/* Multiple glow layers for intense light effect */}
