@@ -103,7 +103,7 @@ const BracketViewPage = () => {
       </div>
       
       {/* Bracket Component - Read-only bracket viewer */}
-      <div className="max-w-[98%] sm:max-w-[95%] mx-auto bg-[#140f0b] rounded-lg border border-white/10 overflow-hidden shadow-xl">
+      <div className="max-w-[95%] sm:max-w-[90%] mx-auto bg-[#140f0b] rounded-lg border border-white/10 overflow-hidden shadow-xl">
         <div className="bracket-component">
           <TournamentBracketViewClean 
             isEditable={false} 
