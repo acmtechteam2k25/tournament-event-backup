@@ -563,10 +563,11 @@ const TournamentBracketViewFinal = ({
       >
         <div className="bracket-content">
           <svg
-            className="bracket-svg"
+            className="bracket-svg w-full h-auto"
             width={svgWidth}
             height={svgHeight}
             viewBox={`0 0 ${svgWidth} ${svgHeight}`}
+            preserveAspectRatio="xMinYMid meet"
           >
             <g
               transform={`translate(${translate.x}, ${translate.y}) scale(${scale})`}

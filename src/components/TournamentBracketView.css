@@ -64,13 +64,41 @@ body {
   -webkit-overflow-scrolling: touch;
 }
 
+/* Mobile-specific optimizations */
+@media (max-width: 767px) {
+  .bracket-scrollable-container {
+    overflow-x: hidden; /* Prevent horizontal scroll on mobile */
+    overflow-y: auto;   /* Allow vertical scroll only */
+  }
+  
+  .bracket-content {
+    padding: 2px !important; /* Even less padding on mobile */
+  }
+  
+  .bracket-svg {
+    min-width: 100% !important;
+    width: 100% !important;
+  }
+}
+
 /* Content wrapper within scrollable container */
 .bracket-content {
   min-width: 100%;
   min-height: 100%;
-  padding: 20px;
-  /* Allow content to be larger than container for scrolling */
-  width: max-content;
+  padding: 4px; /* Minimal padding on mobile for maximum bracket space */
+  /* Constrain width on mobile to prevent horizontal scrolling */
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* Allow horizontal scrolling and more padding on larger screens */
+@media (min-width: 768px) {
+  .bracket-content {
+    width: max-content;
+    overflow-x: visible;
+    padding: 20px;
+  }
 }
 
 .tournament-container {
