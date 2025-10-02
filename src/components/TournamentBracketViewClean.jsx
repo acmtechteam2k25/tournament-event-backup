@@ -914,14 +914,14 @@ const TournamentBracketViewFinal = ({
       {/* Cumulative Scores Modal */}
       {showScores && (
         <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-xl shadow-2xl p-6 w-full max-w-3xl mx-4">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-bold text-gray-800">
+          <div className="bg-[#120d0a] rounded-xl shadow-2xl p-6 w-full max-w-3xl mx-4 text-orange-200">
+            <div className="flex items-center justify-between mb-4 text-orange-500">
+              <h3 className="text-lg font-bold">
                 Cumulative Scores
               </h3>
               <button
                 onClick={() => setShowScores(false)}
-                className="px-3 py-1 rounded bg-gray-700 hover:bg-gray-500"
+                className="px-3 py-1 rounded bg-orange-500/20 hover:bg-orange-500/30 border border-orange-400/30 text-orange-200 hover:text-orange-100"
               >
                 Close
               </button>
@@ -929,7 +929,7 @@ const TournamentBracketViewFinal = ({
             <div className="overflow-auto max-h-[60vh]">
               <table className="min-w-full text-sm">
                 <thead>
-                  <tr className="text-left border-b text-black">
+                  <tr className="text-left border-b text-orange-300">
                     <th className="py-2 pr-4">Roll No</th>
                     <th className="py-2 pr-4">Name</th>
                     <th className="py-2 pr-4">Total Points</th>
@@ -941,7 +941,7 @@ const TournamentBracketViewFinal = ({
                   {cumulativeScores.map((r) => (
                     <tr
                       key={r.player_id}
-                      className="border-b last:border-0 text-black"
+                      className="border-b last:border-0"
                     >
                       <td className="py-2 pr-4">{r.roll_number}</td>
                       <td className="py-2 pr-4">{r.player_name}</td>
