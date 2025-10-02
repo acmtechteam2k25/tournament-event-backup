@@ -308,7 +308,10 @@ const TournamentBracketViewFinal = ({
   if (!columns.length) {
     return (
       <div className="loading h-[100vh] flex justify-center items-center">
-        Loading tournament bracket...
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-400 mx-auto mb-4"></div>
+          <p className="text-white cal-sans-regular">Loading tournament bracket...</p>
+        </div>
       </div>
     );
   }
@@ -443,8 +446,8 @@ const TournamentBracketViewFinal = ({
       <div className="tournament-bracket">
         <div className="flex items-center justify-center h-96">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
-            <p className="text-gray-600">Loading tournament bracket...</p>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-400 mx-auto mb-4"></div>
+            <p className="text-white cal-sans-regular">Loading tournament bracket...</p>
           </div>
         </div>
       </div>
@@ -456,9 +459,14 @@ const TournamentBracketViewFinal = ({
     return (
       <div className="tournament-bracket">
         <div className="flex items-center justify-center h-96">
-          <div className="text-center text-red-600">
-            <p className="text-lg font-medium">Error loading tournament</p>
-            <p className="text-sm mt-2">{error}</p>
+          <div className="text-center">
+            <div className="text-red-400 mb-4">
+              <svg className="w-12 h-12 mx-auto" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+              </svg>
+            </div>
+            <p className="text-lg font-medium text-red-400 bodoni-moda">Error loading tournament</p>
+            <p className="text-sm mt-2 text-white/70 cal-sans-regular">{error}</p>
           </div>
         </div>
       </div>

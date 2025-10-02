@@ -2,7 +2,7 @@ import React from 'react';
 
 const PosterSection = () => {
   return (
-    <section className="py-16 sm:py-20 lg:py-24 ">
+    <section id="poster-section" className="py-16 sm:py-20 lg:py-24 ">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-12 sm:mb-16">
