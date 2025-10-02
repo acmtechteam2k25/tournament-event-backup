@@ -595,13 +595,17 @@ const TournamentBracketViewFinal = ({
                           <div className="svg-round-header">
                             <h3>
                               {match.tournamentRoundText === "6"
-                                ? "Final"
+                                ? "Finals"
                                 : match.tournamentRoundText === "5"
-                                ? "Final Semi"
+                                ? "Semi Finals"
                                 : match.tournamentRoundText === "4"
-                                ? "Quarter Final"
+                                ? "Quarter Finals"
                                 : match.tournamentRoundText === "3"
-                                ? "Pre Quarter"
+                                ? "Knockout 3"
+                                : match.tournamentRoundText === "2"
+                                ? "Knockout 2"
+                                : match.tournamentRoundText === "1"
+                                ? "Knockout 1"
                                 : `Round ${match.tournamentRoundText}`}
                             </h3>
                           </div>
