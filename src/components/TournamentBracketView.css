@@ -267,6 +267,7 @@ body {
 .bracket-svg {
   background: transparent;
   overflow: visible;
+  transform-origin: center center;
 }
 
 .svg-round-header {

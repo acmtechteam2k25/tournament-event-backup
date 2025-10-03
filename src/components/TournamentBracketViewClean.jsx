@@ -29,11 +29,7 @@ const TournamentBracketViewFinal = ({
   const [showScores, setShowScores] = useState(false);
   const [cumulativeScores, setCumulativeScores] = useState([]);
   const [scale, setScale] = useState(1);
-  const [translate, setTranslate] = useState({ x: 0, y: 0 });
-  const [isPanning, setIsPanning] = useState(false);
-  const [lastPanPoint, setLastPanPoint] = useState({ x: 0, y: 0 });
   const [lastPinchDistance, setLastPinchDistance] = useState(null);
-  const [lastPinchCenter, setLastPinchCenter] = useState(null);
   const [isMobile, setIsMobile] = useState(false);
   const containerRef = useRef(null);
 
@@ -396,34 +392,15 @@ const TournamentBracketViewFinal = ({
         MIN_SCALE,
         MAX_SCALE
       );
-
-      const rect = containerRef.current.getBoundingClientRect();
-      const cx = e.clientX - rect.left;
-      const cy = e.clientY - rect.top;
-      const dx = cx / scale - cx / newScale;
-      const dy = cy / scale - cy / newScale;
-      setTranslate({ x: translate.x + dx, y: translate.y + dy });
       setScale(newScale);
     }
     // For normal scrolling (without Ctrl), let the browser handle it naturally
-    // The container will scroll normally within the bracket view
   };
 
-  const handleMouseDown = (e) => {
-    if (e.button !== 0) return;
-    setIsPanning(true);
-    setLastPanPoint({ x: e.clientX, y: e.clientY });
-  };
-
-  const handleMouseMove = (e) => {
-    if (!isPanning) return;
-    const dx = (e.clientX - lastPanPoint.x) / scale;
-    const dy = (e.clientY - lastPanPoint.y) / scale;
-    setTranslate({ x: translate.x + dx, y: translate.y + dy });
-    setLastPanPoint({ x: e.clientX, y: e.clientY });
-  };
-
-  const endPan = () => setIsPanning(false);
+  // Removed mouse panning - let browser handle all scrolling naturally
+  const handleMouseDown = () => {};
+  const handleMouseMove = () => {};
+  const endPan = () => {};
 
   const getTouchDistance = (t1, t2) => {
     const dx = t1.clientX - t2.clientX;
@@ -431,20 +408,12 @@ const TournamentBracketViewFinal = ({
     return Math.hypot(dx, dy);
   };
 
-  const getTouchCenter = (t1, t2) => ({
-    x: (t1.clientX + t2.clientX) / 2,
-    y: (t1.clientY + t2.clientY) / 2,
-  });
-
   const handleTouchStart = (e) => {
-    // Only handle pinch-to-zoom with two fingers
+    // Only track pinch gestures, let browser handle single finger naturally
     if (e.touches.length === 2) {
       const dist = getTouchDistance(e.touches[0], e.touches[1]);
-      const center = getTouchCenter(e.touches[0], e.touches[1]);
       setLastPinchDistance(dist);
-      setLastPinchCenter(center);
     }
-    // Single finger touch should be handled by browser for natural scrolling
   };
 
   const handleTouchMove = (e) => {
@@ -452,43 +421,24 @@ const TournamentBracketViewFinal = ({
     if (e.touches.length === 2) {
       if (!containerRef.current) return;
       
-      // Don't preventDefault - let CSS touch-action handle it
       const dist = getTouchDistance(e.touches[0], e.touches[1]);
-      const center = getTouchCenter(e.touches[0], e.touches[1]);
       
-      if (lastPinchDistance && lastPinchCenter) {
+      if (lastPinchDistance) {
         const factor = dist / lastPinchDistance;
         const newScale = clamp(scale * factor, MIN_SCALE, MAX_SCALE);
-        
-        // Zoom towards the pinch center
-        const rect = containerRef.current.getBoundingClientRect();
-        const zoomPointX = center.x - rect.left;
-        const zoomPointY = center.y - rect.top;
-        
-        // Calculate how much the zoom point moves
-        const zoomOffsetX = (zoomPointX / scale) - (zoomPointX / newScale);
-        const zoomOffsetY = (zoomPointY / scale) - (zoomPointY / newScale);
-        
-        setTranslate({ 
-          x: translate.x + zoomOffsetX, 
-          y: translate.y + zoomOffsetY 
-        });
         setScale(newScale);
       }
       setLastPinchDistance(dist);
-      setLastPinchCenter(center);
     }
-    // Single finger touch should be handled by browser for natural scrolling
   };
 
   const handleTouchEnd = () => {
     setLastPinchDistance(null);
-    setLastPinchCenter(null);
   };
 
   const resetView = () => {
     setScale(1);
-    setTranslate({ x: 0, y: 0 });
+    // Let browser handle scrolling naturally - no manual translate needed
   };
 
   const fitToScreen = () => {
@@ -503,9 +453,7 @@ const TournamentBracketViewFinal = ({
       MAX_SCALE
     );
     setScale(fitScale);
-    const tx = (availableW / fitScale - svgWidth) / 2 + padding / fitScale;
-    const ty = (availableH / fitScale - svgHeight) / 2 + padding / fitScale;
-    setTranslate({ x: tx, y: ty });
+    // Let browser handle scrolling naturally - no manual translate needed
   };
 
   // Show loading state
@@ -618,13 +566,6 @@ const TournamentBracketViewFinal = ({
         ref={containerRef}
         className={`bracket-scrollable-container ${isMobile && viewMode === 'round' ? 'bracket-round-view' : ''}`}
         onWheel={handleWheel}
-        onMouseDown={handleMouseDown}
-        onMouseMove={handleMouseMove}
-        onMouseUp={endPan}
-        onMouseLeave={endPan}
-        style={{
-          cursor: isPanning ? "grabbing" : "grab",
-        }}
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
@@ -637,7 +578,7 @@ const TournamentBracketViewFinal = ({
             viewBox={`0 0 ${svgWidth} ${svgHeight}`}
           >
             <g
-              transform={`translate(${translate.x}, ${translate.y}) scale(${scale})`}
+              transform={`scale(${scale})`}
             >
               {columns.map((matchesColumn, columnIndex) =>
                 matchesColumn.map((match, rowIndex) => {
