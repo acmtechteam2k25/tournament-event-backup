@@ -34,7 +34,19 @@ const TournamentBracketViewFinal = ({
   const [lastPanPoint, setLastPanPoint] = useState({ x: 0, y: 0 });
   const [lastPinchDistance, setLastPinchDistance] = useState(null);
   const [lastPinchCenter, setLastPinchCenter] = useState(null);
+  const [isMobile, setIsMobile] = useState(false);
   const containerRef = useRef(null);
+
+  // Mobile detection
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   // Use tournament hook for database integration (only if tournamentId is provided)
   const { bracket, loading, error, updateMatchWinner } =
@@ -303,7 +315,22 @@ const TournamentBracketViewFinal = ({
 
   const visibleMatches = getVisibleMatches(matches);
   const columns = generateColumns(visibleMatches);
-  const style = BRACKET_CONFIG;
+  
+  // Create responsive bracket configuration for mobile round view
+  const style = React.useMemo(() => {
+    if (isMobile && viewMode === 'round') {
+      const containerWidth = typeof window !== 'undefined' ? window.innerWidth : 375;
+      const mobileGameWidth = Math.min(containerWidth - 20, 350); // Reasonable width with small margin
+      
+      return {
+        ...BRACKET_CONFIG,
+        gameWidth: mobileGameWidth,
+        columnWidth: mobileGameWidth + 10, // Minimal column width to reduce right space
+        canvasPadding: 5, // Minimal padding
+      };
+    }
+    return BRACKET_CONFIG;
+  }, [isMobile, viewMode]);
 
   if (!columns.length) {
     return (
@@ -548,7 +575,7 @@ const TournamentBracketViewFinal = ({
       )}
       <div
         ref={containerRef}
-        className="bracket-scrollable-container"
+        className={`bracket-scrollable-container ${isMobile && viewMode === 'round' ? 'bracket-round-view' : ''}`}
         onWheel={handleWheel}
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}

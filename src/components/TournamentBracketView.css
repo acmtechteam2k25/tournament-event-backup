@@ -1010,6 +1010,41 @@ body {
   .bracket-scrollable-container::-webkit-scrollbar-thumb {
     background: rgba(0, 255, 255, 0.3);
   }
+
+  /* Mobile styles for round view only - using CSS custom properties */
+  .bracket-round-view .bracket-scrollable-container {
+    overflow-x: hidden !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .bracket-round-view .bracket-content {
+    padding: 0 !important;
+    margin: 0 !important;
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  .bracket-round-view .bracket-svg {
+    width: auto !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    max-width: 100%;
+  }
+
+  .bracket-round-view .svg-match {
+    width: 100% !important;
+    max-width: 350px !important;
+    margin: 0 auto !important;
+    padding: 6px !important;
+    min-width: 280px;
+  }
+
+  .bracket-round-view .svg-match .participant-name {
+    max-width: 200px;
+    font-size: 12px;
+  }
 }
 
 /* Match Actions Overlay */
