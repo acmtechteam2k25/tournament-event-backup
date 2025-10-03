@@ -46,7 +46,7 @@ const Login = ({ onLoginSuccess }) => {
     <div className="min-h-screen flex items-center justify-center p-6 bg-black">
 
       {/* Login card with glassmorphism */}
-      <div className="relative bg-black/20 backdrop-blur-md border border-white/10 rounded-2xl p-8 w-full max-w-md shadow-2xl">
+      <div className="cal-sans-regular relative bg-black/20 backdrop-blur-md border border-white/10 rounded-2xl p-8 w-full max-w-md shadow-2xl">
         <div className="text-center mb-8">
           <h2 className="text-3xl font-bold text-white mb-2 text-shadow-glow">
             Admin Login
