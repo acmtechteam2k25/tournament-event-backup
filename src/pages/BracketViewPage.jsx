@@ -23,6 +23,19 @@ const BracketViewPage = () => {
   const maxRounds = 6;
   const availableRounds = Array.from({ length: maxRounds }, (_, i) => i + 1);
 
+  // Convert round number to display name
+  const getRoundDisplayName = (roundNumber) => {
+    switch (roundNumber) {
+      case 1: return 'R1';
+      case 2: return 'R2';
+      case 3: return 'R3';
+      case 4: return 'QF'; // Quarter Finals
+      case 5: return 'SF'; // Semi Finals
+      case 6: return 'F';  // Finals
+      default: return `R${roundNumber}`;
+    }
+  };
+
   // Calculate visible rounds based on selection
   const getVisibleRounds = () => {
     if (viewMode === 'full') return availableRounds;
@@ -94,7 +107,7 @@ const BracketViewPage = () => {
                   onClick={() => setSelectedRound(round)}
                   className={`px-4 py-2 rounded backdrop-blur-md border transition-all duration-200 text-sm min-w-[60px] ${selectedRound === round ? 'bg-orange-500/20 text-orange-200 border-orange-400/60' : 'bg-black/10 text-white/70 border-white/20 hover:bg-orange-500/10 hover:text-orange-200 hover:border-orange-400/30'}`}
                 >
-                  R{round}
+                  {getRoundDisplayName(round)}
                 </button>
               ))}
             </div>

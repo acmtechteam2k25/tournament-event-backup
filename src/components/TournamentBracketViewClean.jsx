@@ -347,14 +347,42 @@ const TournamentBracketViewFinal = ({
   const svgWidth = columns.length * style.columnWidth + style.canvasPadding * 2;
   let svgHeight = 32 * style.rowHeight + style.canvasPadding * 2; // 32 matches max in first round
   
-  // Dynamic height calculation for mobile round view based on actual matches
-  if (isMobile && viewMode === 'round') {
+  // Dynamic height calculation for round view based on actual matches (both mobile and desktop)
+  if (viewMode === 'round') {
     const actualMatchesCount = visibleMatches.length;
-    const roundHeaderHeight = 60; // Space for round header
-    const matchHeight = style.gameHeight + 15; // Match height plus reduced spacing
+    const roundHeaderHeight = isMobile ? 60 : 80; // Space for round header
     
-    // Reduce padding for Round 1 (many matches), more padding for later rounds (fewer matches)
-    const extraPadding = actualMatchesCount > 20 ? 60 : 80; // Less padding for Round 1
+    // Extreme spacing reduction - almost zero padding for rounds 2-3
+    let matchHeight;
+    if (isMobile) {
+      matchHeight = style.gameHeight + 15;
+    } else {
+      // Desktop: absolute minimal spacing for rounds 2-3
+      if (actualMatchesCount >= 16) {
+        matchHeight = style.gameHeight + 5; // Round 1-2: minimal spacing
+      } else if (actualMatchesCount >= 8) {
+        matchHeight = style.gameHeight + 3; // Round 3: almost no spacing
+      } else {
+        matchHeight = style.gameHeight + 15; // Round 4+: normal spacing
+      }
+    }
+    
+    // Extreme padding reduction - almost zero for intermediate rounds
+    let extraPadding;
+    if (isMobile) {
+      extraPadding = actualMatchesCount > 20 ? 60 : 80;
+    } else {
+      // Desktop: near-zero padding for intermediate rounds
+      if (actualMatchesCount >= 16) {
+        extraPadding = 10; // Round 1-2: almost no padding
+      } else if (actualMatchesCount >= 8) {
+        extraPadding = 5; // Round 3: virtually no padding
+      } else if (actualMatchesCount >= 4) {
+        extraPadding = 40; // Round 4: moderate padding
+      } else {
+        extraPadding = 60; // Finals: more padding for visual balance
+      }
+    }
     
     svgHeight = roundHeaderHeight + (actualMatchesCount * matchHeight) + extraPadding;
   }
@@ -639,11 +667,11 @@ const TournamentBracketViewFinal = ({
                                   : match.tournamentRoundText === "4"
                                     ? "Quarter Finals"
                                     : match.tournamentRoundText === "3"
-                                      ? "Knockout 3"
+                                      ? "Round 3"
                                       : match.tournamentRoundText === "2"
-                                        ? "Knockout 2"
+                                        ? "Round 2"
                                         : match.tournamentRoundText === "1"
-                                          ? "Knockout 1"
+                                          ? "Round 1"
                                           : `Round ${match.tournamentRoundText}`}
                             </h3>
                           </div>

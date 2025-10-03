@@ -38,7 +38,7 @@ const Home = () => {
             Tesseract
           </h1>
           <h4 className="cal-sans-regular text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-white mb-2 sm:mb-8 leading-tight">
-            Fight to the Top
+            The Ultimate Showdown
           </h4>
 
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center">
