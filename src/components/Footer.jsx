@@ -10,11 +10,9 @@ const Footer = () => {
         <div className="flex flex-col lg:flex-row justify-between items-center py-6 gap-6">
           
           {/* Left Side - ACM VNRVJIET */}
-          <div className="cal-sans-regular flex items-center space-x-3">
-            <div className="text-left">
-              <span className="text-white font-semibold text-lg ">ACM VNRVJIET</span>
-              <p className="text-white/60 text-sm">Student Chapter</p>
-            </div>
+          <div className="cal-sans-regular text-center">
+            <span className="text-white font-semibold text-lg block">ACM VNRVJIET</span>
+            <p className="text-white/60 text-sm">Student Chapter</p>
           </div>
 
           {/* Center - Contact & Rights */}
