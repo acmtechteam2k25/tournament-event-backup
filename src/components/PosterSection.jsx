@@ -7,7 +7,7 @@ const PosterSection = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-12 sm:mb-16">
-          <h2 className=" dm-serif-display-regular text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-4">
+          <h2 className="dm-serif-display-regular text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4">
             What is it?
           </h2>
           <p className="cal-sans-regular text-lg sm:text-xl text-gray-300 max-w-2xl mx-auto">
@@ -17,13 +17,13 @@ const PosterSection = () => {
 
         {/* Poster Container */}
         <div className="flex justify-center">
-          <div className="relative group max-w-2xl w-full">
+          <div className="relative group max-w-4xl w-full">
             {/* Event Poster Image */}
-            <div className="aspect-[3/4] rounded-2xl shadow-2xl overflow-hidden border border-gray-700 group-hover:shadow-3xl transition-all duration-300">
+            <div className="shadow-2xl group-hover:shadow-3xl transition-all duration-300">
               <img 
                 src={`${eventPoster}?t=${new Date().getTime()}`} 
                 alt="Tournament 2K25 Event Poster"
-                className="w-full h-full object-cover"
+                className="w-full h-auto object-contain max-h-[80vh] transition-transform duration-300 ease-in-out group-hover:scale-105"
                 onError={(e) => {
                   // Fallback if image doesn't load
                   e.target.style.display = 'none';

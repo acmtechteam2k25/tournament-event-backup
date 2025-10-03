@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Tea Chest Font */
+@font-face {
+  font-family: 'Tea Chest';
+  src: url('./assets/fonts/TeaChest-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 html, body {
   margin: 0;
   padding: 0;
@@ -58,7 +66,11 @@ code {
   font-weight: 400;
   font-style: normal;
 }
-
+.poppins-regular {
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
 .dm-serif-display-regular-italic {
   font-family: "DM Serif Display", serif;
   font-weight: 400;
@@ -67,6 +79,12 @@ code {
 .dotgothic16-regular {
   font-family: "DotGothic16", sans-serif;
   font-weight: 400;
+  font-style: normal;
+}
+
+.tea-chest-regular {
+  font-family: "Tea Chest", serif;
+  font-weight: normal;
   font-style: normal;
 }
 

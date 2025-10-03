@@ -26,11 +26,11 @@ const CountSection = () => {
                   direction="up"
                   duration={2.5}
                   delay={0.2}
-                  className="count-up-text"
+                  className="cal-sans-regular count-up-text"
                 />
               </div>
-              <h3 className="text-white/90 text-lg sm:text-xl font-semibold mb-1 bodoni-moda">Players</h3>
-              <p className="text-white/60 text-sm">Competing for glory</p>
+              <h3 className="cal-sans-regular text-white/90 text-lg sm:text-xl font-semibold mb-1 bodoni-moda">Players</h3>
+              <p className="cal-sans-regular text-white/60 text-sm">Competing for glory</p>
             </div>
           </div>
 
@@ -45,16 +45,16 @@ const CountSection = () => {
                   direction="up"
                   duration={2}
                   delay={0.4}
-                  className="count-up-text"
+                  className="cal-sans-regular count-up-text"
                 />
               </div>
-              <h3 className="text-white/90 text-lg sm:text-xl font-semibold mb-1 bodoni-moda">Rounds</h3>
-              <p className="text-white/60 text-sm">Elimination stages</p>
+              <h3 className="cal-sans-regular text-white/90 text-lg sm:text-xl font-semibold mb-1 bodoni-moda">Rounds</h3>
+              <p className="cal-sans-regular text-white/60 text-sm">Elimination stages</p>
             </div>
           </div>
 
           {/* Matches Count */}
-          <div className="text-center group">
+          <div className="cal-sans-regular text-center group">
             <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:bg-white/10 transition-all duration-300">
               <div className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-2 bodoni-moda-bold">
                 <CountUp
@@ -64,16 +64,16 @@ const CountSection = () => {
                   direction="up"
                   duration={3}
                   delay={0.6}
-                  className="count-up-text"
+                  className="cal-sans-regular count-up-text"
                 />
               </div>
-              <h3 className="text-white/90 text-lg sm:text-xl font-semibold mb-1 bodoni-moda">Matches</h3>
-              <p className="text-white/60 text-sm">Total battles fought</p>
+              <h3 className="cal-sans-regular text-white/90 text-lg sm:text-xl font-semibold mb-1 bodoni-moda">Matches</h3>
+              <p className="cal-sans-regular text-white/60 text-sm">Total battles fought</p>
             </div>
           </div>
 
           {/* Winner Count */}
-          <div className="text-center group">
+          <div className="cal-sans-regular text-center group">
             <div className="bg-gradient-to-br from-yellow-500/20 to-orange-500/20 backdrop-blur-sm rounded-2xl p-6 border border-yellow-500/20 hover:from-yellow-500/30 hover:to-orange-500/30 transition-all duration-300">
               <div className="text-4xl sm:text-5xl md:text-6xl font-bold text-yellow-400 mb-2 bodoni-moda-bold">
                 <CountUp
@@ -83,11 +83,11 @@ const CountSection = () => {
                   direction="up"
                   duration={1.5}
                   delay={0.8}
-                  className="count-up-text"
+                  className="cal-sans-regular count-up-text"
                 />
               </div>
-              <h3 className="text-yellow-400/90 text-lg sm:text-xl font-semibold mb-1 bodoni-moda">Winner</h3>
-              <p className="text-yellow-400/60 text-sm">Champion emerges</p>
+              <h3 className="cal-sans-regular text-yellow-400/90 text-lg sm:text-xl font-semibold mb-1 bodoni-moda">Winner</h3>
+              <p className="cal-sans-regular text-yellow-400/60 text-sm">Champion emerges</p>
             </div>
           </div>
         </div>
@@ -96,7 +96,7 @@ const CountSection = () => {
         <div className="text-center mt-12">
           <div className="inline-flex items-center gap-2 bg-white/5 backdrop-blur-sm rounded-full px-6 py-3 border border-white/10">
             <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-            <span className="text-white/80 text-sm bodoni-moda">Tournament in progress</span>
+            <span className="cal-sans-regular text-white/80 text-sm bodoni-moda">Tournament in progress</span>
           </div>
         </div>
       </div>

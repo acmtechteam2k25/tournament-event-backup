@@ -5,22 +5,22 @@ import linkedinLogo from '../assets/linkedin.png';
 
 const Footer = () => {
   return (
-    <footer className="relative bg-black/20 backdrop-blur-sm border-t border-white/10">
+    <footer className="cal-sans-regular relative bg-black/20 backdrop-blur-sm border-t border-white/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col lg:flex-row justify-between items-center py-6 gap-6">
           
           {/* Left Side - ACM VNRVJIET */}
-          <div className="flex items-center space-x-3">
+          <div className="cal-sans-regular flex items-center space-x-3">
             <div className="text-left">
-              <span className="text-white font-semibold text-lg bodoni-moda">ACM VNRVJIET</span>
+              <span className="text-white font-semibold text-lg ">ACM VNRVJIET</span>
               <p className="text-white/60 text-sm">Student Chapter</p>
             </div>
           </div>
 
           {/* Center - Contact & Rights */}
-          <div className="text-center lg:flex-1">
+          <div className="cal-sans-regular text-center lg:flex-1">
             <div className="mb-3">
-              <h4 className="text-white font-semibold mb-2 bodoni-moda">Contact</h4>
+              <h4 className="text-white font-semibold mb-2 ">Contact</h4>
               <p className="text-white/80 text-sm">
                 <a href="mailto: acmvnrvjiet@gmail.com" className="hover:text-blue-400 transition-colors">
                   acmvnrvjiet@gmail.com
@@ -34,7 +34,7 @@ const Footer = () => {
 
           {/* Right Side - Social Handles */}
           <div className="flex items-center space-x-4">
-            <span className="text-white/80 text-sm mr-2 bodoni-moda hidden sm:block">Follow us:</span>
+            <span className="text-white/80 text-sm mr-2 hidden sm:block">Follow us:</span>
             
             {/* Website */}
             <a 

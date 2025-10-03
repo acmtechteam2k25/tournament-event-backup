@@ -1,6 +1,18 @@
 import React from 'react';
 
 const MatchBox = ({ match, onMatchClick, isSelected, gameWidth, gameHeight }) => {
+  // Convert round number to display format (same as bracket buttons)
+  const getRoundDisplayName = (roundNumber) => {
+    switch (roundNumber) {
+      case 1: return 'R1';
+      case 2: return 'R2';
+      case 3: return 'R3';
+      case 4: return 'QF'; // Quarter Finals
+      case 5: return 'SF'; // Semi Finals
+      case 6: return 'F';  // Finals
+      default: return `R${roundNumber}`;
+    }
+  };
   const handleMatchClick = () => {
     onMatchClick();
   };
@@ -19,7 +31,7 @@ const MatchBox = ({ match, onMatchClick, isSelected, gameWidth, gameHeight }) =>
     >
       <div className="match-header">
         <span className="match-identifier">
-          {match.roundNumber && match.matchNumber ? `R${match.roundNumber}/M${match.matchNumber}` : match.name}
+          {match.roundNumber && match.matchNumber ? `${getRoundDisplayName(match.roundNumber)}/M${match.matchNumber}` : match.name}
         </span>
         <div className={`match-status ${match.state === 'SCORE_DONE' ? 'done' : 'scheduled'}`}>
           {match.state === 'SCORE_DONE' ? '✓' : '○'}
