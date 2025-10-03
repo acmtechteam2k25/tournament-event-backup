@@ -1045,6 +1045,17 @@ body {
     max-width: 200px;
     font-size: 12px;
   }
+
+  /* Ensure round headers are visible with proper spacing in mobile round view */
+  .bracket-round-view .svg-round-header {
+    padding-top: 5px !important;
+    padding-bottom: 10px !important;
+  }
+
+  /* Add bottom padding to the SVG container to show last match completely */
+  .bracket-round-view .bracket-svg {
+    padding-bottom: 30px !important;
+  }
 }
 
 /* Match Actions Overlay */

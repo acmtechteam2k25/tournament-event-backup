@@ -326,7 +326,7 @@ const TournamentBracketViewFinal = ({
         ...BRACKET_CONFIG,
         gameWidth: mobileGameWidth,
         columnWidth: mobileGameWidth + 10, // Minimal column width to reduce right space
-        canvasPadding: 5, // Minimal padding
+        canvasPadding: 5, // Increased padding to show round headers properly
       };
     }
     return BRACKET_CONFIG;
@@ -345,7 +345,19 @@ const TournamentBracketViewFinal = ({
 
   // Calculate SVG dimensions based on bracket structure
   const svgWidth = columns.length * style.columnWidth + style.canvasPadding * 2;
-  const svgHeight = 32 * style.rowHeight + style.canvasPadding * 2; // 32 matches max in first round
+  let svgHeight = 32 * style.rowHeight + style.canvasPadding * 2; // 32 matches max in first round
+  
+  // Dynamic height calculation for mobile round view based on actual matches
+  if (isMobile && viewMode === 'round') {
+    const actualMatchesCount = visibleMatches.length;
+    const roundHeaderHeight = 60; // Space for round header
+    const matchHeight = style.gameHeight + 15; // Match height plus reduced spacing
+    
+    // Reduce padding for Round 1 (many matches), more padding for later rounds (fewer matches)
+    const extraPadding = actualMatchesCount > 20 ? 60 : 80; // Less padding for Round 1
+    
+    svgHeight = roundHeaderHeight + (actualMatchesCount * matchHeight) + extraPadding;
+  }
 
   // Zoom/Pan helpers
   const MIN_SCALE = 0.4;
