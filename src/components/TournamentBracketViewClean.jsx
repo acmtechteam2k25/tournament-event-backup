@@ -381,6 +381,9 @@ const TournamentBracketViewFinal = ({
 
   const handleWheel = (e) => {
     if (!containerRef.current) return;
+    
+    // Skip zoom for mobile round view - let it behave naturally
+    if (isMobile && viewMode === 'round') return;
 
     // Only zoom when Ctrl key is held, otherwise allow normal scrolling
     if (e.ctrlKey || e.metaKey) {
@@ -409,6 +412,9 @@ const TournamentBracketViewFinal = ({
   };
 
   const handleTouchStart = (e) => {
+    // Skip zoom for mobile round view - let it behave naturally
+    if (isMobile && viewMode === 'round') return;
+    
     // Only track pinch gestures, let browser handle single finger naturally
     if (e.touches.length === 2) {
       const dist = getTouchDistance(e.touches[0], e.touches[1]);
@@ -417,6 +423,9 @@ const TournamentBracketViewFinal = ({
   };
 
   const handleTouchMove = (e) => {
+    // Skip zoom for mobile round view - let it behave naturally
+    if (isMobile && viewMode === 'round') return;
+    
     // Only handle pinch-to-zoom with two fingers
     if (e.touches.length === 2) {
       if (!containerRef.current) return;
@@ -578,7 +587,7 @@ const TournamentBracketViewFinal = ({
             viewBox={`0 0 ${svgWidth} ${svgHeight}`}
           >
             <g
-              transform={`scale(${scale})`}
+              transform={isMobile && viewMode === 'round' ? 'scale(1)' : `scale(${scale})`}
             >
               {columns.map((matchesColumn, columnIndex) =>
                 matchesColumn.map((match, rowIndex) => {
