@@ -38,7 +38,7 @@ const TournamentBracketViewFinal = ({
     const checkMobile = () => {
       setIsMobile(window.innerWidth <= 768);
     };
-    
+
     checkMobile();
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
@@ -311,18 +311,26 @@ const TournamentBracketViewFinal = ({
 
   const visibleMatches = getVisibleMatches(matches);
   const columns = generateColumns(visibleMatches);
-  
-  // Create responsive bracket configuration for mobile round view
+
+  // Create responsive bracket configuration for mobile views while keeping connectors aligned
   const style = React.useMemo(() => {
+    const containerWidth = typeof window !== 'undefined' ? window.innerWidth : 375;
     if (isMobile && viewMode === 'round') {
-      const containerWidth = typeof window !== 'undefined' ? window.innerWidth : 375;
-      const mobileGameWidth = Math.min(containerWidth - 20, 350); // Reasonable width with small margin
-      
+      const mobileGameWidth = Math.min(containerWidth - 20, 350);
       return {
         ...BRACKET_CONFIG,
         gameWidth: mobileGameWidth,
-        columnWidth: mobileGameWidth + 10, // Minimal column width to reduce right space
-        canvasPadding: 5, // Increased padding to show round headers properly
+        columnWidth: mobileGameWidth + 10,
+        canvasPadding: 5,
+      };
+    }
+    if (isMobile) {
+      const responsiveGameWidth = Math.min(containerWidth - 24, BRACKET_CONFIG.gameWidth);
+      return {
+        ...BRACKET_CONFIG,
+        gameWidth: responsiveGameWidth,
+        columnWidth: responsiveGameWidth + (BRACKET_CONFIG.columnWidth - BRACKET_CONFIG.gameWidth),
+        canvasPadding: 20,
       };
     }
     return BRACKET_CONFIG;
@@ -342,11 +350,11 @@ const TournamentBracketViewFinal = ({
   // Calculate SVG dimensions based on bracket structure
   const svgWidth = columns.length * style.columnWidth + style.canvasPadding * 2;
   let svgHeight = 32 * style.rowHeight + style.canvasPadding * 2; // 32 matches max in first round
-  
+
   // Dynamic height calculation for round view based on actual matches (both mobile and desktop)
   if (viewMode === 'round') {
     const actualMatchesCount = visibleMatches.length;
-    
+
     if (isMobile) {
       const roundHeaderHeight = 60;
       const matchHeight = style.gameHeight + 15;
@@ -381,7 +389,7 @@ const TournamentBracketViewFinal = ({
 
   const handleWheel = (e) => {
     if (!containerRef.current) return;
-    
+
     // Skip zoom for mobile round view - let it behave naturally
     if (isMobile && viewMode === 'round') return;
 
@@ -401,9 +409,9 @@ const TournamentBracketViewFinal = ({
   };
 
   // Removed mouse panning - let browser handle all scrolling naturally
-  const handleMouseDown = () => {};
-  const handleMouseMove = () => {};
-  const endPan = () => {};
+  const handleMouseDown = () => { };
+  const handleMouseMove = () => { };
+  const endPan = () => { };
 
   const getTouchDistance = (t1, t2) => {
     const dx = t1.clientX - t2.clientX;
@@ -414,7 +422,7 @@ const TournamentBracketViewFinal = ({
   const handleTouchStart = (e) => {
     // Skip zoom for mobile round view - let it behave naturally
     if (isMobile && viewMode === 'round') return;
-    
+
     // Only track pinch gestures, let browser handle single finger naturally
     if (e.touches.length === 2) {
       const dist = getTouchDistance(e.touches[0], e.touches[1]);
@@ -425,13 +433,13 @@ const TournamentBracketViewFinal = ({
   const handleTouchMove = (e) => {
     // Skip zoom for mobile round view - let it behave naturally
     if (isMobile && viewMode === 'round') return;
-    
+
     // Only handle pinch-to-zoom with two fingers
     if (e.touches.length === 2) {
       if (!containerRef.current) return;
-      
+
       const dist = getTouchDistance(e.touches[0], e.touches[1]);
-      
+
       if (lastPinchDistance) {
         const factor = dist / lastPinchDistance;
         const newScale = clamp(scale * factor, MIN_SCALE, MAX_SCALE);
@@ -600,7 +608,7 @@ const TournamentBracketViewFinal = ({
                     getPreviousMatches(columnIndex, columns, rowIndex, match);
 
                   return (
-                    <g key={`${columnIndex}-${rowIndex}-${match.id}`}>
+                    <g key={`${columnIndex}-${rowIndex}-${match.id}`} className="scale-95">
                       {/* Round header */}
                       {rowIndex === 0 && (
                         <foreignObject

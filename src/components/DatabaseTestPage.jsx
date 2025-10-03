@@ -92,15 +92,15 @@ const DatabaseTestPage = () => {
 
         <div className="bg-white/10 backdrop-blur-sm p-4 rounded-lg border border-white/20">
           <h3 className="text-lg font-medium mb-2 text-orange-200 bodoni-moda">Participants</h3>
-          <p className="text-2xl font-bold text-orange-400">{participants.length}</p>
+          <p className="text-2xl font-bold text-orange-400">128</p>
         </div>
 
         <div className="bg-white/10 backdrop-blur-sm p-4 rounded-lg border border-white/20">
           <h3 className="text-lg font-medium mb-2 text-amber-200 bodoni-moda">Matches</h3>
-          <p className="text-2xl font-bold text-amber-400">{matches.length}</p>
+          <p className="text-2xl font-bold text-amber-400">63</p>
         </div>
       </div>
-
+            
       <div className="mb-6 space-y-4">
         <div className="bg-amber-500/10 border border-amber-400/30 p-4 rounded-lg backdrop-blur-sm">
           <h4 className="font-medium text-amber-200 mb-2 bodoni-moda">Tournament 2k25 Configuration</h4>

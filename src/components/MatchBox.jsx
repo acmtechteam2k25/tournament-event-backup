@@ -57,7 +57,7 @@ const MatchBox = ({ match, onMatchClick, isSelected, gameWidth, gameHeight }) =>
                   {participant?.name || 'TBD'}
                 </span>
                 {participant?.rollNumber && (
-                  <span className="player-roll">
+                  <span className="player-roll hidden sm:block">
                     {participant.rollNumber}
                   </span>
                 )}
