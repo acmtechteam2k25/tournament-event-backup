@@ -47,7 +47,7 @@ const SimpleNavbar = () => {
   return (
     <>
       {/* Desktop Navbar */}
-      <div className="fixed top-4 right-20 z-50 hidden md:block">
+      <div className="fixed top-4 left-20 z-50 hidden md:block">
         <div className="flex h-20 items-center gap-2 rounded-2xl bg-black/20 backdrop-blur-md px-4 py-4 border border-white/10 shadow-lg">
           {navItems.map((item) => (
             <Link
@@ -85,7 +85,7 @@ const SimpleNavbar = () => {
       </div>
 
       {/* Mobile Navbar */}
-      <div className="fixed top-4 right-4 z-50 block md:hidden">
+      <div className="fixed top-4 left-4 z-50 block md:hidden">
         <div className="flex h-16 items-center gap-2 rounded-2xl bg-black/20 backdrop-blur-md px-3 py-3 border border-white/10 shadow-lg">
           {navItems.map((item) => (
             <Link
