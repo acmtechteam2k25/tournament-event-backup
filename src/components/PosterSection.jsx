@@ -1,4 +1,5 @@
 import React from 'react';
+import eventPoster from '../assets/event-poster.jpg';
 
 const PosterSection = () => {
   return (
@@ -20,7 +21,7 @@ const PosterSection = () => {
             {/* Event Poster Image */}
             <div className="aspect-[3/4] rounded-2xl shadow-2xl overflow-hidden border border-gray-700 group-hover:shadow-3xl transition-all duration-300">
               <img 
-                src={require('../assets/event-poster.jpg')} 
+                src={`${eventPoster}?t=${new Date().getTime()}`} 
                 alt="Tournament 2K25 Event Poster"
                 className="w-full h-full object-cover"
                 onError={(e) => {
@@ -55,8 +56,7 @@ const PosterSection = () => {
             </div>
             
             {/* Glow Effect */}
-            <div className="absolute -inset-1 bg-gradient-to-r from-amber-400/20 to-orange-600/20 rounded-2xl blur opacity-75 group-hover:opacity-100 transition duration-300"></div>
-          </div>
+            </div>
         </div>
 
         {/* Additional Info Below Poster */}
