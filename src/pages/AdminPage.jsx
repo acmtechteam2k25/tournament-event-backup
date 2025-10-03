@@ -72,9 +72,7 @@ const AdminPage = () => {
           </button>
 
           {/* Centered Title */}
-          <h1 className="absolute left-1/2 transform -translate-x-1/2 text-2xl font-bold text-white whitespace-nowrap bodoni-moda">
-            Admin
-          </h1>
+          
 
           {/* Logout Button */}
           <button
