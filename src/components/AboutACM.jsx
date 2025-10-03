@@ -21,21 +21,9 @@ const AboutACM = () => {
         <div className="max-w-3xl mx-auto text-center px-2 sm:px-4">
           <div className="prose prose-lg prose-invert mx-auto">
             <p className="text-white/80 cal-sans-regular text-sm sm:text-base md:text-lg leading-relaxed mb-4 sm:mb-6 text-justify">
-              ACM is an international student chapter that brings together technology geeks, computer educators, 
-              working professionals, among others and gives them a platform to share all things related to the 
-              world of rapidly evolving technology. ACM has always been at the forefront of raising awareness 
-              about new technologies, educating people and empowering them to do something new. Apart from being 
-              a technological learning and skill sharing platform, ACM is also renowned for developing in its 
-              members a sense of teamwork and dedication. It empowers individuals to scale new heights in their 
-              professional careers.
+              Established on October 24th, 2018, at VNRVJIET, Hyderabad, India, ACM VNRVJIET Student Chapter is a vibrant community with over 1200+ local membership holders. We've conducted more than 65 events, including national-level coding contests and hackathons. ACM bridges technology enthusiasts, educators, and professionals, offering a dynamic platform to explore the ever-evolving world of technology.
             </p>
             
-            <p className="text-white/80 cal-sans-regular text-sm sm:text-base md:text-lg leading-relaxed text-justify">
-              With more than 100,000 members worldwide, the fraternity only continues to grow stronger in every 
-              passing year. A chapter with such illustrious history, finds its place with a great prominence in 
-              VNRVJIET. The team running the chapter constantly strives to bring about awareness and widen the 
-              reach of technology and its wonders to more and more people.
-            </p>
           </div>
         </div>
       </div>
