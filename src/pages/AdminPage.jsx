@@ -72,14 +72,12 @@ const AdminPage = () => {
           </button>
 
           {/* Centered Title */}
-          <h1 className="absolute left-1/2 transform -translate-x-1/2 text-2xl font-bold text-white whitespace-nowrap bodoni-moda">
-            Admin
-          </h1>
+          
 
           {/* Logout Button */}
           <button
             onClick={handleLogout}
-            className="bg-orange-500/20 hover:bg-orange-500/30 border border-orange-400/30 text-orange-200 hover:text-orange-100 px-2 py-1 rounded backdrop-blur-sm transition-all duration-200 text-md"
+            className="cal-sans-regular bg-orange-500/20 hover:bg-orange-500/30 border border-orange-400/30 text-orange-200 hover:text-orange-100 px-2 py-1 rounded backdrop-blur-sm transition-all duration-200 text-md"
           >
             Logout
           </button>
