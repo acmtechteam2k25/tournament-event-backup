@@ -451,18 +451,28 @@ const TournamentBracketViewFinal = ({
     // Only handle pinch-to-zoom with two fingers
     if (e.touches.length === 2) {
       if (!containerRef.current) return;
-      e.preventDefault(); // Prevent default for pinch zoom
+      
+      // Don't preventDefault - let CSS touch-action handle it
       const dist = getTouchDistance(e.touches[0], e.touches[1]);
       const center = getTouchCenter(e.touches[0], e.touches[1]);
+      
       if (lastPinchDistance && lastPinchCenter) {
         const factor = dist / lastPinchDistance;
         const newScale = clamp(scale * factor, MIN_SCALE, MAX_SCALE);
+        
+        // Zoom towards the pinch center
         const rect = containerRef.current.getBoundingClientRect();
-        const cx = center.x - rect.left;
-        const cy = center.y - rect.top;
-        const dx = cx / scale - cx / newScale;
-        const dy = cy / scale - cy / newScale;
-        setTranslate({ x: translate.x + dx, y: translate.y + dy });
+        const zoomPointX = center.x - rect.left;
+        const zoomPointY = center.y - rect.top;
+        
+        // Calculate how much the zoom point moves
+        const zoomOffsetX = (zoomPointX / scale) - (zoomPointX / newScale);
+        const zoomOffsetY = (zoomPointY / scale) - (zoomPointY / newScale);
+        
+        setTranslate({ 
+          x: translate.x + zoomOffsetX, 
+          y: translate.y + zoomOffsetY 
+        });
         setScale(newScale);
       }
       setLastPinchDistance(dist);

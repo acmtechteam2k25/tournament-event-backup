@@ -62,6 +62,8 @@ body {
   /* Ensure smooth scrolling */
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
+  /* Allow touch actions for zoom and pan */
+  touch-action: auto;
 }
 
 /* Content wrapper within scrollable container */
