@@ -1058,6 +1058,22 @@ body {
   }
 }
 
+/* Desktop round view height constraints - force specific heights */
+@media (min-width: 769px) {
+  .bracket-round-view .bracket-scrollable-container {
+    max-height: 1300px !important; /* Force maximum height for round containers */
+  }
+  
+  .bracket-round-view .bracket-content {
+    max-height: 1300px !important;
+    overflow-y: auto !important;
+  }
+  
+  .bracket-round-view .bracket-svg {
+    max-height: 1200px !important; /* Force SVG height constraint */
+  }
+}
+
 /* Match Actions Overlay */
 .match-actions-overlay {
   position: absolute;

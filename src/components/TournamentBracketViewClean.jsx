@@ -350,41 +350,32 @@ const TournamentBracketViewFinal = ({
   // Dynamic height calculation for round view based on actual matches (both mobile and desktop)
   if (viewMode === 'round') {
     const actualMatchesCount = visibleMatches.length;
-    const roundHeaderHeight = isMobile ? 60 : 80; // Space for round header
     
-    // Extreme spacing reduction - almost zero padding for rounds 2-3
-    let matchHeight;
     if (isMobile) {
-      matchHeight = style.gameHeight + 15;
+      const roundHeaderHeight = 60;
+      const matchHeight = style.gameHeight + 15;
+      const extraPadding = actualMatchesCount > 20 ? 60 : 80;
+      svgHeight = roundHeaderHeight + (actualMatchesCount * matchHeight) + extraPadding;
     } else {
-      // Desktop: absolute minimal spacing for rounds 2-3
-      if (actualMatchesCount >= 16) {
-        matchHeight = style.gameHeight + 5; // Round 1-2: minimal spacing
+      // Desktop: Manually set heights for each round type
+      if (actualMatchesCount === 16) {
+        // Round 2: Reduce height by 25% from Round 1
+        const round1Height = 32 * style.rowHeight + style.canvasPadding * 2;
+        svgHeight = Math.floor(round1Height * 0.75); // 25% reduction from Round 1
+      } else if (actualMatchesCount >= 20) {
+        // Round 1: Normal height 
+        svgHeight = 32 * style.rowHeight + style.canvasPadding * 2;
       } else if (actualMatchesCount >= 8) {
-        matchHeight = style.gameHeight + 3; // Round 3: almost no spacing
-      } else {
-        matchHeight = style.gameHeight + 15; // Round 4+: normal spacing
-      }
-    }
-    
-    // Extreme padding reduction - almost zero for intermediate rounds
-    let extraPadding;
-    if (isMobile) {
-      extraPadding = actualMatchesCount > 20 ? 60 : 80;
-    } else {
-      // Desktop: near-zero padding for intermediate rounds
-      if (actualMatchesCount >= 16) {
-        extraPadding = 10; // Round 1-2: almost no padding
-      } else if (actualMatchesCount >= 8) {
-        extraPadding = 5; // Round 3: virtually no padding
+        // Round 3: Increase height to prevent cutoff
+        svgHeight = 1100; // Increased from 800 to show all matches
       } else if (actualMatchesCount >= 4) {
-        extraPadding = 40; // Round 4: moderate padding
+        // Quarter Finals: Moderate height
+        svgHeight = 650;
       } else {
-        extraPadding = 60; // Finals: more padding for visual balance
+        // Finals: Small height
+        svgHeight = 450;
       }
     }
-    
-    svgHeight = roundHeaderHeight + (actualMatchesCount * matchHeight) + extraPadding;
   }
 
   // Zoom/Pan helpers
