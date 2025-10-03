@@ -6,7 +6,7 @@ const CountSection = () => {
     <section className="relative py-16 px-4 bg-black/10 backdrop-blur-sm">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-12">
-          <h2 className="bodoni-moda text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4">
+          <h2 className="dm-serif-display-regular text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4">
             Tournament Statistics
           </h2>
           <p className="cal-sans-regular text-white/80 text-lg max-w-2xl mx-auto">
