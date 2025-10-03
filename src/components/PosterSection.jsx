@@ -1,5 +1,6 @@
 import React from 'react';
 import eventPoster from '../assets/event-poster.jpg';
+import './PosterSection.css'
 
 const PosterSection = () => {
   return (
@@ -16,54 +17,62 @@ const PosterSection = () => {
         </div>
 
         {/* Poster Container */}
-        <div className="flex justify-center">
-          <div className="relative group max-w-4xl w-full">
-            {/* Event Poster Image */}
-            <div className="shadow-2xl group-hover:shadow-3xl transition-all duration-300">
-              <img 
-                src={`${eventPoster}?t=${new Date().getTime()}`} 
-                alt="Tournament 2K25 Event Poster"
-                className="w-full h-auto object-contain max-h-[80vh] transition-transform duration-300 ease-in-out group-hover:scale-105"
-                onError={(e) => {
-                  // Fallback if image doesn't load
-                  e.target.style.display = 'none';
-                  e.target.nextSibling.style.display = 'flex';
-                }}
-              />
-              
-              {/* Fallback content if image fails to load */}
-              <div className="h-full flex flex-col items-center justify-center p-8 text-center bg-gradient-to-br from-gray-800 to-gray-900" style={{display: 'none'}}>
-                <div className="w-24 h-24 bg-gradient-to-br from-amber-400 to-orange-600 rounded-full mb-6 flex items-center justify-center">
-                  <svg className="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                  </svg>
-                </div>
-                
-                <h3 className="cal-sans-regular text-3xl sm:text-4xl font-bold text-white mb-4">
-                  Tournament 2K25
-                </h3>
-                
-                <div className="space-y-2 text-gray-300">
-                  <p className="text-lg font-semibold">October 9-11, 2025</p>
-                  <p className="text-base">64 Players • Single Elimination</p>
-                  <p className="text-base">Prize Pool: $10,000</p>
-                </div>
-                
-                <div className="mt-6 px-6 py-2 bg-gradient-to-r from-amber-400 to-orange-600 rounded-full">
-                  <span className="text-white font-semibold">Register Now</span>
-                </div>
+        <div className="flip-container">
+          <div className="flipper ">
+            {/* Front */}
+            <div className="front">
+              <img src={eventPoster} className='w-full h-full' alt="Tournament 2K25 Event Poster" />
+            </div>
+
+            {/* Back */}
+            <div className="back">
+              <div className="back-bg"></div>
+              <div className="back-overlay"></div>
+              <div className="back-content">
+                <h3>Tournament 2K25</h3>
+                <p>📅 October 9–11, 2025</p>
+                <p>👥 64 Players • Single Elimination</p>
+                <p>🏆 Prize Pool: $10,000</p>
               </div>
             </div>
-            
-            {/* Glow Effect */}
-            </div>
+          </div>
         </div>
-
         {/* Additional Info Below Poster */}
-        
+
       </div>
     </section>
   );
 };
 
 export default PosterSection;
+
+<div className="flex justify-center">
+  <div className="relative max-w-4xl w-full">
+    {/* Flip Wrapper preserving original sizing and hover only on image */}
+    <div className="relative group [perspective:1200px] max-w-4xl w-full">
+      {/* Flipper */}
+      <div className="relative h-[80vh] w-full transition-transform duration-700 ease-out [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)] rounded-xl shadow-2xl overflow-hidden">
+
+        {/* Front (Poster) */}
+        <div className="absolute inset-0 [backface-visibility:hidden] flex items-center justify-center bg-black">
+          <img
+            src={eventPoster}
+            alt="Tournament 2K25 Event Poster"
+            className="w-full h-full object-contain"
+          />
+        </div>
+
+        {/* Back (Text side) */}
+        <div className="absolute inset-0 [backface-visibility:hidden] [transform:rotateY(180deg)] flex items-center justify-center bg-gray-900 p-6">
+          <p className="text-white text-2xl sm:text-3xl md:text-4xl font-bold text-center">
+            Sample event details appear here on hover
+          </p>
+        </div>
+      </div>
+    </div>
+
+
+
+    {/* Glow Effect */}
+  </div>
+</div>

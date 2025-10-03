@@ -1,0 +1,100 @@
+.flip-container {
+  perspective: 1500px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.flipper {
+  position: relative;
+  width: 100%;
+  height: 80vh;
+  transform-style: preserve-3d;
+  transition: transform 0.7s ease;
+}
+
+.flip-container:hover .flipper {
+  transform: rotateY(180deg);
+}
+
+.front,
+.back {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+/* Front */
+.front img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: black;
+}
+
+.back {
+  position: absolute;
+  top: 0;
+  left: 30px;
+  width: 80%;
+  height: 100%;
+  transform: rotateY(180deg);
+  overflow: hidden;
+  backface-visibility: hidden;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Blurred Poster Image */
+.back .back-bg {
+  position: absolute;
+  inset: 0;
+  background: url("../assets/event-poster.jpg") center/cover no-repeat;
+  transform: rotateY(180deg);
+  filter: blur(10px) brightness(0.6);
+  z-index: 1;
+}
+
+/* Dark Overlay */
+.back .back-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 2;
+}
+
+/* Text Content */
+.back .back-content {
+  position: relative;
+  z-index: 3;
+  /* above blur + overlay */
+  text-align: center;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.flip-container:hover .back-content {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.back-content h3 {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 15px;
+  color: #fff;
+}
+
+.back-content p {
+  font-size: 1.2rem;
+  margin: 5px 0;
+  color: #ddd;
+}
