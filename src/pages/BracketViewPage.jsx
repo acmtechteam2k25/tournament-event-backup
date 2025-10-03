@@ -63,13 +63,13 @@ const BracketViewPage = () => {
         <div className="flex gap-2">
           <button
             onClick={() => setTournamentKey('secondYear')}
-            className={`px-4 py-2 rounded-l backdrop-blur-md border transition-all duration-200 ${tournamentKey === 'secondYear' ? 'bg-black/20 text-orange-200 border-orange-400/60' : 'bg-black/10 text-white/70 border-white/20 hover:bg-black/20 hover:text-orange-200 hover:border-orange-400/30'}`}
+            className={`cal-sans-regular px-4 py-2 rounded-l backdrop-blur-md border transition-all duration-200 ${tournamentKey === 'secondYear' ? 'bg-black/20 text-orange-200 border-orange-400/60' : 'bg-black/10 text-white/70 border-white/20 hover:bg-black/20 hover:text-orange-200 hover:border-orange-400/30'}`}
           >
             2nd Year
           </button>
           <button
             onClick={() => setTournamentKey('thirdYear')}
-            className={`px-4 py-2 rounded-r backdrop-blur-md border transition-all duration-200 ${tournamentKey === 'thirdYear' ? 'bg-black/20 text-orange-200 border-orange-400/60' : 'bg-black/10 text-white/70 border-white/20 hover:bg-black/20 hover:text-orange-200 hover:border-orange-400/30'}`}
+            className={`cal-sans-regular px-4 py-2 rounded-r backdrop-blur-md border transition-all duration-200 ${tournamentKey === 'thirdYear' ? 'bg-black/20 text-orange-200 border-orange-400/60' : 'bg-black/10 text-white/70 border-white/20 hover:bg-black/20 hover:text-orange-200 hover:border-orange-400/30'}`}
           >
             3rd Year
           </button>
@@ -82,13 +82,13 @@ const BracketViewPage = () => {
         <div className="flex gap-2">
           <button
             onClick={() => setViewMode('full')}
-            className={`px-4 py-2 rounded-l backdrop-blur-md border transition-all duration-200 ${viewMode === 'full' ? 'bg-orange-500/20 text-orange-200 border-orange-400/60' : 'bg-black/10 text-white/70 border-white/20 hover:bg-orange-500/10 hover:text-orange-200 hover:border-orange-400/30'}`}
+            className={`cal-sans-regular px-4 py-2 rounded-l backdrop-blur-md border transition-all duration-200 ${viewMode === 'full' ? 'bg-orange-500/20 text-orange-200 border-orange-400/60' : 'bg-black/10 text-white/70 border-white/20 hover:bg-orange-500/10 hover:text-orange-200 hover:border-orange-400/30'}`}
           >
             Full Bracket
           </button>
           <button
             onClick={() => setViewMode('round')}
-            className={`px-4 py-2 rounded-r backdrop-blur-md border transition-all duration-200 ${viewMode === 'round' ? 'bg-orange-500/20 text-orange-200 border-orange-400/60' : 'bg-black/10 text-white/70 border-white/20 hover:bg-orange-500/10 hover:text-orange-200 hover:border-orange-400/30'}`}
+            className={`cal-sans-regular px-4 py-2 rounded-r backdrop-blur-md border transition-all duration-200 ${viewMode === 'round' ? 'bg-orange-500/20 text-orange-200 border-orange-400/60' : 'bg-black/10 text-white/70 border-white/20 hover:bg-orange-500/10 hover:text-orange-200 hover:border-orange-400/30'}`}
           >
             Round View
           </button>

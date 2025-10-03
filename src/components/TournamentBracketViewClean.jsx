@@ -552,9 +552,9 @@ const TournamentBracketViewFinal = ({
                   }
                 }}
                 disabled={isExporting}
-                className={`px-4 py-2 rounded-lg text-black font-bold shadow inline-flex items-center gap-2 ${isExporting
-                  ? "bg-amber-400 cursor-wait"
-                  : "bg-amber-500 hover:bg-amber-600"
+                className={`px-4 py-2 rounded-lg text-white font-bold shadow inline-flex items-center gap-2 border ${isExporting
+                  ? "bg-amber-700/60 border-amber-600/50 cursor-wait"
+                  : "bg-amber-800/60 hover:bg-amber-700/70 border-amber-600/60 hover:border-amber-500/70"
                   }`}
               >
                 {isExporting ? "Generating…" : "Export Excel"}
@@ -571,7 +571,7 @@ const TournamentBracketViewFinal = ({
                     alert(`Failed to load scores: ${e.message || e}`);
                   }
                 }}
-                className="px-4 py-2 rounded-lg bg-orange-500 hover:bg-orange-600 text-white font-bold shadow"
+                className="px-4 py-2 rounded-lg bg-amber-800/60 hover:bg-amber-700/70 border border-amber-600/60 hover:border-amber-500/70 text-white font-bold shadow"
               >
                 Cumulative Scores
               </button>
