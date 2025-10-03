@@ -37,7 +37,7 @@ const Home = () => {
           <h1 className="tea-chest-regular text-5xl sm:text-7xl md:text-8xl lg:text-[6rem] xl:text-[7rem] font-bold text-white mb-0 sm:mb-8 leading-tight">
             Tesseract
           </h1>
-          <h4 className="poppins-regular text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-white mb-2 sm:mb-8 leading-tight">
+          <h4 className="cal-sans-regular text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-white mb-2 sm:mb-8 leading-tight">
             The Ultimate Showdown
           </h4>
 
