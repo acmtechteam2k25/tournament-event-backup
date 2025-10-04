@@ -57,6 +57,8 @@ export default PosterSection;
         <div className="absolute inset-0 [backface-visibility:hidden] flex items-center justify-center bg-black">
           <img
             src={eventPoster}
+            width='1080px'
+            height='1350px'
             alt="Tournament 2K25 Event Poster"
             className="w-full h-full object-contain"
           />
