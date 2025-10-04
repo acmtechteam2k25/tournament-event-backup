@@ -40,7 +40,7 @@
 .back {
   position: absolute;
   top: 0;
-  left: 40px;
+  left: 50px;
   width: 78%;
   height: 100%;
   transform: rotateY(180deg);
