@@ -12,7 +12,8 @@ const PosterSection = () => {
             What is it?
           </h2>
           <p className="cal-sans-regular text-lg sm:text-xl text-gray-300 max-w-2xl mx-auto">
-            Join us for the ultimate tournament experience - where champions are made and legends are born.
+            Tech Tournament is a first-of-its-kind, multi-round technical competition conducted as part of Convergence 2K25. The entire event follows a 1 vs 1 head-to-head structure, giving participants a true tournament-style experience. 
+
           </p>
         </div>
 

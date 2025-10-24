@@ -6,7 +6,7 @@ const AboutACM = () => {
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-8 sm:mb-12">
           <h2 className="dm-serif-display-regular text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 sm:mb-6">
-            About ACM VNRVJIET
+            About Convergence
           </h2>
           <div className="relative w-20 h-1 mx-auto mb-8">
             {/* Multiple glow layers for intense light effect */}
@@ -21,7 +21,7 @@ const AboutACM = () => {
         <div className="max-w-3xl mx-auto text-center px-2 sm:px-4">
           <div className="prose prose-lg prose-invert mx-auto">
             <p className="text-white/80 cal-sans-regular text-md lg:text-2xl sm:text-base md:text-lg leading-relaxed mb-4 sm:mb-6 text-justify">
-              Established on October 24th, 2018, at VNRVJIET, Hyderabad, India, ACM VNRVJIET Student Chapter is a vibrant community with over 1200+ local membership holders. We've conducted more than 65 events, including national-level coding contests and hackathons. ACM bridges technology enthusiasts, educators, and professionals, offering a dynamic platform to explore the ever-evolving world of technology.
+              Convergence 2K25 is the annual technical fest of VNRVJIET, celebrated for its vibrant spirit and diverse lineup of tech-driven events. Convergence brings together enthusiastic participants from different colleges, offering a great platform for students to showcase their talent. 
             </p>
             
           </div>
