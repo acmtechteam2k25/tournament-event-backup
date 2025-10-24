@@ -32,10 +32,14 @@ const PosterSection = () => {
               <div className="back-bg"></div>
               <div className="back-overlay"></div>
               <div className="back-content">
-                <h3>Tournament 2K25</h3>
-                <p>📅 October 9–11, 2025</p>
-                <p>👥 64 Players • Single Elimination</p>
-                <p>🏆 Prize Pool: $10,000</p>
+                <h3>Tech Tournament</h3>
+                <p>Qualifiers</p>
+                <p>3rd November 2025</p>
+                <p>At VNR VJIET</p>
+                <p>Knockouts</p>
+                <p>4th November 2025</p>
+                <p>At VNR VJIET</p>
+                <p>🏆 Prize Pool: 15,000</p>
               </div>
             </div>
           </div>
