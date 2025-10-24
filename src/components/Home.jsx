@@ -42,18 +42,18 @@ const Home = () => {
           </h4>
 
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center">
-            <Link
+            {/* <Link
               to="/bracket"
               className="cal-sans-regular bg-white text-sm sm:text-xl md:text-2xl text-black px-3 sm:px-5 py-1 sm:py-3 rounded-full font-semibold hover:bg-gray-100 transition-colors sm:w-auto inline-block text-center"
             >
               Bracket View
-            </Link>
-            <button
+            </Link> */}
+            {/* <button
               onClick={scrollToPoster}
               className="cal-sans-regular border text-base hidden sm:block sm:text-xl md:text-2xl border-white/30 text-white px-4 sm:px-5 py-2 sm:py-3 rounded-full font-semibold hover:bg-white/10 transition-colors w-3/4 sm:w-auto"
             >
               Learn More
-            </button>
+            </button> */}
           </div>
         </main>
       </section>
