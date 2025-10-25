@@ -54,12 +54,7 @@ const Home = () => {
                   Join the Arena
                 </span>
               </button>
-              <button
-                onClick={scrollToPoster}
-                className="cal-sans-regular border text-base hidden sm:block sm:text-xl md:text-2xl border-white/30 text-white px-4 sm:px-5 py-2 sm:py-3 rounded-full font-semibold hover:bg-white/10 transition-colors w-3/4 sm:w-auto"
-              >
-                Learn More
-              </button>
+             
             </div>
           </main>
         </section>
