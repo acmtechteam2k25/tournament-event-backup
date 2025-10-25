@@ -1,0 +1,164 @@
+/* Glassy translucent overlay that sits above page content */
+.releasing-soon-root {
+	position: relative;
+	min-height: 100vh;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.releasing-soon-backdrop {
+	position: absolute;
+	top: 0; right: 0; bottom: 0; left: 0;
+	/* dim background so the glass panel reads well */
+ background: rgba(0, 0, 0, 0.36);
+ -webkit-backdrop-filter: blur(6px) saturate(140%);
+ backdrop-filter: blur(6px) saturate(140%);
+	z-index: 10;
+}
+
+.releasing-soon-glass {
+	position: relative;
+	z-index: 20;
+	width: min(920px, 92%);
+	padding: 40px 28px;
+	border-radius: 18px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 18px;
+	text-align: center;
+	color: #ffffff;
+	 /* glass panel - match navbar/acm logo style (dark translucent with blur)
+		 increase translucency (more see-through) so bg image reads through */
+	 background: rgba(0,0,0,0.12);
+	 border: 1px solid rgba(255,255,255,0.045);
+	box-shadow: 0 12px 40px rgba(62, 41, 17, 0.6);
+	-webkit-backdrop-filter: blur(10px) saturate(140%);
+	backdrop-filter: blur(10px) saturate(140%);
+}
+
+.rs-title {
+		font-size: 2.6rem;
+	font-weight: 700;
+	letter-spacing: 0.6px;
+	margin: 0;
+}
+
+/* gold / warm gradient for title (admin login theme) */
+.rs-title {
+	background: linear-gradient(90deg, #d4af37 0%, #ffd27a 35%, #ff9f1c 65%, #b36b2c 100%);
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+}
+
+.rs-subtitle {
+	color: rgba(255,255,255,0.85);
+	max-width: 720px;
+	margin: 0;
+	font-size: 1rem;
+}
+
+.rs-wheels {
+	display: flex;
+	/* desktop spacing (laptop) - restore wider gap so laptop layout remains unchanged */
+	gap: 28px;
+	align-items: center;
+	justify-content: center;
+	padding: 8px 12px;
+}
+
+/* wrappers so individual wheels can be vertically offset to match the reference image */
+.wheel-wrap { display: inline-flex; align-items: center; justify-content: center; position: relative; }
+/* Arrange wheels with overlap and vertical offsets to match reference image */
+.wheel-wrap.w1 {
+	/* left big wheel - slightly lower than medium */
+	transform: translateY(8px);
+	margin-right: -20px; /* restore laptop overlap */
+	z-index: 10;
+}
+.wheel-wrap.w2 {
+	/* small center wheel - a bit lower than big wheel (sits between but lower) */
+	transform: translateY(36px);
+	margin-right: -6px; /* restore laptop spacing */
+	z-index: 20;
+}
+.wheel-wrap.w3 {
+	/* medium right wheel - sits above small and slightly above big */
+	transform: translateY(-26px);
+	margin-left: -28px; /* restore laptop spacing */
+	z-index: 40;
+}
+
+/* Generic wheel SVG styling */
+.releasing-wheel {
+	display: block;
+	filter: drop-shadow(0 6px 18px rgba(0,0,0,0.55));
+}
+
+.releasing-wheel .wheel-ring {
+	/* default fallback ring color; specific wheels set stroke via prop */
+	stroke: rgba(255,255,255,0.12);
+}
+
+.releasing-wheel .wheel-tooth {
+	/* slight darker edge to simulate gear depth */
+	opacity: 0.96;
+}
+
+.releasing-wheel .rotator {
+	transform-origin: 50% 50%;
+	animation: rs-spin var(--wheel-speed, 3s) linear infinite;
+	/* support for reverse via CSS variable */
+	animation-direction: var(--wheel-anim-dir, normal);
+}
+
+@keyframes rs-spin {
+	from { transform: rotate(0deg); }
+	to { transform: rotate(360deg); }
+}
+
+/* Responsive sizing tweaks */
+@media (max-width: 640px) {
+	.releasing-soon-glass { padding: 28px 16px; border-radius: 12px; }
+	.rs-wheels { gap: 18px; }
+}
+
+.releasing-soon-glass, .releasing-soon-backdrop { transition: all 260ms ease; }
+
+/* Bracket behind overlay */
+.rs-bracket-behind {
+	position: fixed;
+	top: 0; right: 0; bottom: 0; left: 0;
+	z-index: 0;
+	pointer-events: none; /* prevent interactions through the glass */
+	/* Slight blur + dim to emphasize overlay */
+	filter: blur(2px) brightness(0.7) contrast(0.95);
+}
+
+/* Gear color overrides to match provided image */
+/* override gear accents to match warm theme */
+.rs-wheels svg:nth-child(1) .wheel-tooth { fill: #d4af37; }
+.rs-wheels svg:nth-child(1) .wheel-ring { stroke: #d4af37; }
+.rs-wheels svg:nth-child(2) .wheel-tooth { fill: #ffd27a; }
+.rs-wheels svg:nth-child(2) .wheel-ring { stroke: #ffd27a; }
+.rs-wheels svg:nth-child(3) .wheel-tooth { fill: #b36b2c; }
+.rs-wheels svg:nth-child(3) .wheel-ring { stroke: #b36b2c; }
+
+/* Mobile tweaks: keep wheel layout/scale similar to desktop while slightly reducing panel padding and title size */
+@media (max-width: 520px) {
+	/* increase left/right margin (by reducing width) and increase padding on mobile so the glass panel
+		 doesn't feel edge-to-edge */
+	.releasing-soon-glass { padding: 36px 22px; width: 88%; margin: 6vh auto; }
+		/* keep wheel composition similar to desktop but reduce overall wheel scale more to fit mobile screens */
+				.rs-wheels { gap: 8px; }
+				.rs-title { font-size: 1.85rem; }
+				/* scale down wheels further and preserve the vertical offsets/stacking; tighten margins on mobile */
+					.wheel-wrap.w1 { transform: translateY(6px) scale(0.78); margin-right: -44px; }
+					.wheel-wrap.w2 { transform: translateY(34px) scale(0.60); margin-right: -36px; }
+					.wheel-wrap.w3 { transform: translateY(-20px) scale(0.76); margin-left: -34px; }
+		/* ensure wheels don't overflow panel on very narrow screens */
+		.rs-wheels { max-width: 94%; overflow: visible; }
+}

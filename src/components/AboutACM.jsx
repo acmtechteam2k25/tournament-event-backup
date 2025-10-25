@@ -6,11 +6,11 @@ const AboutACM = () => {
       <div className="mx-5">
         <div className="flex flex-col">
           <div className="top text-center">
-            <h2 className="dm-serif-display-regular text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 sm:mb-6">
+            <h2 className="dm-serif-display-regular text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-2 sm:mb-4">
               About Convergence
 
             </h2>
-            <div className="relative w-20 h-1 mx-auto mb-8">
+            <div className="relative w-20 h-1 mx-auto mb-4">
               {/* Multiple glow layers for intense light effect */}
               <div className="absolute inset-0 bg-gradient-to-r from-amber-400 to-orange-600 rounded-full shadow-[0_0_40px_rgba(251,191,36,0.8),0_0_80px_rgba(251,191,36,0.4),0_0_120px_rgba(251,191,36,0.2)]"></div>
               <div className="absolute inset-0 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full opacity-90 blur-[0.5px]"></div>
