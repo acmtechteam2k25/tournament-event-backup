@@ -63,6 +63,7 @@
 
 .rs-wheels {
 	display: flex;
+	/* desktop spacing (laptop) - restore wider gap so laptop layout remains unchanged */
 	gap: 28px;
 	align-items: center;
 	justify-content: center;
@@ -75,20 +76,20 @@
 .wheel-wrap.w1 {
 	/* left big wheel - slightly lower than medium */
 	transform: translateY(8px);
-	margin-right: -20px; /* overlap towards center */
+	margin-right: -20px; /* restore laptop overlap */
 	z-index: 10;
 }
 .wheel-wrap.w2 {
 	/* small center wheel - a bit lower than big wheel (sits between but lower) */
 	transform: translateY(36px);
-	margin-right: -6px; /* sit between wheels with less horizontal overlap */
+	margin-right: -6px; /* restore laptop spacing */
 	z-index: 20;
 }
 .wheel-wrap.w3 {
-	/* medium right wheel - sits above small and noticeably above big; closer to center */
+	/* medium right wheel - sits above small and slightly above big */
 	transform: translateY(-26px);
-	margin-left: -28px; /* pull it closer to the middle wheel */
-	z-index: 50;
+	margin-left: -28px; /* restore laptop spacing */
+	z-index: 40;
 }
 
 /* Generic wheel SVG styling */
@@ -146,10 +147,18 @@
 .rs-wheels svg:nth-child(3) .wheel-tooth { fill: #b36b2c; }
 .rs-wheels svg:nth-child(3) .wheel-ring { stroke: #b36b2c; }
 
-/* Adjust wheel sizes visually on small screens */
+/* Mobile tweaks: keep wheel layout/scale similar to desktop while slightly reducing panel padding and title size */
 @media (max-width: 520px) {
-	.rs-wheels svg { width: 72px !important; height: 72px !important; }
-	.rs-title { font-size: 1.6rem; }
-	.wheel-wrap.w2 { transform: translateY(20px); margin-right: -6px; }
-	.wheel-wrap.w3 { transform: translateY(-10px); margin-left: -8px; }
+	/* increase left/right margin (by reducing width) and increase padding on mobile so the glass panel
+		 doesn't feel edge-to-edge */
+	.releasing-soon-glass { padding: 36px 22px; width: 88%; margin: 6vh auto; }
+		/* keep wheel composition similar to desktop but reduce overall wheel scale more to fit mobile screens */
+				.rs-wheels { gap: 8px; }
+				.rs-title { font-size: 1.85rem; }
+				/* scale down wheels further and preserve the vertical offsets/stacking; tighten margins on mobile */
+					.wheel-wrap.w1 { transform: translateY(6px) scale(0.78); margin-right: -44px; }
+					.wheel-wrap.w2 { transform: translateY(34px) scale(0.60); margin-right: -36px; }
+					.wheel-wrap.w3 { transform: translateY(-20px) scale(0.76); margin-left: -34px; }
+		/* ensure wheels don't overflow panel on very narrow screens */
+		.rs-wheels { max-width: 94%; overflow: visible; }
 }
