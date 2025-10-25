@@ -24,7 +24,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/bracket" element={< >
-              <div className="h-screen flex justify-center items-center">
+              <div className="tea-chest-regular h-screen flex justify-center items-center">
                 <h1 className="text-2xl font-bold">Releasing Soon ...</h1>
               </div>
             </>} />
