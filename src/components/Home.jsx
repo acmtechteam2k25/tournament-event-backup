@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './Home.css';
 import { Link } from 'react-router-dom';
 import Orb from './Orb';
 import PosterSection from './PosterSection';
@@ -48,7 +49,7 @@ const Home = () => {
               type="button"
               aria-haspopup="dialog"
               onClick={() => setShowModal(true)}
-              className="group cal-sans-regular text-sm sm:text-xl md:text-2xl px-4 sm:px-6 py-2 sm:py-3 rounded-full font-semibold transition-transform duration-200 transform bg-gradient-to-r from-amber-300/10 via-amber-200/10 to-orange-400/10 hover:from-amber-400 hover:to-orange-500 hover:scale-105 shadow-lg hover:shadow-amber-400/40 backdrop-blur-sm border border-amber-300/30 inline-block text-center cursor-pointer focus:outline-none focus:ring-4 focus:ring-amber-300/30"
+              className="group cal-sans-regular text-sm sm:text-xl md:text-2xl px-4 sm:px-6 py-2 sm:py-3 rounded-full font-semibold transition-transform duration-200 transform bg-gradient-to-r from-amber-300/10 via-amber-200/10 to-orange-400/10 hover:from-amber-400 hover:to-orange-500 hover:scale-105 shadow-lg hover:shadow-amber-400/40 backdrop-blur-sm border border-amber-300/30 inline-block text-center cursor-pointer focus:outline-none focus:ring-4 focus:ring-amber-300/30 shiny-btn"
             >
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 via-orange-400 to-amber-700 group-hover:text-black">
                 Join the Arena

@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
 import Navbar from "./components/Navbar";
 import ACMLogo from "./components/ACMLogo";
+import VNRLogo from "./assets/vnr.png";
 import Footer from "./components/Footer";
 import Home from "./components/Home";
 import BracketViewPage from "./pages/BracketViewPage";

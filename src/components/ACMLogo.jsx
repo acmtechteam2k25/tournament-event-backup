@@ -1,5 +1,5 @@
 import React from 'react';
-import acmLogo from '../assets/ACM.png';
+import acmLogo from '../assets/vnr.png';
 
 const ACMLogo = () => {
   const handleLogoClick = () => {
