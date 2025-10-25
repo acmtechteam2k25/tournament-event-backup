@@ -1,5 +1,5 @@
 import React from "react";
-import eventPoster from "../assets/poster.jpg";
+import eventPoster from "../assets/poster.png";
 import { Calendar, MapPin } from "lucide-react";
 import "./PosterSection.css"; // make sure path matches file name
 
