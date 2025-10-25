@@ -72,7 +72,7 @@ export default function ReleasingSoon() {
 							</div>
 						</div>
 
-				<p className="rs-subtitle">Bracket view is under construction — check back soon.</p>
+				
 			</div>
 		</div>
 	);
