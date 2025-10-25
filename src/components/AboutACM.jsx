@@ -29,7 +29,7 @@ const AboutACM = () => {
             <div className="w-full md:w-1/2 mx-auto text-justify px-2 sm:px-4">
               <div className="prose prose-lg prose-invert mx-auto h-full flex flex-col justify-center items-center">
                 <p className="text-white/80 cal-sans-regular text-md lg:text-2xl sm:text-base md:text-lg leading-relaxed mb-4 sm:mb-6 text-justify">
-                  Convergence 2K25 is the annual technical fest of VNRVJIET,
+                  Convergence 2K25r is the annual technical fest of VNRVJIET,
                   celebrated for its vibrant spirit and diverse lineup of
                   tech-driven events. Convergence brings together enthusiastic
                   participants from different colleges, offering a great
@@ -38,7 +38,7 @@ const AboutACM = () => {
                 <button
                   onClick={() =>
                     window.open(
-                      "https://unstop.com/p/tech-tournament-vallurupalli-nageswara-rao-vignana-jyothi-institute-of-engineering-technology-telangana-1578635"
+                      "https://axisbpayments.razorpay.com/pl_Pq0BHPyKE4qna8/view"
                     )
                   }
                   className="bg-gradient-to-r from-amber-400 to-orange-500 hover:from-amber-500 hover:to-orange-600 disabled:from-gray-400 disabled:to-gray-500 text-black font-semibold py-2 md:py-3 px-5 md:px-10 rounded-lg transition-all duration-200 transform hover:scale-[1.02] shadow-lg hover:shadow-amber-400/20 text-lg"

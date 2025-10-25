@@ -34,10 +34,10 @@ const Home = () => {
 
         {/* Hero Content over the orb */}
         <main className="relative z-10 text-center px-4 -translate-y-5 sm:-translate-y-1">
-          <h1 className="tea-chest-regular text-4xl sm:text-6xl md:text-7xl lg:text-[5rem] xl:text-[6rem] font-bold text-white mb-0 sm:mb-8 leading-tight">
+          <h1 className="tea-chest-regular text-3xl sm:text-6xl md:text-7xl lg:text-[4rem] xl:text-[4rem] font-bold text-white mb-0 sm:mb-8 leading-tight">
             Tech Tournament
           </h1>
-          <h4 className="cal-sans-regular text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-white mb-2 sm:mb-8 leading-tight">
+          <h4 className="cal-sans-regular text-lg sm:text-2xl md:text-3xl lg:text-4xl xl:text-4xl font-bold text-white mb-2 sm:mb-8 leading-tight">
             The Ultimate Showdown
           </h4>
 
@@ -64,7 +64,7 @@ const Home = () => {
       <PosterSection />
 
       {/* Count Section */}
-      <CountSection />
+      {/* <CountSection /> */}
 
 
     </>

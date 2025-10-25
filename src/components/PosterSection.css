@@ -83,14 +83,12 @@
 }
 
 .back-content h3 {
-  font-size: 2rem;
   font-weight: bold;
   margin-bottom: 10px;
   color: #fff;
 }
 
 .back-content p {
-  font-size: 1.2rem;
   margin: 5px 0;
   color: #ddd;
 }
@@ -99,13 +97,5 @@
 @media (max-width: 640px) {
   .flip-container {
     max-width: 95%;
-  }
-
-  .back-content h3 {
-    font-size: 0.9rem;
-  }
-
-  .back-content p {
-    font-size: 0.6rem;
   }
 }

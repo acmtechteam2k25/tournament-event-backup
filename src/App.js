@@ -16,19 +16,23 @@ function App() {
         <div className="relative w-screen overflow-x-hidden pt-14" style={{ backgroundColor: '#000000ff' }}>
           {/* Navbar */}
           <Navbar />
-          
+
           {/* ACM Logo */}
           <ACMLogo />
-        
-        {/* Routes */}
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/bracket" element={<BracketViewPage />} />
-          <Route path="/admin" element={<AdminPage />} />
-        </Routes>
 
-        {/* Footer */}
-        <Footer />
+          {/* Routes */}
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/bracket" element={< >
+              <div className="h-screen flex justify-center items-center">
+                <h1 className="text-2xl font-bold">Releasing Soon ...</h1>
+              </div>
+            </>} />
+            <Route path="/admin" element={<AdminPage />} />
+          </Routes>
+
+          {/* Footer */}
+          <Footer />
         </div>
       </Router>
     </AuthProvider>
