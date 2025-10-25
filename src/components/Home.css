@@ -1,0 +1,43 @@
+/* Glassy left-to-right shine for Join the Arena button */
+.shiny-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.shiny-btn::before {
+  content: "";
+  position: absolute;
+  top: -40%;
+  left: -75%;
+  width: 60%;
+  height: 220%;
+  background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,245,200,0.45) 45%, rgba(255,255,255,0.85) 50%, rgba(255,245,200,0.45) 55%, rgba(255,255,255,0) 100%);
+  transform: skewX(-20deg);
+  transition: transform 0.3s ease;
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+
+.shiny-btn:hover::before,
+.shiny-btn:focus::before {
+  animation: hs-shine 1s ease-in-out forwards;
+}
+
+@keyframes hs-shine {
+  from {
+    left: -75%;
+  }
+  to {
+    left: 125%;
+  }
+}
+
+/* optional subtle rotating gold border glow using an ::after ring */
+.shiny-btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  padding: 1px; /* space for border */
+  pointer-events: none;
+}
