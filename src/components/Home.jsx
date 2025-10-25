@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Orb from './Orb';
 import PosterSection from './PosterSection';
@@ -15,6 +15,8 @@ const Home = () => {
       });
     }
   };
+
+  const [showModal, setShowModal] = useState(false);
 
   return (
     <>
@@ -42,12 +44,12 @@ const Home = () => {
           </h4>
 
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center">
-            {/* <Link
-              to="/bracket"
+            <button
+              onClick={() => setShowModal(true)}
               className="cal-sans-regular bg-white text-sm sm:text-xl md:text-2xl text-black px-3 sm:px-5 py-1 sm:py-3 rounded-full font-semibold hover:bg-gray-100 transition-colors sm:w-auto inline-block text-center"
             >
-              Bracket View
-            </Link> */}
+              Join the Arena
+            </button>
             {/* <button
               onClick={scrollToPoster}
               className="cal-sans-regular border text-base hidden sm:block sm:text-xl md:text-2xl border-white/30 text-white px-4 sm:px-5 py-2 sm:py-3 rounded-full font-semibold hover:bg-white/10 transition-colors w-3/4 sm:w-auto"
@@ -57,6 +59,61 @@ const Home = () => {
           </div>
         </main>
       </section>
+      {/* Modal: Convergence Pass question */}
+      {showModal && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center"
+          onClick={() => setShowModal(false)}
+        >
+          {/* backdrop */}
+          <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
+
+          {/* glass modal */}
+          <div
+            className="relative bg-white/5 backdrop-blur-md border border-white/20 rounded-xl p-6 max-w-lg w-[90%] mx-auto text-center shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Convergence pass question"
+          >
+            <h3 className="dm-serif-display-regular text-xl sm:text-2xl font-bold text-white mb-3">
+              Do you have convergence pass?
+            </h3>
+            <p className="text-white/80 mb-6">Select an option to continue</p>
+
+            <div className="flex justify-center gap-4">
+              <button
+                onClick={() => {
+                  window.open(
+                    'https://unstop.com/p/tech-tournament-vallurupalli-nageswara-rao-vignana-jyothi-institute-of-engineering-technology-telangana-1578635',
+                    '_blank',
+                    'noopener,noreferrer'
+                  );
+                  setShowModal(false);
+                }}
+                className="bg-gradient-to-r from-amber-400 to-orange-500 text-black font-semibold py-2 px-6 rounded-lg hover:from-amber-500 hover:to-orange-600 transition-colors"
+              >
+                Yes
+              </button>
+
+              <button
+                onClick={() => {
+                  window.open(
+                    'https://axisbpayments.razorpay.com/pl_Pq0BHPyKE4qna8/view',
+                    '_blank',
+                    'noopener,noreferrer'
+                  );
+                  setShowModal(false);
+                }}
+                className="bg-white/10 text-white font-semibold py-2 px-6 rounded-lg border border-white/10 hover:bg-white/20 transition-colors"
+              >
+                No
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* About ACM Section */}
       <AboutACM />
 
