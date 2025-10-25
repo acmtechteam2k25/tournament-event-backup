@@ -45,10 +45,14 @@ const Home = () => {
 
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center">
             <button
+              type="button"
+              aria-haspopup="dialog"
               onClick={() => setShowModal(true)}
-              className="cal-sans-regular bg-white text-sm sm:text-xl md:text-2xl text-black px-3 sm:px-5 py-1 sm:py-3 rounded-full font-semibold hover:bg-gray-100 transition-colors sm:w-auto inline-block text-center"
+              className="group cal-sans-regular text-sm sm:text-xl md:text-2xl px-4 sm:px-6 py-2 sm:py-3 rounded-full font-semibold transition-transform duration-200 transform bg-gradient-to-r from-amber-300/10 via-amber-200/10 to-orange-400/10 hover:from-amber-400 hover:to-orange-500 hover:scale-105 shadow-lg hover:shadow-amber-400/40 backdrop-blur-sm border border-amber-300/30 inline-block text-center cursor-pointer focus:outline-none focus:ring-4 focus:ring-amber-300/30"
             >
-              Join the Arena
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 via-orange-400 to-amber-700 group-hover:text-black">
+                Join the Arena
+              </span>
             </button>
             {/* <button
               onClick={scrollToPoster}
