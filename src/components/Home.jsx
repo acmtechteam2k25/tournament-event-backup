@@ -1,22 +1,11 @@
-<<<<<<< HEAD
-import React from "react";
-import { Link } from "react-router-dom";
-import Orb from "./Orb";
-import PosterSection from "./PosterSection";
-import CountSection from "./CountSection";
-import AboutACM from "./AboutACM";
 
-import { EvervaultCard } from "./evervault-card";
-
-=======
 import React, { useState } from 'react';
-import './Home.css';
 import { Link } from 'react-router-dom';
 import Orb from './Orb';
 import PosterSection from './PosterSection';
 import CountSection from './CountSection';
 import AboutACM from './AboutACM';
->>>>>>> 818c28cbd71c778a803a2b8e7793c592a47d9d2e
+import { EvervaultCard } from './evervault-card';
 
 const Home = () => {
   const scrollToPoster = () => {
@@ -25,12 +14,10 @@ const Home = () => {
       posterSection.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   };
-<<<<<<< HEAD
-=======
+
 
   const [showModal, setShowModal] = useState(false);
 
->>>>>>> 818c28cbd71c778a803a2b8e7793c592a47d9d2e
   return (
     <>
       {/* Hero Section */}
@@ -47,7 +34,7 @@ const Home = () => {
               />
             </div>
           </div>
-<<<<<<< HEAD
+
           {/* Hero Content over the orb */}
           <main className="relative z-10 text-center px-4 -translate-y-5 sm:-translate-y-1">
             <h1 className="tea-chest-regular text-3xl sm:text-6xl md:text-7xl lg:text-[4rem] xl:text-[4rem] font-bold text-white mb-0 sm:mb-8 leading-tight">
@@ -57,46 +44,27 @@ const Home = () => {
               The Ultimate Showdown
             </h4>
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center">
-              {/* <Link to="/bracket" className="cal-sans-regular bg-white text-sm sm:text-xl md:text-2xl text-black px-3 sm:px-5 py-1 sm:py-3 rounded-full font-semibold hover:bg-gray-100 transition-colors sm:w-auto inline-block text-center" > Bracket View </Link> */}
-              {/* <button onClick={scrollToPoster} className="cal-sans-regular border text-base hidden sm:block sm:text-xl md:text-2xl border-white/30 text-white px-4 sm:px-5 py-2 sm:py-3 rounded-full font-semibold hover:bg-white/10 transition-colors w-3/4 sm:w-auto" > Learn More </button> */}
+              <button
+                type="button"
+                aria-haspopup="dialog"
+                onClick={() => setShowModal(true)}
+                className="group cal-sans-regular text-sm sm:text-xl md:text-2xl px-4 sm:px-6 py-2 sm:py-3 rounded-full font-semibold transition-transform duration-200 transform bg-gradient-to-r from-amber-300/10 via-amber-200/10 to-orange-400/10 hover:from-amber-400 hover:to-orange-500 hover:scale-105 shadow-lg hover:shadow-amber-400/40 backdrop-blur-sm border border-amber-300/30 inline-block text-center cursor-pointer focus:outline-none focus:ring-4 focus:ring-amber-300/30 shiny-btn"
+              >
+                <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 via-orange-400 to-amber-700 group-hover:text-black">
+                  Join the Arena
+                </span>
+              </button>
+              <button
+                onClick={scrollToPoster}
+                className="cal-sans-regular border text-base hidden sm:block sm:text-xl md:text-2xl border-white/30 text-white px-4 sm:px-5 py-2 sm:py-3 rounded-full font-semibold hover:bg-white/10 transition-colors w-3/4 sm:w-auto"
+              >
+                Learn More
+              </button>
             </div>
           </main>
         </section>
-        {/* About ACM Section */} <AboutACM /> {/* Poster Section */}
-        <PosterSection /> {/* Count Section */} {/* <CountSection /> */}
       </EvervaultCard>
-=======
-        </div>
 
-        {/* Hero Content over the orb */}
-        <main className="relative z-10 text-center px-4 -translate-y-5 sm:-translate-y-1">
-          <h1 className="tea-chest-regular text-3xl sm:text-6xl md:text-7xl lg:text-[4rem] xl:text-[4rem] font-bold text-white mb-0 sm:mb-8 leading-tight">
-            Tech Tournament
-          </h1>
-          <h4 className="cal-sans-regular text-lg sm:text-2xl md:text-3xl lg:text-4xl xl:text-4xl font-bold text-white mb-2 sm:mb-8 leading-tight">
-            The Ultimate Showdown
-          </h4>
-
-          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center">
-            <button
-              type="button"
-              aria-haspopup="dialog"
-              onClick={() => setShowModal(true)}
-              className="group cal-sans-regular text-sm sm:text-xl md:text-2xl px-4 sm:px-6 py-2 sm:py-3 rounded-full font-semibold transition-transform duration-200 transform bg-gradient-to-r from-amber-300/10 via-amber-200/10 to-orange-400/10 hover:from-amber-400 hover:to-orange-500 hover:scale-105 shadow-lg hover:shadow-amber-400/40 backdrop-blur-sm border border-amber-300/30 inline-block text-center cursor-pointer focus:outline-none focus:ring-4 focus:ring-amber-300/30 shiny-btn"
-            >
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 via-orange-400 to-amber-700 group-hover:text-black">
-                Join the Arena
-              </span>
-            </button>
-            {/* <button
-              onClick={scrollToPoster}
-              className="cal-sans-regular border text-base hidden sm:block sm:text-xl md:text-2xl border-white/30 text-white px-4 sm:px-5 py-2 sm:py-3 rounded-full font-semibold hover:bg-white/10 transition-colors w-3/4 sm:w-auto"
-            >
-              Learn More
-            </button> */}
-          </div>
-        </main>
-      </section>
       {/* Modal: Convergence Pass question */}
       {showModal && (
         <div
@@ -160,9 +128,6 @@ const Home = () => {
 
       {/* Count Section */}
       {/* <CountSection /> */}
-
-
->>>>>>> 818c28cbd71c778a803a2b8e7793c592a47d9d2e
     </>
   );
 };

@@ -8,11 +8,8 @@
     "@testing-library/jest-dom": "^6.8.0",
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^13.5.0",
-<<<<<<< HEAD
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-=======
->>>>>>> 818c28cbd71c778a803a2b8e7793c592a47d9d2e
     "framer-motion": "^12.23.24",
     "lucide-react": "^0.548.0",
     "motion": "^12.23.22",
