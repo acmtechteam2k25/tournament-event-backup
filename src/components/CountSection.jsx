@@ -21,7 +21,7 @@ const CountSection = () => {
               <div className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-2 bodoni-moda-bold">
                 <CountUp
                   from={0}
-                  to={45}
+                  to={48}
                   separator=","
                   direction="up"
                   duration={2.5}
