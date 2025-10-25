@@ -2,13 +2,13 @@ import CovergencePost from "../assets/Convergence Logo_2025_black.png";
 
 const AboutACM = () => {
   return (
-    <section className="py-16 sm:px-8 md:px-4">
+    <section className="py-16 sm:px-8 md:px-4" style={{ backgroundColor: 'transparent' }}>
       <div className="mx-5">
         <div className="flex flex-col">
           <div className="top text-center">
             <h2 className="dm-serif-display-regular text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 sm:mb-6">
               About Convergence
-              
+
             </h2>
             <div className="relative w-20 h-1 mx-auto mb-8">
               {/* Multiple glow layers for intense light effect */}
