@@ -21,7 +21,7 @@ const CountSection = () => {
               <div className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-2 bodoni-moda-bold">
                 <CountUp
                   from={0}
-                  to={64}
+                  to={48}
                   separator=","
                   direction="up"
                   duration={2.5}
@@ -40,7 +40,7 @@ const CountSection = () => {
               <div className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-2 bodoni-moda-bold">
                 <CountUp
                   from={0}
-                  to={6}
+                  to={5}
                   separator=","
                   direction="up"
                   duration={2}
@@ -59,7 +59,7 @@ const CountSection = () => {
               <div className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-2 bodoni-moda-bold">
                 <CountUp
                   from={0}
-                  to={63}
+                  to={45}
                   separator=","
                   direction="up"
                   duration={3}
