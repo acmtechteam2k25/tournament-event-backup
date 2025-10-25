@@ -36,7 +36,7 @@ const Home = () => {
           </div>
 
           {/* Hero Content over the orb */}
-          <main className="relative z-10 text-center px-4 -translate-y-5 sm:-translate-y-1">
+          <main className="relative z-100 text-center px-4 -translate-y-5 sm:-translate-y-1">
             <h1 className="tea-chest-regular text-3xl sm:text-6xl md:text-7xl lg:text-[4rem] xl:text-[4rem] font-bold text-white mb-0 sm:mb-8 leading-tight">
               Tech Tournament
             </h1>
@@ -63,71 +63,71 @@ const Home = () => {
             </div>
           </main>
         </section>
-      </EvervaultCard>
-
-      {/* Modal: Convergence Pass question */}
-      {showModal && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center"
-          onClick={() => setShowModal(false)}
-        >
-          {/* backdrop */}
-          <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
-
-          {/* glass modal */}
+        {/* Modal: Convergence Pass question */}
+        {showModal && (
           <div
-            className="relative bg-white/5 backdrop-blur-md border border-white/20 rounded-xl p-6 max-w-lg w-[90%] mx-auto text-center shadow-2xl"
-            onClick={(e) => e.stopPropagation()}
-            role="dialog"
-            aria-modal="true"
-            aria-label="Convergence pass question"
+            className="fixed inset-0 z-50 flex items-center justify-center"
+            onClick={() => setShowModal(false)}
           >
-            <h3 className="dm-serif-display-regular text-xl sm:text-2xl font-bold text-white mb-3">
-              Do you have convergence pass?
-            </h3>
-            <p className="text-white/80 mb-6">Select an option to continue</p>
+            {/* backdrop */}
+            <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
 
-            <div className="flex justify-center gap-4">
-              <button
-                onClick={() => {
-                  window.open(
-                    'https://unstop.com/p/tech-tournament-vallurupalli-nageswara-rao-vignana-jyothi-institute-of-engineering-technology-telangana-1578635',
-                    '_blank',
-                    'noopener,noreferrer'
-                  );
-                  setShowModal(false);
-                }}
-                className="bg-gradient-to-r from-amber-400 to-orange-500 text-black font-semibold py-2 px-6 rounded-lg hover:from-amber-500 hover:to-orange-600 transition-colors"
-              >
-                Yes
-              </button>
+            {/* glass modal */}
+            <div
+              className="relative bg-white/5 backdrop-blur-md border border-white/20 rounded-xl p-6 max-w-lg w-[90%] mx-auto text-center shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
+              role="dialog"
+              aria-modal="true"
+              aria-label="Convergence pass question"
+            >
+              <h3 className="dm-serif-display-regular text-xl sm:text-2xl font-bold text-white mb-3">
+                Do you have convergence pass?
+              </h3>
+              <p className="text-white/80 mb-6">Select an option to continue</p>
 
-              <button
-                onClick={() => {
-                  window.open(
-                    'https://axisbpayments.razorpay.com/pl_Pq0BHPyKE4qna8/view',
-                    '_blank',
-                    'noopener,noreferrer'
-                  );
-                  setShowModal(false);
-                }}
-                className="bg-white/10 text-white font-semibold py-2 px-6 rounded-lg border border-white/10 hover:bg-white/20 transition-colors"
-              >
-                No
-              </button>
+              <div className="flex justify-center gap-4">
+                <button
+                  onClick={() => {
+                    window.open(
+                      'https://unstop.com/p/tech-tournament-vallurupalli-nageswara-rao-vignana-jyothi-institute-of-engineering-technology-telangana-1578635',
+                      '_blank',
+                      'noopener,noreferrer'
+                    );
+                    setShowModal(false);
+                  }}
+                  className="bg-gradient-to-r from-amber-400 to-orange-500 text-black font-semibold py-2 px-6 rounded-lg hover:from-amber-500 hover:to-orange-600 transition-colors"
+                >
+                  Yes
+                </button>
+
+                <button
+                  onClick={() => {
+                    window.open(
+                      'https://axisbpayments.razorpay.com/pl_Pq0BHPyKE4qna8/view',
+                      '_blank',
+                      'noopener,noreferrer'
+                    );
+                    setShowModal(false);
+                  }}
+                  className="bg-white/10 text-white font-semibold py-2 px-6 rounded-lg border border-white/10 hover:bg-white/20 transition-colors"
+                >
+                  No
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
+        {/* About ACM Section */}
+        <AboutACM />
 
-      {/* About ACM Section */}
-      <AboutACM />
+        {/* Poster Section */}
+        <PosterSection />
 
-      {/* Poster Section */}
-      <PosterSection />
+        {/* Count Section */}
+        {/* <CountSection /> */}
+      </EvervaultCard>
 
-      {/* Count Section */}
-      {/* <CountSection /> */}
+
     </>
   );
 };

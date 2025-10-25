@@ -15,7 +15,7 @@ function App() {
   return (
     <AuthProvider>
       <Router>
-        <div className="relative w-screen overflow-x-hidden pt-14">
+        <div className="relative w-screen overflow-x-hidden pt-14 bg-black">
           {/* Navbar */}
           <Navbar />
 
