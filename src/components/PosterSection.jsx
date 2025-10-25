@@ -73,7 +73,7 @@ const PosterSection = () => {
                   </p>
                   <div className="text-left md:ml-10 md:space-y-2">
                     <p className="flex justify-start items-center">
-                      <Calendar className="mr-1 size-5" />4<sup className="mr-1">rd</sup>
+                      <Calendar className="mr-1 size-5" />4<sup className="mr-1">th</sup>
                       November 2025
                     </p>
                     <p className="flex justify-start items-center">
