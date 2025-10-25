@@ -14,10 +14,20 @@ const PosterSection = () => {
           </h2>
           <p className="cal-sans-regular text-lg sm:text-xl text-gray-300 max-w-2xl mx-auto">
             Tech Tournament is a first-of-its-kind, multi-round technical
-            competition conducted as part of Convergence 2K25. The entire event
+            competition conducted as part of Convergence 2K25r. The entire event
             follows a 1 vs 1 head-to-head structure, giving participants a true
             tournament-style experience.
           </p>
+          <div className="mt-6 text-center">
+            <a
+              className="cal-sans-regular bg-orange-500/20 hover:bg-orange-500/30 border border-orange-400/30 text-orange-200 hover:text-orange-100 px-6 py-3 md:px-6 md:py-2 rounded-lg backdrop-blur-sm transition-all duration-200 text-xl md:text-1xl inline-block"
+              href="https://unstop.com/p/tech-tournament-vallurupalli-nageswara-rao-vignana-jyothi-institute-of-engineering-technology-telangana-1578635"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Register Now
+            </a>
+          </div>
         </div>
 
         {/* === Poster Flip Container === */}

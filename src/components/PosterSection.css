@@ -99,3 +99,36 @@
     max-width: 95%;
   }
 }
+
+/* Register button - reuse admin logout look if available; add small adjustments */
+.register-btn {
+  display: inline-block;
+  padding: 14px 28px; /* increased padding */
+  border-radius: 10px;
+  color: #f8e6d0; /* soft light text */
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 1.05rem; /* larger copy */
+  line-height: 1;
+  letter-spacing: 0.2px;
+  transition: transform 180ms ease, box-shadow 180ms ease, background 240ms ease, color 180ms ease;
+  border: 2px solid rgba(139, 90, 43, 0.14);
+  background: linear-gradient(180deg, #3b2210, #5b3216);
+  box-shadow: 0 8px 24px rgba(59,34,16,0.45);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.register-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 36px rgba(212,175,55,0.18);
+  background: linear-gradient(90deg, #ffd27a 0%, #ffb347 50%, #d4af37 100%); /* warm gold gradient on hover */
+  color: #2b1708; /* darker text on gold background */
+}
+
+.register-btn:focus {
+  outline: 3px solid rgba(212,175,55,0.18);
+  outline-offset: 3px;
+}

@@ -55,7 +55,7 @@ export default function ReleasingSoon() {
 			{/* background dimmer layer */}
 			<div className="releasing-soon-backdrop" />
 
-			<div className="releasing-soon-glass" role="region" aria-label="Releasing Soon">
+			<div className="dm-serif-display-regular releasing-soon-glass" role="region" aria-label="Releasing Soon">
 				<h1 className="rs-title">Releasing Soon</h1>
 
 						<div className="rs-wheels" aria-hidden="true">
