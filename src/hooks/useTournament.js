@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { tournamentAPI } from '../lib/supabase'
 import config from '../config'
 
@@ -8,7 +8,7 @@ export const useTournament = (tournamentId) => {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
-  const fetchBracket = async () => {
+  const fetchBracket = useCallback(async () => {
     try {
       setLoading(true)
 
@@ -26,9 +26,9 @@ export const useTournament = (tournamentId) => {
     } finally {
       setLoading(false)
     }
-  }
+  }, [tournamentId])
 
-  const fetchParticipants = async () => {
+  const fetchParticipants = useCallback(async () => {
     try {
       // Check if we should use database or fall back to local mode
       if (!config.USE_DATABASE || !config.checkEnvironment()) {
@@ -41,7 +41,7 @@ export const useTournament = (tournamentId) => {
     } catch (err) {
       setError(err.message)
     }
-  }
+  }, [tournamentId])
 
   const updateMatchWinner = async (matchId, winnerId, winnerScore = 0, loserScore = 0, isWalkover = false) => {
     try {
@@ -89,7 +89,7 @@ export const useTournament = (tournamentId) => {
     } else {
       setLoading(false)
     }
-  }, [tournamentId])
+  }, [tournamentId, fetchBracket, fetchParticipants])
 
   return {
     bracket,

@@ -6,6 +6,7 @@ import ACMLogo from "./components/ACMLogo";
 import Footer from "./components/Footer";
 import Home from "./components/Home";
 import BracketViewPage from "./pages/BracketViewPage";
+import ReleasingSoon from "./components/ReleasingSoon";
 import AdminPage from "./pages/AdminPage";
 import "./index.css";
 
@@ -23,11 +24,7 @@ function App() {
           {/* Routes */}
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/bracket" element={< >
-              <div className="tea-chest-regular h-screen flex justify-center items-center">
-                <h1 className="text-2xl font-bold">Releasing Soon ...</h1>
-              </div>
-            </>} />
+            <Route path="/bracket" element={<ReleasingSoon />} />
             <Route path="/admin" element={<AdminPage />} />
           </Routes>
 
