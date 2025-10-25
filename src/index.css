@@ -4,21 +4,22 @@
 
 /* Tea Chest Font */
 @font-face {
-  font-family: 'Tea Chest';
-  src: url('./assets/fonts/TeaChest-Regular.ttf') format('truetype');
+  font-family: "Tea Chest";
+  src: url("./assets/fonts/TeaChest-Regular.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
 
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   height: 100%;
   background-color: #020004ff;
   overflow-x: auto; /* Allow horizontal scrolling when needed */
   overflow-y: scroll; /* Force scrollbar to always be visible */
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -30,7 +31,7 @@ html, body {
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
 
@@ -91,14 +92,27 @@ code {
 /* src/index.css (append after @tailwind directives) */
 
 @keyframes orbFloat {
-  0% { transform: translate(-50%, -50%) translateY(-8px) scale(1); filter: hue-rotate(0deg); }
-  50% { transform: translate(-50%, -50%) translateY(8px) scale(1.02); filter: hue-rotate(30deg); }
-  100% { transform: translate(-50%, -50%) translateY(-8px) scale(1); filter: hue-rotate(0deg); }
+  0% {
+    transform: translate(-50%, -50%) translateY(-8px) scale(1);
+    filter: hue-rotate(0deg);
+  }
+  50% {
+    transform: translate(-50%, -50%) translateY(8px) scale(1.02);
+    filter: hue-rotate(30deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) translateY(-8px) scale(1);
+    filter: hue-rotate(0deg);
+  }
 }
 
 @keyframes orbRotate {
-  0% { transform: translate(-50%, -50%) rotate(0deg); }
-  100% { transform: translate(-50%, -50%) rotate(360deg); }
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
 }
 
 .animate-orb-float {
@@ -145,12 +159,13 @@ code {
 
 /* Mobile zoom and scroll behavior */
 @media (max-width: 768px) {
-  html, body {
+  html,
+  body {
     touch-action: auto; /* Allow all touch gestures including pinch-zoom */
     -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
     overflow: auto; /* Allow both horizontal and vertical scrolling */
   }
-  
+
   /* Ensure content doesn't get stuck during zoom */
   #root {
     min-width: 100%;
