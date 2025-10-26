@@ -31,7 +31,7 @@ const Footer = () => {
           </div>
 
           {/* Right Side - Social Handles */}
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center justify-center gap-4">
             <span className="text-white/80 text-sm mr-2 hidden sm:block">Follow us:</span>
             
             {/* Website */}
