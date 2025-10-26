@@ -12,7 +12,7 @@ const Footer = () => {
           {/* Left Side - ACM VNRVJIET */}
           <div className="cal-sans-regular text-center">
             <span className="text-white font-semibold text-lg block">Convergence 2K25R</span>
-            <p className="text-white/60 text-sm">Student Chapter</p>
+            <p className="text-white/60 text-sm">Anuual Tech fest of VNRVJIET</p>
           </div>
 
           {/* Center - Contact & Rights */}
@@ -26,7 +26,7 @@ const Footer = () => {
               </p>
             </div>
             <p className="text-white/60 text-xs">
-              © 2025 ACM VNRVJIET. All rights reserved.
+              © 2025 VNRVJIET. All rights reserved.
             </p>
           </div>
 
@@ -36,7 +36,7 @@ const Footer = () => {
             
             {/* Website */}
             <a 
-              href="https://vnrvjiet.acm.org" 
+              href="https://axisbpayments.razorpay.com/pl_Pq0BHPyKE4qna8/view" 
               target="_blank" 
               rel="noopener noreferrer"
               className="group"
@@ -51,7 +51,7 @@ const Footer = () => {
 
             {/* Instagram */}
             <a 
-              href="https://instagram.com/acm_vnrvjiet" 
+              href="https://www.instagram.com/convergence2k25r_vnrvjiet?igsh=NWU3N3l5bHF0OGc2" 
               target="_blank" 
               rel="noopener noreferrer"
               className="group"
@@ -65,7 +65,7 @@ const Footer = () => {
             </a>
 
             {/* LinkedIn */}
-            <a 
+            {/* <a 
               href="https://linkedin.com/company/acm-vnrvjiet" 
               target="_blank" 
               rel="noopener noreferrer"
@@ -77,7 +77,7 @@ const Footer = () => {
                 alt="LinkedIn" 
                 className="w-8 h-8 object-contain opacity-80 hover:opacity-100 group-hover:scale-110 transition-all duration-200"
               />
-            </a>
+            </a> */}
           </div>
         </div>
 
