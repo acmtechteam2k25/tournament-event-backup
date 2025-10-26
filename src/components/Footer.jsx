@@ -12,7 +12,7 @@ const Footer = () => {
           {/* Left Side - ACM VNRVJIET */}
           <div className="cal-sans-regular text-center">
             <span className="text-white font-semibold text-lg block">Convergence 2K25R</span>
-            <p className="text-white/60 text-sm">Anuual Tech fest of VNRVJIET</p>
+            <p className="text-white/60 text-sm">Annual Tech fest of VNRVJIET</p>
           </div>
 
           {/* Center - Contact & Rights */}
