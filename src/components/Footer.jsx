@@ -11,7 +11,7 @@ const Footer = () => {
           
           {/* Left Side - ACM VNRVJIET */}
           <div className="cal-sans-regular text-center">
-            <span className="text-white font-semibold text-lg block">ACM VNRVJIET</span>
+            <span className="text-white font-semibold text-lg block">Convergence 2K25R</span>
             <p className="text-white/60 text-sm">Student Chapter</p>
           </div>
 
