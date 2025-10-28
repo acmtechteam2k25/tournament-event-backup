@@ -5,7 +5,6 @@ import Orb from './Orb';
 import PosterSection from './PosterSection';
 import CountSection from './CountSection';
 import AboutACM from './AboutACM';
-import { EvervaultCard } from './evervault-card';
 
 const Home = () => {
   const scrollToPoster = () => {
@@ -21,7 +20,7 @@ const Home = () => {
   return (
     <>
       {/* Hero Section */}
-      <EvervaultCard>
+      
         <section className="relative h-screen flex items-center justify-center bg-transparent">
           {/* Background Orb */}
           <div className="absolute inset-0 flex items-center justify-center -translate-y-8">
@@ -120,9 +119,6 @@ const Home = () => {
 
         {/* Count Section */}
         {/* <CountSection /> */}
-      </EvervaultCard>
-
-
     </>
   );
 };
