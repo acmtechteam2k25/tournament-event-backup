@@ -21,7 +21,7 @@ const Footer = () => {
               <h4 className="text-white font-semibold mb-2 ">Contact</h4>
               <p className="text-white/80 text-sm">
                 <a href="mailto: acmvnrvjiet@gmail.com" className="hover:text-blue-400 transition-colors">
-                  acmvnrvjiet@gmail.com
+                  renukapoladi5@gmail.com
                 </a>
               </p>
             </div>
