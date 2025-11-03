@@ -37,7 +37,8 @@ BEGIN
             p_tournament_id,
             v_round_number,
             CASE 
-                WHEN v_round_number = 1 THEN 'Round 1'
+                WHEN v_current_participants = 16 THEN 'Round 1'
+                WHEN v_current_participants = 8 THEN 'Quarter Finals'
                 WHEN v_current_participants = 4 THEN 'Semi Finals'
                 WHEN v_current_participants = 2 THEN 'Final'
                 ELSE 'Round ' || v_round_number
@@ -83,14 +84,26 @@ BEGIN
                 v_match_counter,
                 CASE 
                     WHEN v_round_number = 1 THEN 
-                        -- Proper tournament bracket seeding using bracket_seeding array
-                        p_participant_ids[(ARRAY[1,64,32,33,16,49,17,48,8,57,25,40,9,56,24,41,4,61,29,36,13,52,20,45,5,60,28,37,12,53,21,44,2,63,31,34,15,50,18,47,7,58,26,39,10,55,23,42,3,62,30,35,14,51,19,46,6,59,27,38,11,54,22,43])[(i-1)*2 + 1]]
+                        -- Proper tournament bracket seeding using bracket_seeding array based on total participants
+                        p_participant_ids[(
+                            CASE 
+                                WHEN v_total_participants = 16 THEN ARRAY[1,16,8,9,5,12,4,13,3,14,6,11,7,10,2,15]
+                                WHEN v_total_participants = 32 THEN ARRAY[1,32,16,17,8,25,9,24,4,29,13,20,5,28,12,21,2,31,15,18,7,26,10,23,3,30,14,19,6,27,11,22]
+                                ELSE ARRAY[1,64,32,33,16,49,17,48,8,57,25,40,9,56,24,41,4,61,29,36,13,52,20,45,5,60,28,37,12,53,21,44,2,63,31,34,15,50,18,47,7,58,26,39,10,55,23,42,3,62,30,35,14,51,19,46,6,59,27,38,11,54,22,43]
+                            END
+                        )[(i-1)*2 + 1]]
                     ELSE NULL
                 END,
                 CASE 
                     WHEN v_round_number = 1 THEN 
-                        -- Proper tournament bracket seeding using bracket_seeding array
-                        p_participant_ids[(ARRAY[1,64,32,33,16,49,17,48,8,57,25,40,9,56,24,41,4,61,29,36,13,52,20,45,5,60,28,37,12,53,21,44,2,63,31,34,15,50,18,47,7,58,26,39,10,55,23,42,3,62,30,35,14,51,19,46,6,59,27,38,11,54,22,43])[(i-1)*2 + 2]]
+                        -- Proper tournament bracket seeding using bracket_seeding array based on total participants
+                        p_participant_ids[(
+                            CASE 
+                                WHEN v_total_participants = 16 THEN ARRAY[1,16,8,9,5,12,4,13,3,14,6,11,7,10,2,15]
+                                WHEN v_total_participants = 32 THEN ARRAY[1,32,16,17,8,25,9,24,4,29,13,20,5,28,12,21,2,31,15,18,7,26,10,23,3,30,14,19,6,27,11,22]
+                                ELSE ARRAY[1,64,32,33,16,49,17,48,8,57,25,40,9,56,24,41,4,61,29,36,13,52,20,45,5,60,28,37,12,53,21,44,2,63,31,34,15,50,18,47,7,58,26,39,10,55,23,42,3,62,30,35,14,51,19,46,6,59,27,38,11,54,22,43]
+                            END
+                        )[(i-1)*2 + 2]]
                     ELSE NULL
                 END,
                 CASE 

@@ -298,15 +298,34 @@ const TournamentBracketViewFinal = ({
 
     // Apply round filtering if specified
     if (viewMode === 'round' && visibleRounds && visibleRounds.length > 0) {
-      return allMatches.filter(match => {
-        // Filter matches based on their round number
-        return visibleRounds.includes(match.roundNumber);
-      });
+      const filtered = allMatches.filter(match => visibleRounds.includes(match.roundNumber));
+      return limitMatchesFromRoundThree(filtered);
     }
 
     // Public view: show complete tournament tree (all rounds and matches)
     // This allows viewers to see the full bracket structure including TBD matches
-    return allMatches;
+    return limitMatchesFromRoundThree(allMatches);
+  };
+
+  // Limit displayed matches to at most 8 for rounds >= 3
+  const limitMatchesFromRoundThree = (list) => {
+    const byRound = list.reduce((acc, m) => {
+      acc[m.roundNumber] = acc[m.roundNumber] || [];
+      acc[m.roundNumber].push(m);
+      return acc;
+    }, {});
+
+    const result = [];
+    Object.keys(byRound).sort((a, b) => Number(a) - Number(b)).forEach((roundKey) => {
+      const rn = Number(roundKey);
+      const matchesForRound = byRound[rn].sort((a, b) => (a.matchNumber || 0) - (b.matchNumber || 0));
+      if (rn >= 3) {
+        result.push(...matchesForRound.slice(0, 8));
+      } else {
+        result.push(...matchesForRound);
+      }
+    });
+    return result;
   };
 
   const visibleMatches = getVisibleMatches(matches);
@@ -619,19 +638,15 @@ const TournamentBracketViewFinal = ({
                         >
                           <div className="svg-round-header">
                             <h3>
-                              {match.tournamentRoundText === "6"
-                                ? "Finals"
-                                : match.tournamentRoundText === "5"
-                                  ? "Semi Finals"
-                                  : match.tournamentRoundText === "4"
-                                    ? "Quarter Finals"
-                                    : match.tournamentRoundText === "3"
-                                      ? "Round 3"
-                                      : match.tournamentRoundText === "2"
-                                        ? "Round 2"
-                                        : match.tournamentRoundText === "1"
-                                          ? "Round 1"
-                                          : `Round ${match.tournamentRoundText}`}
+                              {match.tournamentRoundText === "4"
+                                ? "Final"
+                                : match.tournamentRoundText === "3"
+                                  ? "Semi Final"
+                                  : match.tournamentRoundText === "2"
+                                    ? "Quarter Final"
+                                    : match.tournamentRoundText === "1"
+                                      ? "Round 1"
+                                      : `Round ${match.tournamentRoundText}`}
                             </h3>
                           </div>
                         </foreignObject>

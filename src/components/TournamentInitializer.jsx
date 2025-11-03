@@ -43,14 +43,19 @@ const TournamentInitializer = ({ tournamentId: propTournamentId, onTournamentCre
         const csv = e.target.result;
         const lines = csv.split('\n').filter(line => line.trim());
 
-        if (lines.length < 65) {
-          setError('CSV must contain exactly 64 participants');
+        // Determine expected participant count based on selected tournament
+        const tournamentsMap = config.TOURNAMENTS || {};
+        const tournamentEntry = Object.values(tournamentsMap).find(t => t.id === tournamentId);
+        const expectedCount = tournamentEntry?.maxParticipants || config.MAX_PARTICIPANTS || 64;
+
+        if (lines.length < expectedCount + 1) {
+          setError(`CSV must contain exactly ${expectedCount} participants`);
           return;
         }
 
         const imported = [];
         // Skip header row
-        for (let i = 1; i <= 64; i++) {
+        for (let i = 1; i <= expectedCount; i++) {
           const line = lines[i]?.trim();
           if (!line) continue;
 
@@ -60,13 +65,13 @@ const TournamentInitializer = ({ tournamentId: propTournamentId, onTournamentCre
               name,
               roll_number,
               email,
-              seed_number: i // Simple 1-64 seeding based on CSV order
+              seed_number: i // Simple seeding based on CSV order
             });
           }
         }
 
-        if (imported.length !== 64) {
-          setError('CSV must contain exactly 64 valid participants');
+        if (imported.length !== expectedCount) {
+          setError(`CSV must contain exactly ${expectedCount} valid participants`);
           return;
         }
 
@@ -193,8 +198,11 @@ const TournamentInitializer = ({ tournamentId: propTournamentId, onTournamentCre
   };
 
   const initializeTournament = async () => {
-    if (participants.length !== 64) {
-      setError('Exactly 64 participants required');
+    const tournamentsMap = config.TOURNAMENTS || {};
+    const tournamentEntry = Object.values(tournamentsMap).find(t => t.id === tournamentId);
+    const expectedCount = tournamentEntry?.maxParticipants || config.MAX_PARTICIPANTS || 64;
+    if (participants.length !== expectedCount) {
+      setError(`Exactly ${expectedCount} participants required`);
       return;
     }
 
@@ -217,9 +225,9 @@ const TournamentInitializer = ({ tournamentId: propTournamentId, onTournamentCre
       await supabase.from('rounds').delete().eq('tournament_id', tournamentId);
       await supabase.from('participants').delete().eq('tournament_id', tournamentId);
 
-      // Determine academic year (2 or 3) based on selected tournament
+      // Determine academic year (1, 2 or 3) based on selected tournament
       const tmap = config.TOURNAMENTS || {};
-      const yearValue = tmap?.secondYear?.id === tournamentId ? 2 : (tmap?.thirdYear?.id === tournamentId ? 3 : null);
+      const yearValue = tmap?.firstYear?.id === tournamentId ? 1 : (tmap?.secondYear?.id === tournamentId ? 2 : (tmap?.thirdYear?.id === tournamentId ? 3 : null));
 
       // Insert participants with proper seeding
       const participantsData = participants.map(participant => ({
@@ -257,7 +265,7 @@ const TournamentInitializer = ({ tournamentId: propTournamentId, onTournamentCre
       await loadParticipants();
 
       if (onTournamentCreated) {
-        onTournamentCreated({ id: tournamentId, name: config.TOURNAMENT_NAME });
+        onTournamentCreated({ id: tournamentId, name: tournamentEntry?.name || config.TOURNAMENT_NAME });
       }
 
       alert('Tournament initialized successfully!');
@@ -281,10 +289,22 @@ const TournamentInitializer = ({ tournamentId: propTournamentId, onTournamentCre
       <div className="bg-amber-500/10 border border-amber-400/30 text-amber-200 px-4 py-3 rounded mb-6 backdrop-blur-sm">
         <h3 className="font-medium mb-2 bodoni-moda">Tournament Requirements</h3>
         <ul className="text-sm space-y-1">
-          <li>• Exactly <strong>64 participants</strong> required</li>
-          <li>• CSV format: <code className="bg-black/30 px-1 rounded">name,roll_number,email</code></li>
-          <li>• Seeding calculated automatically using tournament bracket order</li>
-          <li>• Creates 32 Round 1 matches automatically</li>
+          {
+            (() => {
+              const tournamentsMap = config.TOURNAMENTS || {};
+              const entry = Object.values(tournamentsMap).find(t => t.id === tournamentId);
+              const expected = entry?.maxParticipants || config.MAX_PARTICIPANTS || 64;
+              const r1Matches = Math.max(1, expected / 2);
+              return (
+                <>
+                  <li>• Exactly <strong>{expected} participants</strong> required</li>
+                  <li>• CSV format: <code className="bg-black/30 px-1 rounded">name,roll_number,email</code></li>
+                  <li>• Seeding calculated automatically using tournament bracket order</li>
+                  <li>• Creates {r1Matches} Round 1 matches automatically</li>
+                </>
+              );
+            })()
+          }
         </ul>
       </div>
 
@@ -297,7 +317,7 @@ const TournamentInitializer = ({ tournamentId: propTournamentId, onTournamentCre
       {/* Action Buttons */}
       <div className="mb-6 flex flex-wrap gap-4">
         <label className="bg-gradient-to-r from-amber-400 to-orange-500 hover:from-amber-500 hover:to-orange-600 text-black font-semibold px-4 py-2 rounded cursor-pointer transition-all duration-200 transform hover:scale-[1.02] cal-sans-regular">
-          Import 64 Participants from CSV
+          {(() => { const tm=config.TOURNAMENTS||{}; const e=Object.values(tm).find(t=>t.id===tournamentId); const exp=e?.maxParticipants||config.MAX_PARTICIPANTS||64; return `Import ${exp} Participants from CSV`; })()}
           <input
             type="file"
             accept=".csv"
@@ -317,12 +337,12 @@ const TournamentInitializer = ({ tournamentId: propTournamentId, onTournamentCre
       {/* Participants Table */}
       <div className="mb-6">
         <h3 className="text-lg font-semibold mb-4 text-white bodoni-moda">
-          Participants ({participants.length}/64)
+          {(() => { const tm=config.TOURNAMENTS||{}; const e=Object.values(tm).find(t=>t.id===tournamentId); const exp=e?.maxParticipants||config.MAX_PARTICIPANTS||64; return `Participants (${participants.length}/${exp})`; })()}
         </h3>
 
         {participants.length === 0 ? (
           <p className="text-white/60 text-center py-8 bg-white/5 backdrop-blur-sm rounded-lg border border-white/10 cal-sans-regular">
-            No participants added yet. Please upload a CSV file with 64 participants.
+            {(() => { const tm=config.TOURNAMENTS||{}; const e=Object.values(tm).find(t=>t.id===tournamentId); const exp=e?.maxParticipants||config.MAX_PARTICIPANTS||64; return `No participants added yet. Please upload a CSV file with ${exp} participants.`; })()}
           </p>
         ) : (
           <div className="max-h-96 overflow-y-auto border border-white/20 rounded-lg bg-black/30 backdrop-blur-sm">
@@ -358,8 +378,8 @@ const TournamentInitializer = ({ tournamentId: propTournamentId, onTournamentCre
       <div className="text-center">
         <button
           onClick={initializeTournament}
-          disabled={participants.length !== 64 || loading}
-          className={`px-8 py-3 rounded-lg font-semibold transition-all duration-200 ${participants.length === 64 && !loading
+          disabled={(() => { const tm=config.TOURNAMENTS||{}; const e=Object.values(tm).find(t=>t.id===tournamentId); const exp=e?.maxParticipants||config.MAX_PARTICIPANTS||64; return participants.length !== exp || loading; })()}
+          className={`px-8 py-3 rounded-lg font-semibold transition-all duration-200 ${(() => { const tm=config.TOURNAMENTS||{}; const e=Object.values(tm).find(t=>t.id===tournamentId); const exp=e?.maxParticipants||config.MAX_PARTICIPANTS||64; return participants.length === exp && !loading; })()
             ? 'bg-gradient-to-r from-amber-400 to-orange-500 hover:from-amber-500 hover:to-orange-600 text-black transform hover:scale-105 shadow-lg hover:shadow-amber-400/20'
             : 'bg-white/10 text-white/50 cursor-not-allowed border border-white/20'
             }`}
@@ -368,11 +388,12 @@ const TournamentInitializer = ({ tournamentId: propTournamentId, onTournamentCre
         </button>
 
         <div className="mt-4">
-          <p className={`text-sm font-medium ${participants.length === 64 ? 'text-amber-400' : 'text-white/60'
-            }`}>
-            Current: {participants.length}/64 participants
-          </p>
-          {participants.length === 64 && (
+          {(() => { const tm=config.TOURNAMENTS||{}; const e=Object.values(tm).find(t=>t.id===tournamentId); const exp=e?.maxParticipants||config.MAX_PARTICIPANTS||64; return (
+            <p className={`text-sm font-medium ${participants.length === exp ? 'text-amber-400' : 'text-white/60'}`}>
+              Current: {participants.length}/{exp} participants
+            </p>
+          );})()}
+          {(() => { const tm=config.TOURNAMENTS||{}; const e=Object.values(tm).find(t=>t.id===tournamentId); const exp=e?.maxParticipants||config.MAX_PARTICIPANTS||64; return participants.length === exp; })() && (
             <p className="text-xs text-amber-400 flex items-center justify-center mt-1">
               <span className="w-2 h-2 bg-amber-400 rounded-full mr-2 shadow-[0_0_6px_rgba(251,191,36,0.6)]"></span>
               Ready to initialize tournament!

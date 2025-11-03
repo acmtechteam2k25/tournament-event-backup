@@ -19,19 +19,20 @@ const BracketViewPage = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Available rounds (assuming max 6 rounds for tournament)
-  const maxRounds = 6;
-  const availableRounds = Array.from({ length: maxRounds }, (_, i) => i + 1);
+  // Available rounds based on selected tournament
+  const maxRounds = (config.TOURNAMENTS?.[tournamentKey]?.numRounds) || config.NUM_ROUNDS || 6;
+  // Unify selection buttons to R1, QF, SF, F for all years
+  const buttonRounds = maxRounds === 4 ? [1, 2, 3, 4] : [1, 4, 5, 6];
+  const availableRounds = buttonRounds;
 
   // Convert round number to display name
   const getRoundDisplayName = (roundNumber) => {
+    // Unified round names for 4-round tournament (16 participants)
     switch (roundNumber) {
       case 1: return 'R1';
-      case 2: return 'R2';
-      case 3: return 'R3';
-      case 4: return 'QF'; // Quarter Finals
-      case 5: return 'SF'; // Semi Finals
-      case 6: return 'F';  // Finals
+      case 2: return 'QF';
+      case 3: return 'SF';
+      case 4: return 'F';
       default: return `R${roundNumber}`;
     }
   };
@@ -62,8 +63,14 @@ const BracketViewPage = () => {
       <div className="pt-20 pb-4 flex justify-center">
         <div className="flex gap-2">
           <button
+            onClick={() => setTournamentKey('firstYear')}
+            className={`cal-sans-regular px-4 py-2 rounded-l backdrop-blur-md border transition-all duration-200 ${tournamentKey === 'firstYear' ? 'bg-black/20 text-orange-200 border-orange-400/60' : 'bg-black/10 text-white/70 border-white/20 hover:bg-black/20 hover:text-orange-200 hover:border-orange-400/30'}`}
+          >
+            1st Year
+          </button>
+          <button
             onClick={() => setTournamentKey('secondYear')}
-            className={`cal-sans-regular px-4 py-2 rounded-l backdrop-blur-md border transition-all duration-200 ${tournamentKey === 'secondYear' ? 'bg-black/20 text-orange-200 border-orange-400/60' : 'bg-black/10 text-white/70 border-white/20 hover:bg-black/20 hover:text-orange-200 hover:border-orange-400/30'}`}
+            className={`cal-sans-regular px-4 py-2 backdrop-blur-md border transition-all duration-200 ${tournamentKey === 'secondYear' ? 'bg-black/20 text-orange-200 border-orange-400/60' : 'bg-black/10 text-white/70 border-white/20 hover:bg-black/20 hover:text-orange-200 hover:border-orange-400/30]'} `}
           >
             2nd Year
           </button>
@@ -71,7 +78,7 @@ const BracketViewPage = () => {
             onClick={() => setTournamentKey('thirdYear')}
             className={`cal-sans-regular px-4 py-2 rounded-r backdrop-blur-md border transition-all duration-200 ${tournamentKey === 'thirdYear' ? 'bg-black/20 text-orange-200 border-orange-400/60' : 'bg-black/10 text-white/70 border-white/20 hover:bg-black/20 hover:text-orange-200 hover:border-orange-400/30'}`}
           >
-            3rd Year
+            3rd/4th Year
           </button>
         </div>
       </div>

@@ -122,23 +122,25 @@ const AdminPage = () => {
 
               {/* Year Toggle Switch */}
               <div className="border-t border-white/20 pt-4">
-                <div className="relative border-2 border-white/20 rounded-xl">
-                  <div className={`absolute w-1/2 h-full bg-white/30 backdrop-blur-md rounded-md transition-transform duration-300 ${tournamentKey === 'thirdYear' ? 'translate-x-full' : 'translate-x-0'
-                    }`}></div>
-                  <div className="relative flex">
-                    <button
-                      onClick={() => handleMenuItemClick(activeTab, 'secondYear')}
-                      className='flex-1 px-4 py-2 text-sm font-medium rounded-full transition-colors duration-300 text-white/80'
-                    >
-                      2nd Year
-                    </button>
-                    <button
-                      onClick={() => handleMenuItemClick(activeTab, 'thirdYear')}
-                      className='flex-1 px-4 py-2 text-sm font-medium rounded-full transition-colors duration-300 text-white/80'
-                    >
-                      3rd Year
-                    </button>
-                  </div>
+                <div className="grid grid-cols-3 gap-2">
+                  <button
+                    onClick={() => handleMenuItemClick(activeTab, 'firstYear')}
+                    className={`px-3 py-2 text-sm font-medium rounded-md transition-colors duration-200 ${tournamentKey === 'firstYear' ? 'bg-white/20 text-white border border-white/30' : 'text-white/80 hover:bg-white/10 hover:text-white'}`}
+                  >
+                    1st Year
+                  </button>
+                  <button
+                    onClick={() => handleMenuItemClick(activeTab, 'secondYear')}
+                    className={`px-3 py-2 text-sm font-medium rounded-md transition-colors duration-200 ${tournamentKey === 'secondYear' ? 'bg-white/20 text-white border border-white/30' : 'text-white/80 hover:bg-white/10 hover:text-white'}`}
+                  >
+                    2nd Year
+                  </button>
+                  <button
+                    onClick={() => handleMenuItemClick(activeTab, 'thirdYear')}
+                    className={`px-3 py-2 text-sm font-medium rounded-md transition-colors duration-200 ${tournamentKey === 'thirdYear' ? 'bg-white/20 text-white border border-white/30' : 'text-white/80 hover:bg-white/10 hover:text-white'}`}
+                  >
+                    3rd Year
+                  </button>
                 </div>
               </div>
             </div>

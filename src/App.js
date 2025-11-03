@@ -25,7 +25,7 @@ function App() {
           {/* Routes */}
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/bracket" element={<ReleasingSoon />} />
+            <Route path="/bracket" element={<BracketViewPage />} />
             <Route path="/admin" element={<AdminPage />} />
           </Routes>
 
