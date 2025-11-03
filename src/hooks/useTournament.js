@@ -45,37 +45,13 @@ export const useTournament = (tournamentId) => {
 
   const updateMatchWinner = async (matchId, winnerId, winnerScore = 0, loserScore = 0, isWalkover = false) => {
     try {
-      const result = await tournamentAPI.updateMatchWinnerAdvanced(matchId, winnerId, winnerScore, loserScore, isWalkover);
+      const result = await tournamentAPI.updateMatchWinner(matchId, winnerId, winnerScore, loserScore, isWalkover);
 
       // Refresh bracket after update
       await fetchBracket();
       await fetchParticipants();
 
       return result;
-    } catch (err) {
-      setError(err.message);
-      throw err;
-    }
-  }
-
-  const createCompleteBracket = async (participantIds) => {
-    try {
-      const result = await tournamentAPI.createCompleteTournamentBracket(tournamentId, participantIds);
-
-      // Refresh bracket after creation
-      await fetchBracket();
-      await fetchParticipants();
-
-      return result;
-    } catch (err) {
-      setError(err.message);
-      throw err;
-    }
-  }
-
-  const getTournamentStatus = async () => {
-    try {
-      return await tournamentAPI.getTournamentStatus(tournamentId);
     } catch (err) {
       setError(err.message);
       throw err;
@@ -97,8 +73,6 @@ export const useTournament = (tournamentId) => {
     loading,
     error,
     updateMatchWinner,
-    createCompleteBracket,
-    getTournamentStatus,
     refreshBracket: fetchBracket
   }
 }
