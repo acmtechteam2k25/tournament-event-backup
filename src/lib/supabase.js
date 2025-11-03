@@ -26,60 +26,6 @@ export const tournamentAPI = {
     return data;
   },
 
-  // Update match winner (advanced version with automatic round progression)
-  updateMatchWinnerAdvanced: async (matchId, winnerId, winnerScore = 0, loserScore = 0, isWalkover = false) => {
-    const { data, error } = await supabase.rpc('update_match_winner_advanced', {
-      p_match_id: matchId,
-      p_winner_id: winnerId,
-      p_winner_score: winnerScore,
-      p_loser_score: loserScore,
-      p_is_walkover: isWalkover
-    });
-    
-    if (error) throw error;
-    return data;
-  },
-
-  // Create complete tournament bracket with all rounds
-  createCompleteTournamentBracket: async (tournamentId, participantIds) => {
-    const { data, error } = await supabase.rpc('create_complete_tournament_bracket', {
-      p_tournament_id: tournamentId,
-      p_participant_ids: participantIds
-    });
-    
-    if (error) throw error;
-    return data;
-  },
-
-  // Get tournament status and progression
-  getTournamentStatus: async (tournamentId) => {
-    const { data, error } = await supabase.rpc('get_tournament_status', {
-      p_tournament_id: tournamentId
-    });
-    
-    if (error) throw error;
-    return data;
-  },
-
-  // Process automatic byes for matches with only one player
-  processAutomaticByes: async (tournamentId) => {
-    const { data, error } = await supabase.rpc('process_automatic_byes', {
-      p_tournament_id: tournamentId
-    });
-    
-    if (error) throw error;
-    return data;
-  },
-
-  // Get cumulative + round-wise scores
-  getCumulativeScores: async (tournamentId) => {
-    const { data, error } = await supabase.rpc('get_tournament_cumulative_scores', {
-      p_tournament_id: tournamentId
-    })
-    if (error) throw error
-    return data
-  },
-
   // Get tournament bracket
   getTournamentBracket: async (tournamentId) => {
     const { data, error } = await supabase.rpc('get_tournament_bracket', {
@@ -97,55 +43,6 @@ export const tournamentAPI = {
       .select('*')
       .eq('tournament_id', tournamentId)
       .order('seed_number')
-    
-    if (error) throw error
-    return data
-  },
-
-  // Get matches for a round
-  getMatchesByRound: async (tournamentId, roundNumber) => {
-    const { data, error } = await supabase
-      .from('matches')
-      .select(`
-        *,
-        player1:player1_id(*),
-        player2:player2_id(*),
-        winner:winner_id(*)
-      `)
-      .eq('tournament_id', tournamentId)
-      .eq('round_number', roundNumber)
-      .order('match_number')
-    
-    if (error) throw error
-    return data
-  },
-
-  // Get scores for a participant
-  getParticipantScores: async (participantId) => {
-    const { data, error } = await supabase
-      .from('scores')
-      .select(`
-        *,
-        match:match_id(match_name, round_number),
-        round:round_id(round_name)
-      `)
-      .eq('player_id', participantId)
-      .order('round_number')
-    
-    if (error) throw error
-    return data
-  },
-
-  // Get scores for a specific match
-  getMatchScores: async (matchId) => {
-    const { data, error } = await supabase
-      .from('scores')
-      .select(`
-        *,
-        participant:player_id(name)
-      `)
-      .eq('match_id', matchId)
-      .order('score', { ascending: false })
     
     if (error) throw error
     return data
