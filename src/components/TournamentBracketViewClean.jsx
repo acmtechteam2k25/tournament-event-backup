@@ -368,7 +368,13 @@ const TournamentBracketViewFinal = ({
 
   // Calculate SVG dimensions based on bracket structure
   const svgWidth = columns.length * style.columnWidth + style.canvasPadding * 2;
-  let svgHeight = 32 * style.rowHeight + style.canvasPadding * 2; // 32 matches max in first round
+  
+  // Determine the maximum matches in Round 1 based on actual data
+  const round1Matches = columns.length > 0 ? columns[0].length : 8;
+  const maxRound1Matches = round1Matches; // Use actual Round 1 match count
+  
+  // Calculate height based on actual Round 1 matches (keeps spacing between matches the same)
+  let svgHeight = maxRound1Matches * style.rowHeight + style.canvasPadding * 2;
 
   // Dynamic height calculation for round view based on actual matches (both mobile and desktop)
   if (viewMode === 'round') {
@@ -380,23 +386,22 @@ const TournamentBracketViewFinal = ({
       const extraPadding = actualMatchesCount > 20 ? 60 : 80;
       svgHeight = roundHeaderHeight + (actualMatchesCount * matchHeight) + extraPadding;
     } else {
-      // Desktop: Manually set heights for each round type
-      if (actualMatchesCount === 16) {
-        // Round 2: Reduce height by 25% from Round 1
-        const round1Height = 32 * style.rowHeight + style.canvasPadding * 2;
-        svgHeight = Math.floor(round1Height * 0.75); // 25% reduction from Round 1
-      } else if (actualMatchesCount >= 20) {
-        // Round 1: Normal height 
-        svgHeight = 32 * style.rowHeight + style.canvasPadding * 2;
-      } else if (actualMatchesCount >= 8) {
-        // Round 3: Increase height to prevent cutoff
-        svgHeight = 1100; // Increased from 800 to show all matches
+      // Desktop: Dynamically set heights based on Round 1 match count
+      if (actualMatchesCount === maxRound1Matches / 2) {
+        // Round 2: Use proportional height based on actual matches
+        svgHeight = (maxRound1Matches / 2) * style.rowHeight * 2 + style.canvasPadding * 2;
+      } else if (actualMatchesCount >= maxRound1Matches) {
+        // Round 1: Height based on actual match count
+        svgHeight = maxRound1Matches * style.rowHeight + style.canvasPadding * 2;
+      } else if (actualMatchesCount >= maxRound1Matches / 4) {
+        // Round 3+: Proportional height based on spacing
+        svgHeight = actualMatchesCount * style.rowHeight * 4 + style.canvasPadding * 2;
       } else if (actualMatchesCount >= 4) {
-        // Quarter Finals: Moderate height
-        svgHeight = 650;
+        // Quarter Finals or Semi Finals
+        svgHeight = actualMatchesCount * style.rowHeight * 8 + style.canvasPadding * 2;
       } else {
-        // Finals: Small height
-        svgHeight = 450;
+        // Finals
+        svgHeight = actualMatchesCount * style.rowHeight * 16 + style.canvasPadding * 2;
       }
     }
   }
