@@ -9,6 +9,7 @@ import {
 import { useTournament } from "../hooks/useTournament";
 import Connector from "./Connector";
 import MatchBox from "./MatchBox";
+import ConfettiCelebration from "./ConfettiCelebration";
 import "./TournamentBracketView.css";
 
 const TournamentBracketViewFinal = ({
@@ -31,6 +32,7 @@ const TournamentBracketViewFinal = ({
   const [scale, setScale] = useState(1);
   const [lastPinchDistance, setLastPinchDistance] = useState(null);
   const [isMobile, setIsMobile] = useState(false);
+  const [showConfetti, setShowConfetti] = useState(false);
   const containerRef = useRef(null);
 
   // Mobile detection
@@ -271,6 +273,9 @@ const TournamentBracketViewFinal = ({
       // Update via database
       try {
         const result = await updateMatchWinner(selectedMatch.id, selectedWinner.id, winnerNum, loserNum, isWalkover || isBye);
+
+        // Trigger confetti celebration on successful winner update
+        setShowConfetti(true);
 
         // Show success message for completed match updates
         if (selectedMatch.state === "SCORE_DONE") {
@@ -532,6 +537,13 @@ const TournamentBracketViewFinal = ({
 
   return (
     <div className="tournament-bracket">
+      {/* Confetti Celebration on Winner Update */}
+      <ConfettiCelebration 
+        isActive={showConfetti} 
+        onComplete={() => setShowConfetti(false)}
+        duration={5000}
+      />
+
       {/* Toolbar: export + cumulative scores */}
       {isEditable && (
         <div className="px-4 py-3 flex flex-col md:flex-row md:items-center md:justify-between gap-3">

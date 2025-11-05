@@ -46,5 +46,56 @@ export const tournamentAPI = {
     
     if (error) throw error
     return data
+  },
+
+  // Get cumulative scores
+  getCumulativeScores: async (tournamentId) => {
+    // Get all participants
+    const { data: participants, error: participantsError } = await supabase
+      .from('participants')
+      .select('id, name, roll_number')
+      .eq('tournament_id', tournamentId)
+    
+    if (participantsError) throw participantsError
+    
+    // Get all scores for this tournament
+    const { data: scores, error: scoresError } = await supabase
+      .from('scores')
+      .select('player_id, score, is_winner')
+      .eq('tournament_id', tournamentId)
+    
+    if (scoresError) throw scoresError
+    
+    // Calculate cumulative stats for each participant
+    const cumulativeData = participants.map(participant => {
+      // Get all scores for this participant
+      const playerScores = scores.filter(s => s.player_id === participant.id)
+      
+      // Calculate total points (sum of all scores)
+      const totalPoints = playerScores.reduce((sum, s) => sum + (s.score || 0), 0)
+      
+      // Calculate wins (count where is_winner = true)
+      const wins = playerScores.filter(s => s.is_winner === true).length
+      
+      // Calculate losses (count where is_winner = false)
+      const losses = playerScores.filter(s => s.is_winner === false).length
+      
+      return {
+        player_id: participant.id,
+        player_name: participant.name,
+        roll_number: participant.roll_number,
+        total_points: totalPoints,
+        wins: wins,
+        losses: losses
+      }
+    })
+    
+    // Sort by total points (descending), then by wins
+    return cumulativeData.sort((a, b) => {
+      if (b.total_points !== a.total_points) {
+        return b.total_points - a.total_points
+      }
+      return b.wins - a.wins
+    })
   }
 }
