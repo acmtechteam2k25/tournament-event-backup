@@ -4,6 +4,15 @@ module.exports = {
   theme: {
     extend: {},
   },
+  fontFamily: {
+  title: ["Tektur", "sans-serif"]
+  },
   plugins: [require("tailwindcss-animate")],
+  colors: {
+  background: "#024028",
+  primary: "#0d9c57",
+  text: "#ffffff",
+  }
+  
 }
 

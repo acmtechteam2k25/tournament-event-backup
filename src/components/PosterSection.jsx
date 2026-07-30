@@ -13,10 +13,7 @@ const PosterSection = () => {
             What is it?
           </h2>
           <p className="cal-sans-regular text-lg sm:text-xl text-gray-300 max-w-2xl mx-auto">
-            Tech Tournament is a first-of-its-kind, multi-round technical
-            competition conducted as part of Convergence 2K25R. The entire event
-            follows a 1 vs 1 head-to-head structure, giving participants a true
-            tournament-style experience.
+            Previously featured under Convergence as Tech Tournament, Tesseract now stands as an independent technical tournament conducted by ACM VNRVJIET.
           </p>
           <div className="mt-6 text-center">
             <a

@@ -11,8 +11,8 @@ const Footer = () => {
           
           {/* Left Side - ACM VNRVJIET */}
           <div className="cal-sans-regular text-center">
-            <span className="text-white font-semibold text-lg block">Convergence 2K25R</span>
-            <p className="text-white/60 text-sm">Annual Tech fest of VNRVJIET</p>
+            <span className="text-white font-semibold text-lg block">Tesseract 2K26</span>
+            <p className="text-white/60 text-sm">The Ultimate Showdown</p>
           </div>
 
           {/* Center - Contact & Rights */}
@@ -26,7 +26,7 @@ const Footer = () => {
               </p>
             </div>
             <p className="text-white/60 text-xs">
-              © 2025 VNRVJIET. All rights reserved.
+              © 2026 VNRVJIET. All rights reserved.
             </p>
           </div>
 

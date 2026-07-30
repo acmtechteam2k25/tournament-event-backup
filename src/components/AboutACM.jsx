@@ -6,8 +6,8 @@ const AboutACM = () => {
       <div className="mx-5">
         <div className="flex flex-col">
           <div className="top text-center">
-            <h2 className="dm-serif-display-regular text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-2 sm:mb-4">
-              About Convergence
+            <h2 className=" tektur-title text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-2 sm:mb-4">
+              About Tesseract
 
             </h2>
             <div className="relative w-20 h-1 mx-auto mb-4">
@@ -30,16 +30,12 @@ const AboutACM = () => {
             <div className="w-full md:w-1/2 mx-auto text-justify px-2 sm:px-4">
               <div className="prose prose-lg prose-invert mx-auto h-full flex flex-col justify-center items-center">
                 <p className="text-white/80 cal-sans-regular text-md lg:text-2xl sm:text-base md:text-lg leading-relaxed mb-4 sm:mb-6 text-justify">
-                  Convergence 2K25R is the annual technical fest of VNRVJIET,
-                  celebrated for its vibrant spirit and diverse lineup of
-                  tech-driven events. Convergence brings together enthusiastic
-                  participants from different colleges, offering a great
-                  platform for students to showcase their talent.
+                  Tesseract, formerly known as Tech Tournament, is ACM VNRVJIET's premier 1 vs 1 knockout technical competition. Designed to bring out the best technical talent on campus, participants compete head-to-head through successive elimination rounds.
                 </p>
                 <button
                   onClick={() =>
                     window.open(
-                      "https://axisbpayments.razorpay.com/pl_Pq0BHPyKE4qna8/view"
+                      "https://vnrvjiet.acm.org/"
                     )
                   }
                   className="bg-gradient-to-r from-amber-400 to-orange-500 hover:from-amber-500 hover:to-orange-600 disabled:from-gray-400 disabled:to-gray-500 text-black font-semibold py-2 md:py-3 px-5 md:px-10 rounded-lg transition-all duration-200 transform hover:scale-[1.02] shadow-lg hover:shadow-amber-400/20 text-lg"
