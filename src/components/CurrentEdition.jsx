@@ -42,7 +42,7 @@ const CurrentEdition = () => {
               className="text-white/60 mt-5 text-base md:text-lg"
               style={{ wordSpacing: "3px" }}
             >
-              📢 Official event poster, registrations, and schedule will be
+              Official event poster, registrations, and schedule will be
               announced soon.
             </p>
 
