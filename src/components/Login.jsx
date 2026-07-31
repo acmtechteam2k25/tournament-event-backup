@@ -97,9 +97,10 @@ const Login = ({ onLoginSuccess }) => {
 
           <button 
             type="submit" 
-            disabled={isLoading} 
-            className="w-full bg-gradient-to-r from-amber-400 to-orange-500 hover:from-amber-500 hover:to-orange-600 disabled:from-gray-400 disabled:to-gray-500 text-black font-semibold py-3 px-4 rounded-lg transition-all duration-200 transform hover:scale-[1.02] disabled:scale-100 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-amber-400/20"
-          >
+           className=" w-full group relative overflow-hidden text-base sm:text-lg px-6 sm:px-7 py-1.5
+                        sm:py-4 rounded-full font-semibold border-[#0d9c57] bg-gradient-to-r
+                        from-[#024028] to-[#0d9c57] transition-all duration-300 hover:scale-105
+                         hover:shadow-[0_0_30px_rgba(13,156,87,.55)]">
             {isLoading ? 'Logging in...' : 'Login'}
           </button>
         </form>

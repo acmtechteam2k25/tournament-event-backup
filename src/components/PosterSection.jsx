@@ -5,28 +5,8 @@ import "./PosterSection.css"; // make sure path matches file name
 
 const PosterSection = () => {
   return (
-    <section id="poster-section" className="py-16 sm:py-20 lg:py-24">
+    <section id="poster-section" className="pt-4 pb-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* === Section Header === */}
-        <div className="text-justify mb-12 sm:mb-16">
-          <h2 className="dm-serif-display-regular text-3xl sm:text-4xl md:text-5xl font-bold text-white text-center mb-4">
-            What is it?
-          </h2>
-          <p className="cal-sans-regular text-lg sm:text-xl text-gray-300 max-w-2xl mx-auto">
-            Previously featured under Convergence as Tech Tournament, Tesseract now stands as an independent technical tournament conducted by ACM VNRVJIET.
-          </p>
-          <div className="mt-6 text-center">
-            <a
-              className="cal-sans-regular bg-orange-500/20 hover:bg-orange-500/30 border border-orange-400/30 text-orange-200 hover:text-orange-100 px-6 py-3 md:px-6 md:py-2 rounded-lg backdrop-blur-sm transition-all duration-200 text-xl md:text-1xl inline-block"
-              href="https://unstop.com/p/tech-tournament-vallurupalli-nageswara-rao-vignana-jyothi-institute-of-engineering-technology-telangana-1578635"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Register Now
-            </a>
-          </div>
-        </div>
-
         {/* === Poster Flip Container === */}
         <div className="flip-container">
           <div className="flipper">
