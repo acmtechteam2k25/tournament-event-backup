@@ -30,7 +30,7 @@ const CurrentEdition = () => {
               Tesseract 2026
             </h3>
 
-            <p className="text-white/80 cal-sans-regular text-base sm:text-lg md:text-xl leading-relaxed text-center"
+            <p className="text-white/80 cal-sans-regular text-base sm:text-lg md:text-xl leading-relaxed text-justify"
             style={{ wordSpacing: "3.5px" }}>
               Tesseract marks the next evolution of ACM VNRVJIET's flagship
               technical tournament. Get ready for exciting one-on-one battles,

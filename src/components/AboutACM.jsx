@@ -20,7 +20,7 @@ const AboutACM = () => {
             </div>
           </div>
           <div className="max-w-3xl mx-auto mt-8 px-4">
-            <p className="text-white/80 cal-sans-regular text-base sm:text-lg md:text-xl leading-relaxed text-center"
+            <p className="text-white/80 cal-sans-regular text-base sm:text-lg md:text-xl leading-relaxed text-justify"
             style={{ wordSpacing: "3.5px" }}>
               Tesseract,  formerly known as Tech Tournament, is ACM VNRVJIET's premier 1 vs 1 knockout technical competition. Designed to bring out the best technical talent on campus, participants compete head-to-head through successive elimination rounds.
             </p>

@@ -15,11 +15,20 @@ const ACMLogo = () => {
         tabIndex={0}
         onKeyDown={(e) => e.key === 'Enter' && handleLogoClick()}
       >
+       <div className="
+w-12 h-12
+md:w-20 md:h-20
+rounded-full
+border-2 border-[#0d9c57]
+flex items-center justify-center
+shadow-[0_0_15px_rgba(13,156,87,.4)]
+">
         <img 
           src={acmLogo} 
           alt="ACM Logo" 
-          className="w-12 h-12 md:w-20 md:h-20 object-contain"
+          className="w-10 h-10 md:w-14 md:h-14 object-contain"
         />
+        </div>
       </div>
     </div>
   );

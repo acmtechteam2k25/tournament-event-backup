@@ -64,11 +64,12 @@ const Home = () => {
         </section>
         {/* About ACM Section */}
         <AboutACM />
+        <CurrentEdition /> 
         <PreviousEdition />
         
         {/* Poster Section */}
         <PosterSection />
-        <CurrentEdition /> 
+        
         {/* Count Section */}
         {/* <CountSection /> */}
     </>

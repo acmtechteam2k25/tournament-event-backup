@@ -40,7 +40,7 @@ const PreviousEdition = () => {
             <h3 className="text-white text-4xl font-bold text-center mb-5">
               Convergence 2025
             </h3>
-<p className="text-white/80 cal-sans-regular text-base sm:text-lg md:text-xl leading-relaxed text-center"
+<p className="text-white/80 cal-sans-regular text-base sm:text-lg md:text-xl leading-relaxed text-justify"
             style={{ wordSpacing: "3.5px" }}>
     Before evolving into <span className="text-[#0d9c57] font-semibold">Tesseract</span>,
     the event was conducted as Tech Tournament under
