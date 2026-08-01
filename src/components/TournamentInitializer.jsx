@@ -59,14 +59,20 @@ const TournamentInitializer = ({ tournamentId: propTournamentId, onTournamentCre
           const line = lines[i]?.trim();
           if (!line) continue;
 
-          const [name, roll_number, email] = line.split(',').map(field => field.trim().replace(/"/g, ''));
+          const parts = line.split(',').map(field => field.trim().replace(/"/g, ''));
+          const [name, roll_number, email, mobile_number] = parts;
           if (name && roll_number && email) {
-            imported.push({
+            const entry = {
               name,
               roll_number,
               email,
               seed_number: i // Simple seeding based on CSV order
-            });
+            };
+            // mobile_number is optional; include only when present and exactly 10 digits
+            if (mobile_number && /^\d{10}$/.test(mobile_number.trim())) {
+              entry.mobile_number = mobile_number.trim();
+            }
+            imported.push(entry);
           }
         }
 
@@ -225,22 +231,29 @@ const TournamentInitializer = ({ tournamentId: propTournamentId, onTournamentCre
       await supabase.from('rounds').delete().eq('tournament_id', tournamentId);
       await supabase.from('participants').delete().eq('tournament_id', tournamentId);
 
-      // Determine academic year (1, 2 or 3) based on selected tournament
+      // Determine academic year (2 or 3) based on selected tournament
       const tmap = config.TOURNAMENTS || {};
-      const yearValue = tmap?.firstYear?.id === tournamentId ? 1 : (tmap?.secondYear?.id === tournamentId ? 2 : (tmap?.thirdYear?.id === tournamentId ? 3 : null));
+      const yearValue = tmap?.secondYear?.id === tournamentId ? 2 : (tmap?.thirdYear?.id === tournamentId ? 3 : null);
 
       // Insert participants with proper seeding
-      const participantsData = participants.map(participant => ({
-        tournament_id: tournamentId,
-        name: participant.name,
-        roll_number: participant.roll_number,
-        email: participant.email,
-        seed_number: participant.seed_number,
-        status: 'active',
-        current_round: 1,
-        total_wins: 0,
-        year: yearValue
-      }));
+      const participantsData = participants.map(participant => {
+        const record = {
+          tournament_id: tournamentId,
+          name: participant.name,
+          roll_number: participant.roll_number,
+          email: participant.email,
+          seed_number: participant.seed_number,
+          status: 'active',
+          current_round: 1,
+          total_wins: 0,
+          year: yearValue
+        };
+        // Include mobile_number only when provided (column is nullable)
+        if (participant.mobile_number) {
+          record.mobile_number = participant.mobile_number;
+        }
+        return record;
+      });
 
       const { data: insertedParticipants, error: participantsError } = await supabase
         .from('participants')
@@ -298,7 +311,8 @@ const TournamentInitializer = ({ tournamentId: propTournamentId, onTournamentCre
               return (
                 <>
                   <li>• Exactly <strong>{expected} participants</strong> required</li>
-                  <li>• CSV format: <code className="bg-black/30 px-1 rounded">name,roll_number,email</code></li>
+                  <li>• CSV format: <code className="bg-black/30 px-1 rounded">name,roll_number,email[,mobile_number]</code></li>
+                  <li>• <code className="bg-black/30 px-1 rounded">mobile_number</code> is optional (10 digits) — required for participant verification</li>
                   <li>• Seeding calculated automatically using tournament bracket order</li>
                   <li>• Creates {r1Matches} Round 1 matches automatically</li>
                 </>

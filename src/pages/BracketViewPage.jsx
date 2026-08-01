@@ -10,76 +10,58 @@ const BracketViewPage = () => {
   const [selectedRound, setSelectedRound] = useState(1);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const [showConfetti, setShowConfetti] = useState(false);
+
   const tournamentId = config.TOURNAMENTS?.[tournamentKey]?.id || config.TOURNAMENT_ID;
 
   // Handle window resize for mobile detection
   React.useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768);
-    };
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Available rounds based on selected tournament
-  const maxRounds = (config.TOURNAMENTS?.[tournamentKey]?.numRounds) || config.NUM_ROUNDS || 6;
-  // Unify selection buttons to R1, QF, SF, F for all years
-  const buttonRounds = maxRounds === 4 ? [1, 2, 3, 4] : [1, 4, 5, 6];
-  const availableRounds = buttonRounds;
+  // 6-round button list: R1 R2 R3 QF SF F
+  const maxRounds = config.TOURNAMENTS?.[tournamentKey]?.numRounds || config.NUM_ROUNDS || 6;
+  const availableRounds = [1, 2, 3, 4, 5, 6].filter(r => r <= maxRounds);
 
-  // Convert round number to display name
   const getRoundDisplayName = (roundNumber) => {
-    // Unified round names for 4-round tournament (16 participants)
     switch (roundNumber) {
       case 1: return 'R1';
-      case 2: return 'QF';
-      case 3: return 'SF';
-      case 4: return 'F';
+      case 2: return 'R2';
+      case 3: return 'R3';
+      case 4: return 'QF';
+      case 5: return 'SF';
+      case 6: return 'F';
       default: return `R${roundNumber}`;
     }
   };
 
-  // Calculate visible rounds based on selection
   const getVisibleRounds = () => {
     if (viewMode === 'full') return availableRounds;
-    
-    if (isMobile) {
-      // Mobile: show only selected round
-      return [selectedRound];
-    } else {
-      // Desktop: show selected round + next 2 rounds
-      const rounds = [];
-      for (let i = 0; i < 3; i++) {
-        const round = selectedRound + i;
-        if (round <= maxRounds) {
-          rounds.push(round);
-        }
-      }
-      return rounds;
+    if (isMobile) return [selectedRound];
+    const rounds = [];
+    for (let i = 0; i < 3; i++) {
+      const round = selectedRound + i;
+      if (round <= maxRounds) rounds.push(round);
     }
+    return rounds;
   };
 
   return (
     <div className="min-h-screen bg-black px-2 sm:px-4 pb-6">
       {/* Confetti Animation */}
-      <ConfettiCelebration 
-        isActive={showConfetti} 
+      <ConfettiCelebration
+        isActive={showConfetti}
         onComplete={() => setShowConfetti(false)}
         duration={5000}
       />
 
-      {/* Tournament Selection Buttons - positioned below navbar */}
+      {/* Tournament Selection Buttons — switch the displayed bracket, no modal */}
       <div className="pt-20 pb-4 flex justify-center">
         <div className="flex gap-2">
           <button
-            onClick={() => setTournamentKey('firstYear')}
-            className={`cal-sans-regular px-4 py-2 rounded-l backdrop-blur-md border transition-all duration-200 ${tournamentKey === 'firstYear' ? 'bg-black/20 text-orange-200 border-orange-400/60' : 'bg-black/10 text-white/70 border-white/20 hover:bg-black/20 hover:text-orange-200 hover:border-orange-400/30'}`}
-          >
-            1st Year
-          </button>
-          <button
             onClick={() => setTournamentKey('secondYear')}
-            className={`cal-sans-regular px-4 py-2 backdrop-blur-md border transition-all duration-200 ${tournamentKey === 'secondYear' ? 'bg-black/20 text-orange-200 border-orange-400/60' : 'bg-black/10 text-white/70 border-white/20 hover:bg-black/20 hover:text-orange-200 hover:border-orange-400/30]'} `}
+            className={`cal-sans-regular px-4 py-2 rounded-l backdrop-blur-md border transition-all duration-200 ${tournamentKey === 'secondYear' ? 'bg-black/20 text-orange-200 border-orange-400/60' : 'bg-black/10 text-white/70 border-white/20 hover:bg-black/20 hover:text-orange-200 hover:border-orange-400/30'}`}
           >
             2nd Year
           </button>
@@ -87,14 +69,13 @@ const BracketViewPage = () => {
             onClick={() => setTournamentKey('thirdYear')}
             className={`cal-sans-regular px-4 py-2 rounded-r backdrop-blur-md border transition-all duration-200 ${tournamentKey === 'thirdYear' ? 'bg-black/20 text-orange-200 border-orange-400/60' : 'bg-black/10 text-white/70 border-white/20 hover:bg-black/20 hover:text-orange-200 hover:border-orange-400/30'}`}
           >
-            3rd/4th Year
+            3rd Year
           </button>
         </div>
       </div>
 
       {/* View Mode Controls */}
       <div className="pb-4 flex flex-col items-center gap-4">
-        {/* Full vs Round View Toggle */}
         <div className="flex gap-2">
           <button
             onClick={() => setViewMode('full')}
@@ -117,7 +98,6 @@ const BracketViewPage = () => {
           </button>
         </div>
 
-        {/* Round Selection (only show when round view is active) */}
         {viewMode === 'round' && (
           <div className="flex flex-col items-center gap-3">
             <span className="text-white/70 text-sm">
@@ -137,12 +117,12 @@ const BracketViewPage = () => {
           </div>
         )}
       </div>
-      
-      {/* Bracket Component - Read-only bracket viewer */}
+
+      {/* Bracket — verification modal is handled inside TournamentBracketViewClean for public view */}
       <div className="max-w-[95%] sm:max-w-[90%] mx-auto bg-[#140f0b] rounded-lg border border-white/10 overflow-hidden shadow-xl">
         <div className="bracket-component">
-          <TournamentBracketViewClean 
-            isEditable={false} 
+          <TournamentBracketViewClean
+            isEditable={false}
             tournamentId={tournamentId}
             viewMode={viewMode}
             visibleRounds={viewMode === 'round' ? getVisibleRounds() : null}

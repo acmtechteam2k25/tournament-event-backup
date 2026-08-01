@@ -122,13 +122,7 @@ const AdminPage = () => {
 
               {/* Year Toggle Switch */}
               <div className="border-t border-white/20 pt-4">
-                <div className="grid grid-cols-3 gap-2">
-                  <button
-                    onClick={() => handleMenuItemClick(activeTab, 'firstYear')}
-                    className={`px-3 py-2 text-sm font-medium rounded-md transition-colors duration-200 ${tournamentKey === 'firstYear' ? 'bg-white/20 text-white border border-white/30' : 'text-white/80 hover:bg-white/10 hover:text-white'}`}
-                  >
-                    1st Year
-                  </button>
+                <div className="grid grid-cols-2 gap-2">
                   <button
                     onClick={() => handleMenuItemClick(activeTab, 'secondYear')}
                     className={`px-3 py-2 text-sm font-medium rounded-md transition-colors duration-200 ${tournamentKey === 'secondYear' ? 'bg-white/20 text-white border border-white/30' : 'text-white/80 hover:bg-white/10 hover:text-white'}`}

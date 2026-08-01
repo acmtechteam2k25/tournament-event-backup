@@ -48,6 +48,19 @@ export const tournamentAPI = {
     return data
   },
 
+  // Get the redirect_url for a specific match.
+  // Returns the match's own redirect_url, or null if not set / not found.
+  getMatchRedirectUrl: async (matchId) => {
+    const { data, error } = await supabase
+      .from('matches')
+      .select('redirect_url')
+      .eq('id', matchId)
+      .single()
+
+    if (error || !data) return null
+    return data.redirect_url || null
+  },
+
   // Get cumulative scores
   getCumulativeScores: async (tournamentId) => {
     // Get all participants

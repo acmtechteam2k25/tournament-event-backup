@@ -10,6 +10,7 @@ import { useTournament } from "../hooks/useTournament";
 import Connector from "./Connector";
 import MatchBox from "./MatchBox";
 import ConfettiCelebration from "./ConfettiCelebration";
+import ParticipantVerificationModal from "./ParticipantVerificationModal";
 import "./TournamentBracketView.css";
 
 const TournamentBracketViewFinal = ({
@@ -34,6 +35,15 @@ const TournamentBracketViewFinal = ({
   const [isMobile, setIsMobile] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
   const containerRef = useRef(null);
+
+  // ─── Public-view verification modal state ────────────────────────────────────
+  const [verificationModal, setVerificationModal] = useState({
+    isOpen: false,
+    matchLabel: '',
+    player1Id: null,
+    player2Id: null,
+    redirectUrl: null,
+  });
 
   // Mobile detection
   useEffect(() => {
@@ -136,8 +146,44 @@ const TournamentBracketViewFinal = ({
   }, [tournamentId, bracket]);
 
   const handleMatchClick = async (match, x, y) => {
-    // Only allow clicking if in editable mode
-    if (!isEditable) return;
+    // ── PUBLIC VIEW: open participant verification modal ──────────────────────
+    if (!isEditable) {
+      // Build a readable match label e.g. "Round 1 / M4"
+      const roundLabel = (() => {
+        switch (match.roundNumber) {
+          case 6: return 'Final';
+          case 5: return 'Semi Final';
+          case 4: return 'Quarter Final';
+          default: return `Round ${match.roundNumber}`;
+        }
+      })();
+      const matchLabel = `${roundLabel} — Match ${match.matchNumber}`;
+
+      // Extract the real (non-TBD) participant IDs from this match
+      const p1 = match.participants[0];
+      const p2 = match.participants[1];
+      const player1Id = p1?.id || null;
+      const player2Id = p2?.id || null;
+
+      // Fetch this match's redirect_url from the database (non-blocking)
+      let redirectUrl = null;
+      try {
+        redirectUrl = await tournamentAPI.getMatchRedirectUrl(match.id);
+      } catch {
+        // Fall back to config default if fetch fails — handled inside modal
+      }
+
+      setVerificationModal({
+        isOpen: true,
+        matchLabel,
+        player1Id,
+        player2Id,
+        redirectUrl,
+      });
+      return;
+    }
+
+    // ── ADMIN/EDITABLE VIEW: existing winner-selection logic ──────────────────
 
     const isCurrentlySelected = selectedMatch?.id === match.id;
     setSelectedMatch(isCurrentlySelected ? null : match);
@@ -544,6 +590,18 @@ const TournamentBracketViewFinal = ({
         duration={5000}
       />
 
+      {/* Public-view: Participant Verification Modal (shown when match card is clicked) */}
+      {!isEditable && (
+        <ParticipantVerificationModal
+          isOpen={verificationModal.isOpen}
+          onClose={() => setVerificationModal(v => ({ ...v, isOpen: false }))}
+          matchLabel={verificationModal.matchLabel}
+          player1Id={verificationModal.player1Id}
+          player2Id={verificationModal.player2Id}
+          redirectUrl={verificationModal.redirectUrl}
+        />
+      )}
+
       {/* Toolbar: export + cumulative scores */}
       {isEditable && (
         <div className="px-4 py-3 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
@@ -655,15 +713,19 @@ const TournamentBracketViewFinal = ({
                         >
                           <div className="svg-round-header">
                             <h3>
-                              {match.tournamentRoundText === "4"
+                              {match.tournamentRoundText === "6"
                                 ? "Final"
-                                : match.tournamentRoundText === "3"
+                                : match.tournamentRoundText === "5"
                                   ? "Semi Final"
-                                  : match.tournamentRoundText === "2"
+                                  : match.tournamentRoundText === "4"
                                     ? "Quarter Final"
-                                    : match.tournamentRoundText === "1"
-                                      ? "Round 1"
-                                      : `Round ${match.tournamentRoundText}`}
+                                    : match.tournamentRoundText === "3"
+                                      ? "Round 3"
+                                      : match.tournamentRoundText === "2"
+                                        ? "Round 2"
+                                        : match.tournamentRoundText === "1"
+                                          ? "Round 1"
+                                          : `Round ${match.tournamentRoundText}`}
                             </h3>
                           </div>
                         </foreignObject>
