@@ -44,7 +44,7 @@ const Connector = ({
         y1={topMatchY + gameHeight / 2}
         x2={verticalLineX}
         y2={topMatchY + gameHeight / 2}
-        stroke="#c07b0cff"
+        stroke="#0d9c57"
         strokeWidth="2"
         opacity="0.8"
       />
@@ -55,7 +55,7 @@ const Connector = ({
         y1={bottomMatchY + gameHeight / 2}
         x2={verticalLineX}
         y2={bottomMatchY + gameHeight / 2}
-        stroke="#c07b0cff"
+        stroke="#0d9c57"
         strokeWidth="2"
         opacity="0.8"
       />
@@ -66,7 +66,7 @@ const Connector = ({
         y1={topMatchY + gameHeight / 2}
         x2={verticalLineX}
         y2={bottomMatchY + gameHeight / 2}
-        stroke="#c07b0cff"
+        stroke="#0d9c57"
         strokeWidth="2"
         opacity="0.8"
       />
@@ -77,7 +77,7 @@ const Connector = ({
         y1={horizontalLineY}
         x2={currentMatchX}
         y2={horizontalLineY}
-        stroke="#c07b0cff"
+        stroke="#0d9c57"
         strokeWidth="2"
         opacity="0.8"
       />

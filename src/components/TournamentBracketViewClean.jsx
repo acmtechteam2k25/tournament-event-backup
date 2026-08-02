@@ -647,8 +647,8 @@ const TournamentBracketViewFinal = ({
                 }}
                 disabled={isExporting}
                 className={`px-4 py-2 rounded-lg text-white font-bold shadow inline-flex items-center gap-2 border ${isExporting
-                  ? "bg-amber-700/60 border-amber-600/50 cursor-wait"
-                  : "bg-amber-800/60 hover:bg-amber-700/70 border-amber-600/60 hover:border-amber-500/70"
+                  ? "bg-[#024028]/50 border-[#0d9c57]/40 cursor-wait"
+                  : "bg-[#024028]/70 hover:bg-[#024028] border-[#0d9c57]/50 hover:border-[#0d9c57] hover:shadow-[0_0_14px_rgba(13,156,87,0.4)]"
                   }`}
               >
                 {isExporting ? "Generating…" : "Export Excel"}
@@ -665,7 +665,7 @@ const TournamentBracketViewFinal = ({
                     alert(`Failed to load scores: ${e.message || e}`);
                   }
                 }}
-                className="px-4 py-2 rounded-lg bg-amber-800/60 hover:bg-amber-700/70 border border-amber-600/60 hover:border-amber-500/70 text-white font-bold shadow"
+                className="px-4 py-2 rounded-lg bg-[#024028]/70 hover:bg-[#024028] border border-[#0d9c57]/50 hover:border-[#0d9c57] hover:shadow-[0_0_14px_rgba(13,156,87,0.4)] text-white font-bold shadow transition-all duration-200"
               >
                 Cumulative Scores
               </button>
@@ -787,7 +787,7 @@ const TournamentBracketViewFinal = ({
                 Match {selectedMatch.matchNumber} - Round{" "}
                 {selectedMatch.roundNumber}
                 {selectedMatch.state === "SCORE_DONE" && (
-                  <span className="block text-orange-400 font-medium mt-1">
+                  <span className="block text-[#0d9c57] font-medium mt-1">
                     ⚠️ Editing completed match
                   </span>
                 )}
@@ -807,14 +807,14 @@ const TournamentBracketViewFinal = ({
                       onClick={() => setSelectedWinner(participant)}
                       disabled={updating}
                       className={`w-full p-4 text-left border rounded-lg backdrop-blur-xl transition-all duration-200 ${selectedWinner?.id === participant.id
-                        ? "border-orange-400/40 bg-orange-500/10"
-                        : "border-white/10 bg-white/5 hover:border-orange-400/20 hover:bg-orange-500/5"
+                        ? "border-[#0d9c57]/60 bg-[#024028]/30"
+                        : "border-white/10 bg-white/5 hover:border-[#0d9c57]/30 hover:bg-[#024028]/15"
                         } disabled:opacity-50 disabled:cursor-not-allowed`}
                     >
                       <div className="flex items-center justify-between">
                         <div className="flex items-center">
                           {participant.seed && (
-                            <span className="inline-flex items-center justify-center w-7 h-7 bg-orange-500/15 backdrop-blur-md border border-orange-400/30 text-orange-200 text-sm font-bold rounded-full mr-3">
+                            <span className="inline-flex items-center justify-center w-7 h-7 bg-[#024028]/40 backdrop-blur-md border border-[#0d9c57]/40 text-[#0d9c57] text-sm font-bold rounded-full mr-3">
                               {participant.seed}
                             </span>
                           )}
@@ -829,8 +829,8 @@ const TournamentBracketViewFinal = ({
                         </div>
                         <div
                           className={`transition-colors ${selectedWinner?.id === participant.id
-                            ? "text-orange-400"
-                            : "text-orange-300"
+                            ? "text-[#0d9c57]"
+                            : "text-[#0d9c57]/60"
                             }`}
                         >
                           {selectedWinner?.id === participant.id ? "✓" : "👑"}
@@ -850,7 +850,7 @@ const TournamentBracketViewFinal = ({
                     setIsWalkover(e.target.checked);
                     if (e.target.checked) setIsBye(false); // Can't be both walkover and bye
                   }}
-                  className="mr-3 w-4 h-4 text-orange-500 border-white/30 rounded focus:ring-orange-500"
+                  className="mr-3 w-4 h-4 text-[#0d9c57] border-white/30 rounded focus:ring-[#0d9c57]"
                 />
                 <span className="text-sm font-medium text-white">
                   Walkover (opponent unable to compete)
@@ -865,7 +865,7 @@ const TournamentBracketViewFinal = ({
                     setIsBye(e.target.checked);
                     if (e.target.checked) setIsWalkover(false); // Can't be both walkover and bye
                   }}
-                  className="mr-3 w-4 h-4 text-orange-500 border-white/30 rounded focus:ring-orange-500"
+                  className="mr-3 w-4 h-4 text-[#0d9c57] border-white/30 rounded focus:ring-[#0d9c57]"
                 />
                 <span className="text-sm font-medium text-white">BYE (opponent absent)</span>
               </label>

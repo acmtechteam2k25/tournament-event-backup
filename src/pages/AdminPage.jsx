@@ -77,7 +77,7 @@ const AdminPage = () => {
           {/* Logout Button */}
           <button
             onClick={handleLogout}
-            className="cal-sans-regular bg-orange-500/20 hover:bg-orange-500/30 border border-orange-400/30 text-orange-200 hover:text-orange-100 px-2 py-1 rounded backdrop-blur-sm transition-all duration-200 text-md"
+            className="tektur-title bg-[#024028]/60 hover:bg-[#024028] border border-[#0d9c57]/40 hover:border-[#0d9c57] text-white px-3 py-1.5 rounded backdrop-blur-sm transition-all duration-200 text-sm hover:shadow-[0_0_14px_rgba(13,156,87,0.4)]"
           >
             Logout
           </button>

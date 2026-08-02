@@ -6,21 +6,19 @@ import './BracketViewPage.css';
 
 const BracketViewPage = () => {
   const [tournamentKey, setTournamentKey] = useState(config.DEFAULT_TOURNAMENT_KEY);
-  const [viewMode, setViewMode] = useState('full'); // 'full' or 'round'
+  const [viewMode, setViewMode] = useState('full');
   const [selectedRound, setSelectedRound] = useState(1);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const [showConfetti, setShowConfetti] = useState(false);
 
   const tournamentId = config.TOURNAMENTS?.[tournamentKey]?.id || config.TOURNAMENT_ID;
 
-  // Handle window resize for mobile detection
   React.useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth <= 768);
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // 6-round button list: R1 R2 R3 QF SF F
   const maxRounds = config.TOURNAMENTS?.[tournamentKey]?.numRounds || config.NUM_ROUNDS || 6;
   const availableRounds = [1, 2, 3, 4, 5, 6].filter(r => r <= maxRounds);
 
@@ -49,25 +47,32 @@ const BracketViewPage = () => {
 
   return (
     <div className="min-h-screen bg-black px-2 sm:px-4 pb-6">
-      {/* Confetti Animation */}
       <ConfettiCelebration
         isActive={showConfetti}
         onComplete={() => setShowConfetti(false)}
         duration={5000}
       />
 
-      {/* Tournament Selection Buttons — switch the displayed bracket, no modal */}
+      {/* Tournament Selection Buttons */}
       <div className="pt-20 pb-4 flex justify-center">
         <div className="flex gap-2">
           <button
             onClick={() => setTournamentKey('secondYear')}
-            className={`cal-sans-regular px-4 py-2 rounded-l backdrop-blur-md border transition-all duration-200 ${tournamentKey === 'secondYear' ? 'bg-black/20 text-orange-200 border-orange-400/60' : 'bg-black/10 text-white/70 border-white/20 hover:bg-black/20 hover:text-orange-200 hover:border-orange-400/30'}`}
+            className={`tektur-title px-5 py-2 rounded-l backdrop-blur-md border transition-all duration-200 text-sm font-semibold ${
+              tournamentKey === 'secondYear'
+                ? 'bg-[#024028] text-white border-[#0d9c57] shadow-[0_0_14px_rgba(13,156,87,0.45)]'
+                : 'bg-black/10 text-white/60 border-white/15 hover:bg-[#024028]/60 hover:text-white hover:border-[#0d9c57]/50'
+            }`}
           >
             2nd Year
           </button>
           <button
             onClick={() => setTournamentKey('thirdYear')}
-            className={`cal-sans-regular px-4 py-2 rounded-r backdrop-blur-md border transition-all duration-200 ${tournamentKey === 'thirdYear' ? 'bg-black/20 text-orange-200 border-orange-400/60' : 'bg-black/10 text-white/70 border-white/20 hover:bg-black/20 hover:text-orange-200 hover:border-orange-400/30'}`}
+            className={`tektur-title px-5 py-2 rounded-r backdrop-blur-md border transition-all duration-200 text-sm font-semibold ${
+              tournamentKey === 'thirdYear'
+                ? 'bg-[#024028] text-white border-[#0d9c57] shadow-[0_0_14px_rgba(13,156,87,0.45)]'
+                : 'bg-black/10 text-white/60 border-white/15 hover:bg-[#024028]/60 hover:text-white hover:border-[#0d9c57]/50'
+            }`}
           >
             3rd Year
           </button>
@@ -79,19 +84,27 @@ const BracketViewPage = () => {
         <div className="flex gap-2">
           <button
             onClick={() => setViewMode('full')}
-            className={`cal-sans-regular px-4 py-2 rounded-l backdrop-blur-md border transition-all duration-200 ${viewMode === 'full' ? 'bg-orange-500/20 text-orange-200 border-orange-400/60' : 'bg-black/10 text-white/70 border-white/20 hover:bg-orange-500/10 hover:text-orange-200 hover:border-orange-400/30'}`}
+            className={`tektur-title px-5 py-2 rounded-l backdrop-blur-md border transition-all duration-200 text-sm font-semibold ${
+              viewMode === 'full'
+                ? 'bg-[#024028] text-white border-[#0d9c57] shadow-[0_0_14px_rgba(13,156,87,0.45)]'
+                : 'bg-black/10 text-white/60 border-white/15 hover:bg-[#024028]/60 hover:text-white hover:border-[#0d9c57]/50'
+            }`}
           >
             Full Bracket
           </button>
           <button
             onClick={() => setViewMode('round')}
-            className={`cal-sans-regular px-4 py-2 backdrop-blur-md border transition-all duration-200 ${viewMode === 'round' ? 'bg-orange-500/20 text-orange-200 border-orange-400/60' : 'bg-black/10 text-white/70 border-white/20 hover:bg-orange-500/10 hover:text-orange-200 hover:border-orange-400/30'}`}
+            className={`tektur-title px-5 py-2 backdrop-blur-md border transition-all duration-200 text-sm font-semibold ${
+              viewMode === 'round'
+                ? 'bg-[#024028] text-white border-[#0d9c57] shadow-[0_0_14px_rgba(13,156,87,0.45)]'
+                : 'bg-black/10 text-white/60 border-white/15 hover:bg-[#024028]/60 hover:text-white hover:border-[#0d9c57]/50'
+            }`}
           >
             Round View
           </button>
           <button
             onClick={() => setShowConfetti(true)}
-            className="cal-sans-regular px-4 py-2 rounded-r backdrop-blur-md border border-amber-400/60 bg-gradient-to-r from-amber-500/20 to-orange-500/20 text-amber-200 hover:from-amber-500/30 hover:to-orange-500/30 transition-all duration-200 transform hover:scale-105"
+            className="tektur-title px-5 py-2 rounded-r backdrop-blur-md border border-[#0d9c57]/60 bg-gradient-to-r from-[#024028]/60 to-[#0d9c57]/40 text-white hover:from-[#024028] hover:to-[#0d9c57]/70 hover:shadow-[0_0_20px_rgba(13,156,87,0.4)] transition-all duration-200 transform hover:scale-105 text-sm font-semibold"
             title="Celebrate! 🎉"
           >
             🎉 Celebrate
@@ -100,7 +113,7 @@ const BracketViewPage = () => {
 
         {viewMode === 'round' && (
           <div className="flex flex-col items-center gap-3">
-            <span className="text-white/70 text-sm">
+            <span className="text-white/60 text-sm tektur-title">
               {isMobile ? 'Select Round:' : 'Starting Round:'}
             </span>
             <div className="grid grid-cols-3 gap-2">
@@ -108,7 +121,11 @@ const BracketViewPage = () => {
                 <button
                   key={round}
                   onClick={() => setSelectedRound(round)}
-                  className={`px-4 py-2 rounded backdrop-blur-md border transition-all duration-200 text-sm min-w-[60px] ${selectedRound === round ? 'bg-orange-500/20 text-orange-200 border-orange-400/60' : 'bg-black/10 text-white/70 border-white/20 hover:bg-orange-500/10 hover:text-orange-200 hover:border-orange-400/30'}`}
+                  className={`tektur-title px-4 py-2 rounded backdrop-blur-md border transition-all duration-200 text-sm min-w-[60px] font-semibold ${
+                    selectedRound === round
+                      ? 'bg-[#024028] text-white border-[#0d9c57] shadow-[0_0_12px_rgba(13,156,87,0.4)]'
+                      : 'bg-black/10 text-white/60 border-white/15 hover:bg-[#024028]/60 hover:text-white hover:border-[#0d9c57]/50'
+                  }`}
                 >
                   {getRoundDisplayName(round)}
                 </button>
@@ -118,8 +135,8 @@ const BracketViewPage = () => {
         )}
       </div>
 
-      {/* Bracket — verification modal is handled inside TournamentBracketViewClean for public view */}
-      <div className="max-w-[95%] sm:max-w-[90%] mx-auto bg-[#140f0b] rounded-lg border border-white/10 overflow-hidden shadow-xl">
+      {/* Bracket */}
+      <div className="max-w-[95%] sm:max-w-[90%] mx-auto bg-black rounded-lg border border-[#0d9c57]/20 overflow-hidden shadow-xl shadow-[#0d9c57]/5">
         <div className="bracket-component">
           <TournamentBracketViewClean
             isEditable={false}
