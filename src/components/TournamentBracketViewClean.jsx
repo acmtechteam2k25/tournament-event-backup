@@ -410,7 +410,7 @@ const TournamentBracketViewFinal = ({
     return (
       <div className="loading h-[100vh] flex justify-center items-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-400 mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#0d9c57] mx-auto mb-4"></div>
           <p className="text-white cal-sans-regular">Loading tournament bracket...</p>
         </div>
       </div>
@@ -554,7 +554,7 @@ const TournamentBracketViewFinal = ({
       <div className="tournament-bracket">
         <div className="flex items-center justify-center h-96">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-400 mx-auto mb-4"></div>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#0d9c57] mx-auto mb-4"></div>
             <p className="text-white cal-sans-regular">Loading tournament bracket...</p>
           </div>
         </div>
@@ -978,7 +978,7 @@ const TournamentBracketViewFinal = ({
 
             {updating && (
               <div className="mt-4 text-center">
-                <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-orange-500 mx-auto"></div>
+                <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-[#0d9c57] mx-auto"></div>
                 <p className="text-sm text-white/70 mt-2">Updating match...</p>
               </div>
             )}

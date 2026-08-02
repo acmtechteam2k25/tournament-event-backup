@@ -28,7 +28,7 @@ const Home = () => {
         <Orb
             hoverIntensity={0}
             rotateOnHover = {true}
-            hue={15}
+            hue={0}
            
         />
     </div>

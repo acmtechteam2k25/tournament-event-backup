@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { config } from '../config';
 import TournamentBracketViewClean from '../components/TournamentBracketViewClean';
-import ConfettiCelebration from '../components/ConfettiCelebration';
 import './BracketViewPage.css';
 
 const BracketViewPage = () => {
@@ -9,7 +8,6 @@ const BracketViewPage = () => {
   const [viewMode, setViewMode] = useState('full');
   const [selectedRound, setSelectedRound] = useState(1);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
-  const [showConfetti, setShowConfetti] = useState(false);
 
   const tournamentId = config.TOURNAMENTS?.[tournamentKey]?.id || config.TOURNAMENT_ID;
 
@@ -47,11 +45,6 @@ const BracketViewPage = () => {
 
   return (
     <div className="min-h-screen bg-black px-2 sm:px-4 pb-6">
-      <ConfettiCelebration
-        isActive={showConfetti}
-        onComplete={() => setShowConfetti(false)}
-        duration={5000}
-      />
 
       {/* Tournament Selection Buttons */}
       <div className="pt-20 pb-4 flex justify-center">
@@ -94,7 +87,7 @@ const BracketViewPage = () => {
           </button>
           <button
             onClick={() => setViewMode('round')}
-            className={`tektur-title px-5 py-2 backdrop-blur-md border transition-all duration-200 text-sm font-semibold ${
+            className={`tektur-title px-5 py-2 rounded-r backdrop-blur-md border transition-all duration-200 text-sm font-semibold ${
               viewMode === 'round'
                 ? 'bg-[#024028] text-white border-[#0d9c57] shadow-[0_0_14px_rgba(13,156,87,0.45)]'
                 : 'bg-black/10 text-white/60 border-white/15 hover:bg-[#024028]/60 hover:text-white hover:border-[#0d9c57]/50'
@@ -102,13 +95,7 @@ const BracketViewPage = () => {
           >
             Round View
           </button>
-          <button
-            onClick={() => setShowConfetti(true)}
-            className="tektur-title px-5 py-2 rounded-r backdrop-blur-md border border-[#0d9c57]/60 bg-gradient-to-r from-[#024028]/60 to-[#0d9c57]/40 text-white hover:from-[#024028] hover:to-[#0d9c57]/70 hover:shadow-[0_0_20px_rgba(13,156,87,0.4)] transition-all duration-200 transform hover:scale-105 text-sm font-semibold"
-            title="Celebrate! 🎉"
-          >
-            🎉 Celebrate
-          </button>
+          {/* Celebrate button removed per request */}
         </div>
 
         {viewMode === 'round' && (

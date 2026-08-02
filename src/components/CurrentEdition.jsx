@@ -48,13 +48,11 @@ const CurrentEdition = () => {
 
            <div className="mt-8 flex justify-center">
             <button
-              className="mt-8 px-8 py-3 rounded-lg text-white font-semibold transition-all duration-300 hover:scale-105"
-              style={{
-                background: "#0d9c57",
-                boxShadow: "0 0 20px rgba(13,156,87,.35)",
-              }}
+              className="group relative overflow-hidden text-base sm:text-lg px-6 sm:px-7 py-1.5 sm:py-4 rounded-full font-semibold border-[#0d9c57] bg-gradient-to-r from-[#024028] to-[#0d9c57] transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(13,156,87,.55)]"
             >
-              Register Soon
+              <span className="flex items-center gap-2 text-white">
+                Register Soon
+              </span>
             </button>
             </div>
           </div>
