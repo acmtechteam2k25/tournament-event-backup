@@ -53,7 +53,7 @@ const Footer = () => {
 
             {/* ACM VNRVJIET Instagram */}
             <a
-              href="https://www.instagram.com/acmvnrvjiet"
+              href="https://www.instagram.com/acm_vnrvjiet"
               target="_blank"
               rel="noopener noreferrer"
               className="group"
