@@ -25,7 +25,6 @@ const ACMLogo = () => {
           w-12 h-12
           md:w-20 md:h-20
           rounded-full
-          border border-[#0d9c57]/60
           flex items-center justify-center
           shadow-[0_0_10px_rgba(13,156,87,.25)]
         ">
