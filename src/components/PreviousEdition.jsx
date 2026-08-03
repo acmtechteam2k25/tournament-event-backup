@@ -23,13 +23,9 @@ const PreviousEdition = () => {
 
         {/* Content — full-width single column now that logo is removed */}
         <div className="max-w-3xl mx-auto">
-<<<<<<< HEAD
           <h3 className="text-white text-4xl font-bold text-center mb-5">
             Tech Tournament 2025
           </h3>
-=======
-         
->>>>>>> 30a553cfae074b1b8d62bbdb0a86c9a47e64b173
           <p
             className="text-white/80 cal-sans-regular text-base sm:text-lg md:text-xl leading-relaxed text-justify"
             style={{ wordSpacing: "3.5px" }}
