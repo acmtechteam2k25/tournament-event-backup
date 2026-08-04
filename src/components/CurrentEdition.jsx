@@ -25,13 +25,13 @@ const CurrentEdition = () => {
         <div className="grid md:grid-cols-2 gap-14 items-center">
 
           {/* Description */}
-          <div className="order-2 md:order-1">
-            <h3 className="text-white text-4xl font-bold text-center mb-5">
+         <div className="order-2 md:order-1 max-w-3xl mx-auto px-4">
+           <h3 className="text-white text-3xl sm:text-4xl font-bold text-center mb-5">
               Tesseract 2026
             </h3>
 
             <p className="text-white/80 cal-sans-regular text-base sm:text-lg md:text-xl leading-relaxed text-justify"
-            style={{ wordSpacing: "3.5px" }}>
+              style={{ wordSpacing: "3.5px" }}>
               Tesseract marks the next evolution of ACM VNRVJIET's flagship
               technical tournament. Get ready for exciting one-on-one battles,
               innovative challenge rounds, coding contests, and an unforgettable
@@ -46,14 +46,21 @@ const CurrentEdition = () => {
               announced soon.
             </p>
 
-           <div className="mt-8 flex justify-center">
-            <button
-              className="group relative overflow-hidden text-base sm:text-lg px-6 sm:px-7 py-1.5 sm:py-4 rounded-full font-semibold border-[#0d9c57] bg-gradient-to-r from-[#024028] to-[#0d9c57] transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(13,156,87,.55)]"
-            >
-              <span className="flex items-center gap-2 text-white">
-                Register Soon
-              </span>
-            </button>
+            <div className="mt-8 flex justify-center">
+              <button
+                onClick={() => {
+                  window.open(
+                    "https://aspireup.ai/organization/acm-vnrvjiet/event/100107",
+                    "_blank",
+                    "noopener,noreferrer"
+                  );
+                }}
+                className="group relative overflow-hidden text-base sm:text-lg px-6 sm:px-7 py-1.5 sm:py-4 rounded-full font-semibold border-[#0d9c57] bg-gradient-to-r from-[#024028] to-[#0d9c57] transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(13,156,87,.55)]"
+              >
+                <span className="flex items-center gap-2 text-white">
+                  Register Now
+                </span>
+              </button>
             </div>
           </div>
 

@@ -46,7 +46,7 @@ const Login = ({ onLoginSuccess }) => {
     <div className="min-h-screen flex items-center justify-center p-6 bg-black">
 
       {/* Login card with glassmorphism */}
-      <div className="cal-sans-regular relative bg-black/20 backdrop-blur-md border border-white/10 rounded-2xl p-8 w-full max-w-md shadow-2xl">
+     <div className="cal-sans-regular relative bg-black/20 backdrop-blur-md border border-[#0d9c57]/50 rounded-2xl p-8 w-full max-w-md shadow-[0_0_25px_rgba(13,156,87,0.12)]">
         <div className="text-center mb-8">
           <h2 className="text-3xl font-bold text-white mb-2 text-shadow-glow">
             Admin Login
@@ -69,7 +69,7 @@ const Login = ({ onLoginSuccess }) => {
               onChange={handleChange}
               required
               placeholder="Enter your username"
-              className="w-full bg-black/30 backdrop-blur-sm border border-white/20 rounded-lg px-4 py-3 text-white placeholder-white/40 focus:outline-none focus:border-amber-400/50 focus:ring-2 focus:ring-amber-400/20 transition-all duration-200"
+              className="w-full bg-black/30 backdrop-blur-sm border border-[#0d9c57]/50 rounded-lg px-4 py-3 text-white placeholder-white/40 focus:outline-none focus:border-[#0d9c57]/60 focus:ring-2 focus:ring-[#0d9c57]/20 transition-all duration-200"
             />
           </div>
 
@@ -85,7 +85,7 @@ const Login = ({ onLoginSuccess }) => {
               onChange={handleChange}
               required
               placeholder="Enter your password"
-              className="w-full bg-black/30 backdrop-blur-sm border border-white/20 rounded-lg px-4 py-3 text-white placeholder-white/40 focus:outline-none focus:border-amber-400/50 focus:ring-2 focus:ring-amber-400/20 transition-all duration-200"
+              className="w-full bg-black/30 backdrop-blur-sm border border-[#0d9c57]/50 rounded-lg px-4 py-3 text-white placeholder-white/40 focus:outline-none focus:border-[#0d9c57]/60 focus:ring-2 focus:ring-[#0d9c57]/20 transition-all duration-200"
             />
           </div>
 
@@ -106,7 +106,12 @@ const Login = ({ onLoginSuccess }) => {
         </form>
 
         {/* Subtle glow effect */}
-        <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-amber-400/5 to-orange-500/5 pointer-events-none"></div>
+       <div
+  className="absolute inset-0 rounded-2xl pointer-events-none"
+  style={{
+    border: "1px solid rgba(13,156,87,0.15)"
+  }}
+></div>
       </div>
     </div>
   );

@@ -46,7 +46,7 @@ const Home = () => {
                 type="button"
                 onClick={() => {
                   window.open(
-                    'https://vnrvjiet.acm.org/',
+                    'https://aspireup.ai/organization/acm-vnrvjiet/event/100107',
                     '_blank',
                     'noopener,noreferrer'
                   );
