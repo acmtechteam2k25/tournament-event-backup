@@ -25,6 +25,10 @@ const TournamentInitializer = ({ tournamentId: propTournamentId, onTournamentCre
         .order('seed_number');
 
       if (error) throw error;
+      // ── DEBUG: log what loadParticipants received from Supabase ───────────
+      console.log('[loadParticipants] tournament_id queried:', tournamentId);
+      console.log('[loadParticipants] rows returned:', data?.length ?? 0, data);
+      // ──────────────────────────────────────────────────────────────────────
       setParticipants(data || []);
     } catch (err) {
       // Silently handle error
@@ -265,6 +269,12 @@ const TournamentInitializer = ({ tournamentId: propTournamentId, onTournamentCre
       // Sort participants by seed number and create the complete tournament bracket
       const sortedParticipants = insertedParticipants.sort((a, b) => a.seed_number - b.seed_number);
       const participantIds = sortedParticipants.map(p => p.id);
+
+      // ── DEBUG: verify participant IDs immediately before RPC call ──────────
+      console.log('[TournamentInitializer] Tournament ID :', tournamentId);
+      console.log('[TournamentInitializer] Participant count before RPC:', participantIds.length);
+      console.log('[TournamentInitializer] Participant IDs before RPC:', participantIds);
+      // ──────────────────────────────────────────────────────────────────────
 
       // Create complete tournament bracket with all rounds using the advanced function
       const { data, error } = await supabase.rpc('create_complete_tournament_bracket', {
