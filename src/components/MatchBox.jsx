@@ -17,13 +17,22 @@ const MatchBox = ({ match, onMatchClick, isSelected, gameWidth, gameHeight }) =>
     onMatchClick();
   };
 
+  const isPlaceholder = (participant) => {
+  if (!participant?.name) return true;
+
   return (
-    <div 
+    participant.name === "TBD" ||
+    participant.name.startsWith("Participant ")
+  );
+};
+
+  return (
+    <div
       className={`svg-match ${isSelected ? 'selected' : ''}`}
       onClick={handleMatchClick}
-      style={{ 
-        position: 'relative', 
-        width: '100%', 
+      style={{
+        position: 'relative',
+        width: '100%',
         height: '100%',
         cursor: 'pointer',
         pointerEvents: 'all'
@@ -37,13 +46,13 @@ const MatchBox = ({ match, onMatchClick, isSelected, gameWidth, gameHeight }) =>
           {match.state === 'SCORE_DONE' ? '✓' : '○'}
         </div>
       </div>
-      
+
       <div className="match-participants">
         {/* Always show exactly 2 participant slots */}
         {[0, 1].map((slotIndex) => {
           const participant = match.participants[slotIndex];
           return (
-            <div 
+            <div
               key={participant?.id || `tbd-${slotIndex}`}
               className={`participant ${participant?.isWinner ? 'winner' : ''} ${participant?.status === 'WALKOVER' ? 'walkover' : ''} ${!participant ? 'tbd' : ''}`}
             >
@@ -54,13 +63,16 @@ const MatchBox = ({ match, onMatchClick, isSelected, gameWidth, gameHeight }) =>
                   </span>
                 )}
                 <span className="participant-name">
-                  {participant?.name || 'TBD'}
-                </span>
-                {participant?.rollNumber && (
-                  <span className="player-roll hidden sm:block">
-                    {participant.rollNumber}
-                  </span>
-                )}
+  {isPlaceholder(participant)
+    ? "Awaiting Challenger"
+    : participant.name}
+</span>
+               {participant?.rollNumber && !isPlaceholder(participant) && (
+  <span className="player-roll hidden sm:block">
+    {participant.rollNumber}
+  </span>
+)}
+               
               </div>
               {participant?.resultText && (
                 <span className="participant-result">{participant.resultText}</span>
@@ -75,7 +87,7 @@ const MatchBox = ({ match, onMatchClick, isSelected, gameWidth, gameHeight }) =>
           );
         })}
       </div>
-      
+
 
     </div>
   );
