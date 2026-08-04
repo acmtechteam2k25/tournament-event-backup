@@ -296,10 +296,10 @@ const TournamentInitializer = ({ tournamentId: propTournamentId, onTournamentCre
 
   return (
     <div className="mx-auto p-6 bg-black/20 backdrop-blur-md">
-      <h2 className="text-2xl font-bold mb-6 text-white bodoni-moda">Tournament 2k25 Setup</h2>
+      <h2 className="text-2xl font-bold mb-6 text-white bodoni-moda">Tesseract Setup</h2>
 
       {/* Info Banner */}
-      <div className="bg-amber-500/10 border border-amber-400/30 text-amber-200 px-4 py-3 rounded mb-6 backdrop-blur-sm">
+      <div className="bg-[#024028]/20 border border-[#0d9c57]/40 text-white/90 px-4 py-3 rounded mb-6 backdrop-blur-sm">
         <h3 className="font-medium mb-2 bodoni-moda">Tournament Requirements</h3>
         <ul className="text-sm space-y-1">
           {
@@ -330,7 +330,7 @@ const TournamentInitializer = ({ tournamentId: propTournamentId, onTournamentCre
 
       {/* Action Buttons */}
       <div className="mb-6 flex flex-wrap gap-4">
-        <label className="bg-gradient-to-r from-amber-400 to-orange-500 hover:from-amber-500 hover:to-orange-600 text-black font-semibold px-4 py-2 rounded cursor-pointer transition-all duration-200 transform hover:scale-[1.02] cal-sans-regular">
+        <label className="bg-gradient-to-r from-[#024028] to-[#0d9c57] hover:shadow-[0_0_20px_rgba(13,156,87,0.5)] text-white font-semibold px-4 py-2 rounded-full cursor-pointer transition-all duration-300 hover:scale-105 cal-sans-regular">
           {(() => { const tm=config.TOURNAMENTS||{}; const e=Object.values(tm).find(t=>t.id===tournamentId); const exp=e?.maxParticipants||config.MAX_PARTICIPANTS||64; return `Import ${exp} Participants from CSV`; })()}
           <input
             type="file"
@@ -361,20 +361,20 @@ const TournamentInitializer = ({ tournamentId: propTournamentId, onTournamentCre
         ) : (
           <div className="max-h-96 overflow-y-auto border border-white/20 rounded-lg bg-black/30 backdrop-blur-sm">
             <table className="w-full">
-              <thead className="bg-white/10 backdrop-blur-sm sticky top-0">
+              <thead className="bg-[#024028]/30 backdrop-blur-sm sticky top-0">
                 <tr>
-                  <th className="px-4 py-2 text-left text-sm font-medium text-amber-200">Seed</th>
-                  <th className="px-4 py-2 text-left text-sm font-medium text-amber-200">Name</th>
-                  <th className="px-4 py-2 text-left text-sm font-medium text-amber-200">Roll Number</th>
-                  <th className="px-4 py-2 text-left text-sm font-medium text-amber-200">Email</th>
+                  <th className="px-4 py-2 text-left text-sm font-medium text-white/80">Seed</th>
+                  <th className="px-4 py-2 text-left text-sm font-medium text-white/80">Name</th>
+                  <th className="px-4 py-2 text-left text-sm font-medium text-white/80">Roll Number</th>
+                  <th className="px-4 py-2 text-left text-sm font-medium text-white/80">Email</th>
                 </tr>
               </thead>
               <tbody>
                 {participants
                   .sort((a, b) => a.seed_number - b.seed_number)
                   .map((participant, index) => (
-                    <tr key={index} className="border-t border-white/10 hover:bg-white/5">
-                      <td className="px-4 py-2 text-sm font-medium text-amber-400">
+                    <tr key={index} className="border-t border-[#0d9c57]/20 hover:bg-[#024028]/20">
+                      <td className="px-4 py-2 text-sm font-medium text-[#0d9c57]">
                         {participant.seed_number}
                       </td>
                       <td className="px-4 py-2 text-sm text-white">{participant.name}</td>
@@ -393,23 +393,23 @@ const TournamentInitializer = ({ tournamentId: propTournamentId, onTournamentCre
         <button
           onClick={initializeTournament}
           disabled={(() => { const tm=config.TOURNAMENTS||{}; const e=Object.values(tm).find(t=>t.id===tournamentId); const exp=e?.maxParticipants||config.MAX_PARTICIPANTS||64; return participants.length !== exp || loading; })()}
-          className={`px-8 py-3 rounded-lg font-semibold transition-all duration-200 ${(() => { const tm=config.TOURNAMENTS||{}; const e=Object.values(tm).find(t=>t.id===tournamentId); const exp=e?.maxParticipants||config.MAX_PARTICIPANTS||64; return participants.length === exp && !loading; })()
-            ? 'bg-gradient-to-r from-amber-400 to-orange-500 hover:from-amber-500 hover:to-orange-600 text-black transform hover:scale-105 shadow-lg hover:shadow-amber-400/20'
+          className={`px-8 py-3 rounded-full font-semibold transition-all duration-300 ${(() => { const tm=config.TOURNAMENTS||{}; const e=Object.values(tm).find(t=>t.id===tournamentId); const exp=e?.maxParticipants||config.MAX_PARTICIPANTS||64; return participants.length === exp && !loading; })()
+            ? 'bg-gradient-to-r from-[#024028] to-[#0d9c57] text-white hover:scale-105 hover:shadow-[0_0_30px_rgba(13,156,87,0.55)]'
             : 'bg-white/10 text-white/50 cursor-not-allowed border border-white/20'
             }`}
         >
-          {loading ? 'Initializing...' : 'Initialize Tournament 2k25'}
+          {loading ? 'Initializing...' : 'Initialize Tesseract'}
         </button>
 
         <div className="mt-4">
           {(() => { const tm=config.TOURNAMENTS||{}; const e=Object.values(tm).find(t=>t.id===tournamentId); const exp=e?.maxParticipants||config.MAX_PARTICIPANTS||64; return (
-            <p className={`text-sm font-medium ${participants.length === exp ? 'text-amber-400' : 'text-white/60'}`}>
+            <p className={`text-sm font-medium ${participants.length === exp ? 'text-[#0d9c57]' : 'text-white/60'}`}>
               Current: {participants.length}/{exp} participants
             </p>
           );})()}
           {(() => { const tm=config.TOURNAMENTS||{}; const e=Object.values(tm).find(t=>t.id===tournamentId); const exp=e?.maxParticipants||config.MAX_PARTICIPANTS||64; return participants.length === exp; })() && (
-            <p className="text-xs text-amber-400 flex items-center justify-center mt-1">
-              <span className="w-2 h-2 bg-amber-400 rounded-full mr-2 shadow-[0_0_6px_rgba(251,191,36,0.6)]"></span>
+            <p className="text-xs text-[#0d9c57] flex items-center justify-center mt-1">
+              <span className="w-2 h-2 bg-[#0d9c57] rounded-full mr-2 shadow-[0_0_6px_rgba(13,156,87,0.6)]"></span>
               Ready to initialize tournament!
             </p>
           )}

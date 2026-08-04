@@ -72,12 +72,14 @@ const AdminPage = () => {
           </button>
 
           {/* Centered Title */}
-          
+          <div className="text-center absolute left-1/2 transform -translate-x-1/2">
+            <h2 className="tektur-title text-2xl font-bold text-white">Tesseract Admin</h2>
+          </div>
 
           {/* Logout Button */}
           <button
             onClick={handleLogout}
-            className="tektur-title bg-[#024028]/60 hover:bg-[#024028] border border-[#0d9c57]/40 hover:border-[#0d9c57] text-white px-3 py-1.5 rounded backdrop-blur-sm transition-all duration-200 text-sm hover:shadow-[0_0_14px_rgba(13,156,87,0.4)]"
+            className="tektur-title bg-gradient-to-r from-[#024028] to-[#0d9c57] border border-[#0d9c57]/60 text-white px-4 py-2 rounded-full backdrop-blur-sm transition-all duration-300 text-sm hover:scale-105 hover:shadow-[0_0_20px_rgba(13,156,87,0.6)]"
           >
             Logout
           </button>
@@ -85,7 +87,7 @@ const AdminPage = () => {
 
         {/* Minimal Dropdown Menu */}
         {isMenuOpen && (
-          <div className="absolute top-3/4 left-4 sm:left-6 w-72 sm:w-80 bg-black/20 backdrop-blur-lg border border-white/20 rounded-lg shadow-xl z-50 mt-2">
+          <div className="absolute top-3/4 left-4 sm:left-6 w-72 sm:w-80 bg-black/80 backdrop-blur-lg border border-[#0d9c57]/40 rounded-lg shadow-xl z-50 mt-2">
             <div className="p-4">
               {/* Navigation Section */}
               <div className="mb-4">
@@ -93,8 +95,8 @@ const AdminPage = () => {
                   <button
                     onClick={() => handleMenuItemClick('bracket')}
                     className={`w-full text-left px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 ${activeTab === 'bracket'
-                      ? 'bg-white/20 text-white border border-white/30'
-                      : 'text-white/80 hover:bg-white/10 hover:text-white'
+                      ? 'bg-gradient-to-r from-[#024028] to-[#0d9c57] text-white'
+                      : 'text-white/80 hover:bg-[#024028]/40 hover:text-white'
                       }`}
                   >
                     Bracket View
@@ -102,8 +104,8 @@ const AdminPage = () => {
                   <button
                     onClick={() => handleMenuItemClick('setup')}
                     className={`w-full text-left px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 ${activeTab === 'setup'
-                      ? 'bg-white/20 text-white border border-white/30'
-                      : 'text-white/80 hover:bg-white/10 hover:text-white'
+                      ? 'bg-gradient-to-r from-[#024028] to-[#0d9c57] text-white'
+                      : 'text-white/80 hover:bg-[#024028]/40 hover:text-white'
                       }`}
                   >
                     Tournament Setup
@@ -111,8 +113,8 @@ const AdminPage = () => {
                   <button
                     onClick={() => handleMenuItemClick('database')}
                     className={`w-full text-left px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 ${activeTab === 'database'
-                      ? 'bg-white/20 text-white border border-white/30'
-                      : 'text-white/80 hover:bg-white/10 hover:text-white'
+                      ? 'bg-gradient-to-r from-[#024028] to-[#0d9c57] text-white'
+                      : 'text-white/80 hover:bg-[#024028]/40 hover:text-white'
                       }`}
                   >
                     Database Status
@@ -121,17 +123,21 @@ const AdminPage = () => {
               </div>
 
               {/* Year Toggle Switch */}
-              <div className="border-t border-white/20 pt-4">
+              <div className="border-t border-[#0d9c57]/30 pt-4">
                 <div className="grid grid-cols-2 gap-2">
                   <button
                     onClick={() => handleMenuItemClick(activeTab, 'secondYear')}
-                    className={`px-3 py-2 text-sm font-medium rounded-md transition-colors duration-200 ${tournamentKey === 'secondYear' ? 'bg-white/20 text-white border border-white/30' : 'text-white/80 hover:bg-white/10 hover:text-white'}`}
+                    className={`px-3 py-2 text-sm font-medium rounded-md transition-all duration-200 ${tournamentKey === 'secondYear'
+                      ? 'bg-gradient-to-r from-[#024028] to-[#0d9c57] text-white'
+                      : 'text-white/80 hover:bg-[#024028]/40 hover:text-white'}`}
                   >
                     2nd Year
                   </button>
                   <button
                     onClick={() => handleMenuItemClick(activeTab, 'thirdYear')}
-                    className={`px-3 py-2 text-sm font-medium rounded-md transition-colors duration-200 ${tournamentKey === 'thirdYear' ? 'bg-white/20 text-white border border-white/30' : 'text-white/80 hover:bg-white/10 hover:text-white'}`}
+                    className={`px-3 py-2 text-sm font-medium rounded-md transition-all duration-200 ${tournamentKey === 'thirdYear'
+                      ? 'bg-gradient-to-r from-[#024028] to-[#0d9c57] text-white'
+                      : 'text-white/80 hover:bg-[#024028]/40 hover:text-white'}`}
                   >
                     3rd Year
                   </button>

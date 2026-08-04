@@ -31,10 +31,10 @@ const AdminMatchManager = ({ tournamentId }) => {
 
   if (loading) {
     return (
-      <div className="admin-match-manager p-6">
+      <div className="admin-match-manager p-6 bg-black">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500 mx-auto mb-4"></div>
-          <p>Loading tournament data...</p>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#0d9c57] mx-auto mb-4"></div>
+          <p className="text-white">Loading tournament data...</p>
         </div>
       </div>
     );
@@ -42,8 +42,8 @@ const AdminMatchManager = ({ tournamentId }) => {
 
   if (error) {
     return (
-      <div className="admin-match-manager p-6">
-        <div className="text-center text-red-600">
+      <div className="admin-match-manager p-6 bg-black">
+        <div className="text-center text-red-400">
           <p className="text-lg font-medium">Error loading tournament</p>
           <p className="text-sm mt-2">{error}</p>
         </div>
@@ -52,13 +52,13 @@ const AdminMatchManager = ({ tournamentId }) => {
   }
 
   return (
-    <div className="admin-match-manager p-6 bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
+    <div className="admin-match-manager p-6 bg-black min-h-screen">
       <div className="max-w-7xl mx-auto">
         <div className="mb-8">
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
             <div className="text-center md:text-left">
-              <h2 className="text-3xl font-bold text-gray-800 mb-2">🏆 Match Management</h2>
-              <p className="text-gray-600">Manage tournament matches and select winners</p>
+              <h2 className="text-3xl font-bold text-white mb-2">🏆 Match Management</h2>
+              <p className="text-white/70">Manage tournament matches and select winners</p>
             </div>
             <div className="flex items-center gap-3 justify-center md:justify-end">
               <button
@@ -97,8 +97,7 @@ const AdminMatchManager = ({ tournamentId }) => {
                   }
                 }}
                 disabled={isExporting}
-                className={`px-4 py-2 rounded-lg text-black shadow inline-flex items-center gap-2 ${isExporting ? 'bg-amber-400 cursor-wait' : 'bg-amber-500 hover:bg-amber-600'
-                  }`}
+                className={`group relative overflow-hidden px-4 py-2 rounded-full text-white shadow inline-flex items-center gap-2 transition-all duration-300 hover:scale-105 ${isExporting ? 'bg-gradient-to-r from-[#024028]/60 to-[#0d9c57]/60 cursor-wait' : 'bg-gradient-to-r from-[#024028] to-[#0d9c57] hover:shadow-[0_0_20px_rgba(13,156,87,0.6)]'}`}
               >
                 {isExporting ? (
                   <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="animate-spin" aria-hidden="true">
@@ -125,7 +124,7 @@ const AdminMatchManager = ({ tournamentId }) => {
                     alert('Failed to process byes: ' + error.message);
                   }
                 }}
-                className="px-4 py-2 rounded-lg bg-yellow-600 hover:bg-yellow-700 text-white shadow inline-flex items-center gap-2"
+                className="group relative overflow-hidden px-4 py-2 rounded-full bg-gradient-to-r from-[#024028] to-[#0d9c57] text-white shadow inline-flex items-center gap-2 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_20px_rgba(13,156,87,0.6)]"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M9 12l2 2 4-4"/>
@@ -144,7 +143,7 @@ const AdminMatchManager = ({ tournamentId }) => {
                     alert(`Failed to load scores: ${e.message || e}`);
                   }
                 }}
-                className="px-4 py-2 rounded-lg bg-orange-500 hover:bg-orange-600 text-white shadow inline-flex items-center gap-2"
+                className="group relative overflow-hidden px-4 py-2 rounded-full bg-gradient-to-r from-[#024028] to-[#0d9c57] text-white shadow inline-flex items-center gap-2 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_20px_rgba(13,156,87,0.6)]"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                   <line x1="18" y1="20" x2="18" y2="10" />
@@ -159,7 +158,7 @@ const AdminMatchManager = ({ tournamentId }) => {
 
         {Object.keys(matchesByRound).sort((a, b) => parseInt(a) - parseInt(b)).map(round => (
           <div key={round} className="mb-4">
-            <details open={openRound === parseInt(round)} className="bg-white/40 rounded-xl shadow-sm border border-gray-200">
+            <details open={openRound === parseInt(round)} className="bg-black/20 backdrop-blur-sm rounded-xl border border-[#0d9c57]/40">
               <summary
                 onClick={(e) => {
                   e.preventDefault();
@@ -168,7 +167,7 @@ const AdminMatchManager = ({ tournamentId }) => {
                 className="cursor-pointer select-none list-none"
               >
                 <div className='relative'>
-                  <div className="flex  top-0 z-10 items-center justify-between px-6 py-4 bg-gradient-to-r from-blue-600 to-purple-600 rounded-md">
+                  <div className="flex top-0 z-10 items-center justify-between px-6 py-4 bg-gradient-to-r from-[#024028] to-[#0d9c57] rounded-md hover:shadow-[0_0_20px_rgba(13,156,87,0.4)] transition-all duration-300">
                     <h3 className="text-lg md:text-xl font-bold text-white">
                       {getRoundName(parseInt(round))}
                     </h3>
@@ -193,18 +192,18 @@ const AdminMatchManager = ({ tournamentId }) => {
                   {matchesByRound[round].map(match => (
                     <div
                       key={match.match_id}
-                      className={`bg-white rounded-xl shadow-lg p-5 transition-all duration-300 hover:shadow-xl transform hover:-translate-y-1 ${match.status === 'completed'
-                        ? 'border-2 border-green-200 bg-green-50'
-                        : 'border border-gray-200 hover:border-blue-300'
+                      className={`bg-black/30 backdrop-blur-sm rounded-xl border-2 p-5 transition-all duration-300 hover:shadow-[0_0_20px_rgba(13,156,87,0.2)] transform hover:-translate-y-1 ${match.status === 'completed'
+                        ? 'border-[#0d9c57] bg-[#024028]/20'
+                        : 'border-[#0d9c57]/40 hover:border-[#0d9c57]/80'
                         }`}
                     >
                       <div className="flex justify-between items-center mb-4">
-                        <span className="text-sm font-bold text-gray-700 bg-gray-100 px-3 py-1 rounded-full">
+                        <span className="text-sm font-bold text-white/80 bg-black/40 px-3 py-1 rounded-full border border-[#0d9c57]/40">
                           Match {match.match_number}
                         </span>
                         <span className={`px-3 py-1 rounded-full text-xs font-bold ${match.status === 'completed'
-                          ? 'bg-green-100 text-green-700 border border-green-200'
-                          : 'bg-yellow-100 text-yellow-700 border border-yellow-200'
+                          ? 'bg-[#0d9c57]/20 text-[#0d9c57] border border-[#0d9c57]/40'
+                          : 'bg-[#024028]/40 text-white/80 border border-[#0d9c57]/40'
                           }`}>
                           {match.status === 'completed' ? '✅ Completed' : '⏳ Pending'}
                         </span>
@@ -212,24 +211,24 @@ const AdminMatchManager = ({ tournamentId }) => {
 
                       <div className="space-y-3 mb-4">
                         <div className={`p-3 rounded-lg border-2 transition-all duration-200 ${match.winner_id === match.player1?.id
-                          ? 'bg-green-50 border-green-300 shadow-md'
-                          : 'bg-white border-gray-200 hover:border-blue-200'
+                          ? 'bg-[#024028]/30 border-[#0d9c57] shadow-[0_0_10px_rgba(13,156,87,0.3)]'
+                          : 'bg-black/40 border-[#0d9c57]/40 hover:border-[#0d9c57]/60'
                           }`}>
                           <div className="flex items-center justify-between">
                             <div className="flex-1">
                               <div className="flex items-center">
                                 {match.player1?.seed_number && (
-                                  <span className="inline-flex items-center justify-center w-6 h-6 bg-blue-100 text-blue-800 text-xs font-bold rounded-full mr-2">
+                                  <span className="inline-flex items-center justify-center w-6 h-6 bg-[#0d9c57]/20 text-[#0d9c57] text-xs font-bold rounded-full mr-2 border border-[#0d9c57]/40">
                                     {match.player1.seed_number}
                                   </span>
                                 )}
-                                <span className="font-semibold text-gray-800">
+                                <span className="font-semibold text-white">
                                   {match.player1?.name || 'TBD'}
                                 </span>
                               </div>
                               {match.player1?.roll_number && (
                                 <div className="text-center mt-1">
-                                  <span className="inline-block bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded">
+                                  <span className="inline-block bg-black/40 text-white/70 text-xs px-2 py-1 rounded border border-[#0d9c57]/40">
                                     {match.player1.roll_number}
                                   </span>
                                 </div>
@@ -237,7 +236,7 @@ const AdminMatchManager = ({ tournamentId }) => {
                             </div>
                             {match.winner_id === match.player1?.id && (
                               <div className="ml-2">
-                                <span className="inline-flex items-center px-2 py-1 bg-green-100 text-green-700 text-xs font-bold rounded-full">
+                                <span className="inline-flex items-center px-2 py-1 bg-[#0d9c57]/20 text-[#0d9c57] text-xs font-bold rounded-full border border-[#0d9c57]/40">
                                   ✓ WINNER
                                 </span>
                               </div>
@@ -246,30 +245,30 @@ const AdminMatchManager = ({ tournamentId }) => {
                         </div>
 
                         <div className="text-center">
-                          <span className="inline-block bg-gray-200 text-gray-600 text-sm font-medium px-3 py-1 rounded-full">
+                          <span className="inline-block bg-black/40 text-white/70 text-sm font-medium px-3 py-1 rounded-full border border-[#0d9c57]/40">
                             VS
                           </span>
                         </div>
 
                         <div className={`p-3 rounded-lg border-2 transition-all duration-200 ${match.winner_id === match.player2?.id
-                          ? 'bg-green-50 border-green-300 shadow-md'
-                          : 'bg-white border-gray-200 hover:border-blue-200'
+                          ? 'bg-[#024028]/30 border-[#0d9c57] shadow-[0_0_10px_rgba(13,156,87,0.3)]'
+                          : 'bg-black/40 border-[#0d9c57]/40 hover:border-[#0d9c57]/60'
                           }`}>
                           <div className="flex items-center justify-between">
                             <div className="flex-1">
                               <div className="flex items-center">
                                 {match.player2?.seed_number && (
-                                  <span className="inline-flex items-center justify-center w-6 h-6 bg-blue-100 text-blue-800 text-xs font-bold rounded-full mr-2">
+                                  <span className="inline-flex items-center justify-center w-6 h-6 bg-[#0d9c57]/20 text-[#0d9c57] text-xs font-bold rounded-full mr-2 border border-[#0d9c57]/40">
                                     {match.player2.seed_number}
                                   </span>
                                 )}
-                                <span className="font-semibold text-gray-800">
+                                <span className="font-semibold text-white">
                                   {match.player2?.name || 'TBD'}
                                 </span>
                               </div>
                               {match.player2?.roll_number && (
                                 <div className="text-center mt-1">
-                                  <span className="inline-block bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded">
+                                  <span className="inline-block bg-black/40 text-white/70 text-xs px-2 py-1 rounded border border-[#0d9c57]/40">
                                     {match.player2.roll_number}
                                   </span>
                                 </div>
@@ -277,7 +276,7 @@ const AdminMatchManager = ({ tournamentId }) => {
                             </div>
                             {match.winner_id === match.player2?.id && (
                               <div className="ml-2">
-                                <span className="inline-flex items-center px-2 py-1 bg-green-100 text-green-700 text-xs font-bold rounded-full">
+                                <span className="inline-flex items-center px-2 py-1 bg-[#0d9c57]/20 text-[#0d9c57] text-xs font-bold rounded-full border border-[#0d9c57]/40">
                                   ✓ WINNER
                                 </span>
                               </div>
@@ -288,7 +287,7 @@ const AdminMatchManager = ({ tournamentId }) => {
 
                       {match.status !== 'completed' && match.player1 && match.player2 && (
                         <div className="w-full text-center py-3">
-                          <span className="inline-flex items-center px-3 py-1 bg-blue-100 text-blue-700 text-sm font-medium rounded-full">
+                          <span className="inline-flex items-center px-3 py-1 bg-black/40 text-white/70 text-sm font-medium rounded-full border border-[#0d9c57]/40">
                             ⚡ Use Bracket View to set winner
                           </span>
                         </div>
@@ -296,7 +295,7 @@ const AdminMatchManager = ({ tournamentId }) => {
 
                       {match.status === 'completed' && (
                         <div className="w-full text-center py-2">
-                          <span className="inline-flex items-center px-3 py-1 bg-green-100 text-green-700 text-sm font-medium rounded-full">
+                          <span className="inline-flex items-center px-3 py-1 bg-[#0d9c57]/20 text-[#0d9c57] text-sm font-medium rounded-full border border-[#0d9c57]/40">
                             ✅ Match Completed
                           </span>
                         </div>
@@ -311,41 +310,41 @@ const AdminMatchManager = ({ tournamentId }) => {
 
         {/* Cumulative Scores Modal */}
         {showScoresModal && (
-          <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-xl shadow-2xl p-6 w-full max-w-4xl mx-4 transform transition-all">
+          <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+            <div className="bg-black/90 border border-[#0d9c57]/40 rounded-xl shadow-[0_0_30px_rgba(13,156,87,0.2)] p-6 w-full max-w-4xl mx-4 transform transition-all">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-xl font-bold text-gray-800">Cumulative Scores</h3>
+                <h3 className="text-xl font-bold text-white">Cumulative Scores</h3>
                 <button
                   onClick={() => setShowScoresModal(false)}
-                  className="px-3 py-1 text-sm text-black bg-gray-100 hover:bg-gray-200 rounded border"
+                  className="group relative overflow-hidden px-4 py-2 rounded-full bg-gradient-to-r from-[#024028] to-[#0d9c57] text-white shadow inline-flex items-center gap-2 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_20px_rgba(13,156,87,0.6)]"
                 >
                   Close
                 </button>
               </div>
               <div className="overflow-auto max-h-[70vh]">
-                <table className="min-w-full text-left text-sm">
-                  <thead className="bg-gray-50 text-gray-700">
+                <table className="min-w-full text-left text-sm border border-[#0d9c57]/40">
+                  <thead className="bg-[#024028]/30 text-white">
                     <tr>
-                      <th className="px-3 py-2">Roll No</th>
-                      <th className="px-3 py-2">Name</th>
-                      <th className="px-3 py-2">Total Points</th>
-                      <th className="px-3 py-2">Wins</th>
-                      <th className="px-3 py-2">Losses</th>
+                      <th className="px-4 py-3 border-b border-[#0d9c57]/40">Roll No</th>
+                      <th className="px-4 py-3 border-b border-[#0d9c57]/40">Name</th>
+                      <th className="px-4 py-3 border-b border-[#0d9c57]/40">Total Points</th>
+                      <th className="px-4 py-3 border-b border-[#0d9c57]/40">Wins</th>
+                      <th className="px-4 py-3 border-b border-[#0d9c57]/40">Losses</th>
                     </tr>
                   </thead>
                   <tbody>
                     {cumulativeScores.map((r) => (
-                      <tr key={r.player_id} className="border-b last:border-0 text-black">
-                        <td className="px-3 py-2 whitespace-nowrap">{r.roll_number}</td>
-                        <td className="px-3 py-2">{r.player_name}</td>
-                        <td className="px-3 py-2">{r.total_points}</td>
-                        <td className="px-3 py-2">{r.wins}</td>
-                        <td className="px-3 py-2">{r.losses}</td>
+                      <tr key={r.player_id} className="border-b border-[#0d9c57]/20 last:border-0 text-white hover:bg-[#024028]/10">
+                        <td className="px-4 py-3 whitespace-nowrap">{r.roll_number}</td>
+                        <td className="px-4 py-3">{r.player_name}</td>
+                        <td className="px-4 py-3">{r.total_points}</td>
+                        <td className="px-4 py-3">{r.wins}</td>
+                        <td className="px-4 py-3">{r.losses}</td>
                       </tr>
                     ))}
                     {cumulativeScores.length === 0 && (
                       <tr>
-                        <td className="px-3 py-6 text-center text-gray-500" colSpan={5}>No data</td>
+                        <td className="px-4 py-6 text-center text-white/50" colSpan={5}>No data</td>
                       </tr>
                     )}
                   </tbody>

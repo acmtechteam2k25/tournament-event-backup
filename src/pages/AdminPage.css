@@ -3,7 +3,7 @@
   height: 100vh;
   display: flex;
   flex-direction: column;
-  background-color: black;
+  background-color: #000000;
 }
 
 .admin-header {
@@ -12,18 +12,19 @@
   justify-content: space-between;
   align-items: center;
   flex-shrink: 0;
+  border-bottom: 1px solid rgba(13, 156, 87, 0.2);
 }
 
 .admin-info h2 {
-  color: var(--text-primary);
+  color: #ffffff;
   font-size: 1.6rem;
   font-weight: 600;
   margin: 0 0 5px 0;
-  text-shadow: 0 0 10px var(--accent-glow);
+  text-shadow: 0 0 10px rgba(13, 156, 87, 0.8);
 }
 
 .admin-info p {
-  color: var(--text-secondary);
+  color: rgba(255, 255, 255, 0.7);
   font-size: 1rem;
   margin: 0;
 }
@@ -49,6 +50,7 @@
 .admin-content {
   flex: 1;
   overflow: auto;
+  background-color: #000000;
 }
 
 /* Admin-specific tournament bracket styles */
@@ -58,12 +60,12 @@
 
 .admin-page .minimal-match-overlay {
   /* Enhanced overlay for admin users */
-  border: 2px solid var(--winner-glow);
+  border: 2px solid rgba(13, 156, 87, 0.8);
 }
 
 .admin-page .overlay-header h3::after {
   content: " (Admin Mode)";
-  color: var(--winner-glow);
+  color: rgba(13, 156, 87, 0.8);
   font-size: 0.8em;
   font-weight: normal;
 }

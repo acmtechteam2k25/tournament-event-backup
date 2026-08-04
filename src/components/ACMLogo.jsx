@@ -12,29 +12,45 @@ const ACMLogo = () => {
 
   return (
     <div className="fixed top-4 right-4 md:right-20 z-50">
-      <div
-        className="bg-black/20 backdrop-blur-md rounded-full shadow-lg flex items-center justify-center p-1 md:p-2 w-14 h-14 md:w-24 md:h-24 cursor-pointer hover:bg-black/30 transition-colors duration-200"
+      <button
         onClick={handleLogoClick}
-        role="button"
-        tabIndex={0}
         onKeyDown={(e) => e.key === 'Enter' && handleLogoClick()}
         aria-label="Go to Home"
-      >
-        {/* Thin green border ring — reduced from border-2 to border */}
-        <div className="
-          w-12 h-12
-          md:w-20 md:h-20
+        className="
+          group
+          relative overflow-hidden
+          w-14 h-14 md:w-20 md:h-20
           rounded-full
-          flex items-center justify-center
-          shadow-[0_0_10px_rgba(13,156,87,.25)]
-        ">
+          cursor-pointer
+          transition-all duration-300
+          hover:scale-105
+        "
+        style={{
+          background: 'transparent',
+          border: 'none',
+          boxShadow: 'none',
+          padding: 0,
+        }}
+      >
+        {/* Glossy top-highlight layer — same effect as Join the Arena button */}
+        <span
+          aria-hidden="true"
+          className="absolute inset-0 rounded-full pointer-events-none"
+          style={{
+            background:
+              'linear-gradient(180deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0) 60%)',
+          }}
+        />
+
+        {/* Logo image — unchanged */}
+        <span className="relative z-10 flex items-center justify-center w-full h-full">
           <img
             src={acmLogo}
             alt="ACM Logo"
-            className="w-10 h-10 md:w-14 md:h-14 object-contain"
+            className="w-12 h-12 md:w-16 md:h-16 object-contain"
           />
-        </div>
-      </div>
+        </span>
+      </button>
     </div>
   );
 };

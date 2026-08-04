@@ -21,7 +21,7 @@ const PosterSection = () => {
               <div className="back-overlay"></div>
               <div className="back-content">
                 <h2 className="dm-serif-display-regular text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white sm:mb-4">
-                  Tech Tournament
+                  Tesseract
                 </h2>
                 <div className="relative w-20 h-1 mx-auto md:mb-8">
                   {/* Multiple glow layers for intense light effect */}
