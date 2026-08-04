@@ -40,7 +40,7 @@ const CurrentEdition = () => {
 
       
 
-            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center">
+            <div className="mt-6 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center">
               <button
                 type="button"
                 onClick={() => {

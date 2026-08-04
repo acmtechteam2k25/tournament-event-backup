@@ -38,10 +38,10 @@ const Home = () => {
             <h1 className="tektur-title text-3xl sm:text-6xl md:text-7xl lg:text-[4rem] xl:text-[4rem] font-bold text-white mb-0 sm:mb-8 leading-tight">
               Tesseract
             </h1>
-            <h4 className="cal-sans-regular text-lg sm:text-2xl md:text-3xl lg:text-4xl xl:text-4xl font-bold text-white mb-2 sm:mb-8 leading-tight">
+            <h4 className="cal-sans-regular text-lg sm:text-2xl md:text-3xl lg:text-4xl xl:text-4xl text-white mb-2 sm:mb-8 leading-tight">
               The Ultimate Showdown
             </h4>
-            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center">
+            <div className="mt-4 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center">
               <button
                 type="button"
                 onClick={() => {
