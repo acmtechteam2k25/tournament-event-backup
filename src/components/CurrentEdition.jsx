@@ -5,7 +5,7 @@ const CurrentEdition = () => {
 
         {/* Heading */}
         <div className="text-center mb-12">
-          <h2 className="tektur-title text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white">
+         <h2 className=" tektur-title text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-2 sm:mb-4">
             Current Edition
           </h2>
 
@@ -26,9 +26,9 @@ const CurrentEdition = () => {
 
           {/* Description */}
          <div className="order-2 md:order-1 max-w-3xl mx-auto px-4">
-           <h3 className="text-white text-3xl sm:text-4xl font-bold text-center mb-5">
+            <h2 className=" tektur-title text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-2 sm:mb-4 text-center">
               Tesseract 2026
-            </h3>
+            </h2>
 
             <p className="text-white/80 cal-sans-regular text-base sm:text-lg md:text-xl leading-relaxed text-justify"
               style={{ wordSpacing: "3.5px" }}>
@@ -38,30 +38,27 @@ const CurrentEdition = () => {
               competitive experience.
             </p>
 
-            <p
-              className="text-white/60 mt-5 text-base md:text-lg"
-              style={{ wordSpacing: "3px" }}
-            >
-              Official event poster, registrations, and schedule will be
-              announced soon.
-            </p>
+      
 
-            <div className="mt-8 flex justify-center">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center">
               <button
+                type="button"
                 onClick={() => {
                   window.open(
-                    "https://aspireup.ai/organization/acm-vnrvjiet/event/100107",
-                    "_blank",
-                    "noopener,noreferrer"
+                    'https://aspireup.ai/organization/acm-vnrvjiet/event/100107',
+                    '_blank',
+                    'noopener,noreferrer'
                   );
                 }}
-                className="group relative overflow-hidden text-base sm:text-lg px-6 sm:px-7 py-1.5 sm:py-4 rounded-full font-semibold border-[#0d9c57] bg-gradient-to-r from-[#024028] to-[#0d9c57] transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(13,156,87,.55)]"
-              >
-                <span className="flex items-center gap-2 text-white">
-                  Register Now
-                </span>
-              </button>
-            </div>
+                className=" group relative overflow-hidden text-base sm:text-lg px-6 sm:px-7 py-1.5
+                        sm:py-4 rounded-full font-semibold border-[#0d9c57] bg-gradient-to-r
+                        from-[#024028] to-[#0d9c57] transition-all duration-300 hover:scale-105
+                         hover:shadow-[0_0_30px_rgba(13,156,87,.55)]">
+              <span className="flex items-center gap-2">
+                Register Now
+              </span>
+            </button>
+          </div>
           </div>
 
           {/* Placeholder Poster */}
@@ -75,9 +72,9 @@ const CurrentEdition = () => {
               }}
             >
               <div className="text-center">
-                <h3 className="text-white text-2xl font-bold mb-3">
+                <h2 className=" tektur-title text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-2 sm:mb-4 text-center">
                   Poster Coming Soon
-                </h3>
+                </h2>
 
                 <p className="text-white/60">
                   Official Tesseract Poster
