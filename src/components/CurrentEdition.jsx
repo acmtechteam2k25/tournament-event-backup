@@ -72,7 +72,7 @@ const CurrentEdition = () => {
               >
                 View Tournament Bracket →
               </Link>
-            </div>
+          </div>
           </div>
 
           {/* Tesseract 2k26 Poster — flip card */}
