@@ -9,7 +9,7 @@ import PreviousEdition from "./PreviousEdition";
 import CurrentEdition from "./CurrentEdition";
 
 const ACM_MEMBER_URL = 'https://aspireup.ai/organization/acm-vnrvjiet/event/100107';
-const NON_MEMBER_URL = 'https://example.com'; // placeholder — replace when ready
+const NON_MEMBER_URL = 'https://docs.google.com/forms/d/1GNRFGfg5ow7Pzmkd4Px-ls66EXfliO_W5Q6j6xZlnxM/edit'; // placeholder — replace when ready
 
 const Home = () => {
   const [showMemberModal, setShowMemberModal] = useState(false);
