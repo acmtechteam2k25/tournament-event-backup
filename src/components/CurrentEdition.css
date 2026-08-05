@@ -103,35 +103,3 @@
 
 }
 
-/* Icon styling */
-
-.ce-small-icon{
-    width:18px;
-    height:18px;
-    color:white;
-    flex-shrink:0;
-}
-
-/* Mobile only */
-@media (max-width:640px){
-
-    .ce-small-icon{
-        width:12px;
-        height:12px;
-    }
-
-}
-
-/* Align icon and text */
-.ce-back-content p{
-    display:flex;
-    align-items:center;
-    gap:6px;
-    margin:6px 0;
-}
-
-/* Date & location text */
-.ce-back-content p span{
-    display:inline-block;
-    line-height:1.2;
-}

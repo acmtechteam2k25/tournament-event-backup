@@ -82,43 +82,52 @@ const CurrentEdition = () => {
                     <h2 className="tektur-title text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white sm:mb-6">
                       Tesseract
                     </h2>
-                    <div className="relative w-20 h-1 mx-auto mb-6md:mb-8">
+                    <div className="relative w-20 h-1 mx-auto mb-5 md:mb-8">
                       <div className="absolute inset-0 bg-gradient-to-r from-[#024028] to-[#0d9c57] rounded-full shadow-[0_0_40px_rgba(13,156,87,0.8),0_0_80px_rgba(13,156,87,0.4),0_0_120px_rgba(13,156,87,0.2)]"></div>
                       <div className="absolute inset-0 bg-gradient-to-r from-[#024028] to-[#0d9c57] rounded-full opacity-90 blur-[0.5px]"></div>
                       <div className="absolute inset-0 bg-gradient-to-r from-[#024028] to-[#0d9c57] rounded-full"></div>
                       <div className="absolute -inset-4 bg-gradient-to-r from-[#024028]/20 to-[#0d9c57]/20 rounded-full blur-xl"></div>
                     </div>
-                    <div className="text-[10px] md:text-2xl cal-sans-regular md:space-y-3">
+                    <div className="text-[10px] md:text-2xl cal-sans-regular md:space-y-1">
+
                       <p className="underline underline-offset-4 md:text-2xl">
                         Qualifiers
                       </p>
-                      <div className="text-left md:ml-10 md:space-y-3">
-                        <p className="flex items-center gap-2">
-                          <Calendar className="ce-small-icon" />
-                          <span>
-                            10<sup>th</sup> August 2026
-                          </span>
+
+                      <div className="text-left md:ml-10 mt-4 md:space-y-2">
+
+                        <p className="flex items-center">
+                          <Calendar className="mr-2 size-4 md:size-5" />
+                          10<sup className="mr-1">th</sup> August 2026
                         </p>
-                        <p className="flex justify-start items-center">
-                          <MapPin className="ce-small-icon" />
+
+                        <p className="flex items-center">
+                          <MapPin className="mr-2 size-4 md:size-5" />
                           VNR VJIET
                         </p>
+
                       </div>
-                      <p className="md:text-2xl underline underline-offset-4">
+
+                      <div className="h-6 md:h-8"></div>
+
+                      <p className="underline underline-offset-4 md:text-2xl">
                         Knockouts
                       </p>
-                      <div className="text-left md:ml-10 md:space-y-3">
-                        <p className="flex items-center gap-2">
-                          <Calendar className="ce-small-icon" />
-                          <span>
-                            11<sup>th</sup> August 2026
-                          </span>
+
+                      <div className="text-left md:ml-10 mt-4 md:space-y-2">
+
+                        <p className="flex items-center">
+                          <Calendar className="mr-2 size-4 md:size-5" />
+                          11<sup className="mr-1">th</sup> August 2026
                         </p>
-                        <p className="flex justify-start items-center">
-                          <MapPin className="ce-small-icon" />
+
+                        <p className="flex items-center">
+                          <MapPin className="mr-2 size-4 md:size-5" />
                           VNR VJIET
                         </p>
+
                       </div>
+
                     </div>
                   </div>
                 </div>
