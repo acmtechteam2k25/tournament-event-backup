@@ -1,6 +1,5 @@
 
 import React, { useState } from 'react';
-
 import Orb from './Orb';
 import PosterSection from './PosterSection';
 import CountSection from './CountSection';
