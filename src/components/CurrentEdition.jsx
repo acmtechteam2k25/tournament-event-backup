@@ -9,7 +9,7 @@ const CurrentEdition = () => {
 
         {/* Heading */}
         <div className="text-center mb-12">
-         <h2 className=" tektur-title text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-2 sm:mb-4">
+          <h2 className=" tektur-title text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-2 sm:mb-4">
             Current Edition
           </h2>
 
@@ -29,7 +29,7 @@ const CurrentEdition = () => {
         <div className="grid md:grid-cols-2 gap-14 items-center">
 
           {/* Description */}
-         <div className="order-2 md:order-1 max-w-3xl mx-auto px-4">
+          <div className="order-2 md:order-1 max-w-3xl mx-auto px-4">
             <h2 className=" tektur-title text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-2 sm:mb-4 text-center">
               Tesseract 2026
             </h2>
@@ -42,7 +42,7 @@ const CurrentEdition = () => {
               competitive experience.
             </p>
 
-      
+
 
             <div className="mt-6 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center">
               <button
@@ -58,11 +58,11 @@ const CurrentEdition = () => {
                         sm:py-4 rounded-full font-semibold border-[#0d9c57] bg-gradient-to-r
                         from-[#024028] to-[#0d9c57] transition-all duration-300 hover:scale-105
                          hover:shadow-[0_0_30px_rgba(13,156,87,.55)]">
-              <span className="flex items-center gap-2">
-                Register Now
-              </span>
-            </button>
-          </div>
+                <span className="flex items-center gap-2">
+                  Register Now
+                </span>
+              </button>
+            </div>
           </div>
 
           {/* Tesseract 2k26 Poster — flip card */}
@@ -79,39 +79,43 @@ const CurrentEdition = () => {
                   <div className="ce-back-bg"></div>
                   <div className="ce-back-overlay"></div>
                   <div className="ce-back-content">
-                    <h2 className="tektur-title text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white sm:mb-4">
+                    <h2 className="tektur-title text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white sm:mb-6">
                       Tesseract
                     </h2>
-                    <div className="relative w-20 h-1 mx-auto md:mb-8">
+                    <div className="relative w-20 h-1 mx-auto mb-6md:mb-8">
                       <div className="absolute inset-0 bg-gradient-to-r from-[#024028] to-[#0d9c57] rounded-full shadow-[0_0_40px_rgba(13,156,87,0.8),0_0_80px_rgba(13,156,87,0.4),0_0_120px_rgba(13,156,87,0.2)]"></div>
                       <div className="absolute inset-0 bg-gradient-to-r from-[#024028] to-[#0d9c57] rounded-full opacity-90 blur-[0.5px]"></div>
                       <div className="absolute inset-0 bg-gradient-to-r from-[#024028] to-[#0d9c57] rounded-full"></div>
                       <div className="absolute -inset-4 bg-gradient-to-r from-[#024028]/20 to-[#0d9c57]/20 rounded-full blur-xl"></div>
                     </div>
-                    <div className="text-[10px] md:text-2xl cal-sans-regular md:space-y-2">
+                    <div className="text-[10px] md:text-2xl cal-sans-regular md:space-y-3">
                       <p className="underline underline-offset-4 md:text-2xl">
                         Qualifiers
                       </p>
-                      <div className="text-left md:ml-10 md:space-y-2">
-                        <p className="flex justify-start items-center">
-                          <Calendar className="mr-1 size-5" />10
-                          <sup className="mr-1">th</sup> August 2026
+                      <div className="text-left md:ml-10 md:space-y-3">
+                        <p className="flex items-center gap-2">
+                          <Calendar className="ce-small-icon" />
+                          <span>
+                            10<sup>th</sup> August 2026
+                          </span>
                         </p>
                         <p className="flex justify-start items-center">
-                          <MapPin className="mr-1 size-5" />
+                          <MapPin className="ce-small-icon" />
                           VNR VJIET
                         </p>
                       </div>
                       <p className="md:text-2xl underline underline-offset-4">
                         Knockouts
                       </p>
-                      <div className="text-left md:ml-10 md:space-y-2">
-                        <p className="flex justify-start items-center">
-                          <Calendar className="mr-1 size-5" />11
-                          <sup className="mr-1">th</sup> August 2026
+                      <div className="text-left md:ml-10 md:space-y-3">
+                        <p className="flex items-center gap-2">
+                          <Calendar className="ce-small-icon" />
+                          <span>
+                            11<sup>th</sup> August 2026
+                          </span>
                         </p>
                         <p className="flex justify-start items-center">
-                          <MapPin className="mr-1 size-5" />
+                          <MapPin className="ce-small-icon" />
                           VNR VJIET
                         </p>
                       </div>
