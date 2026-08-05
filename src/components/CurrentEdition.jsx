@@ -2,6 +2,7 @@ import { Calendar, MapPin } from "lucide-react";
 import tesseractVideo from "../assets/TessaractVideo.mp4";
 
 import "./CurrentEdition.css";
+import { Link } from "react-router-dom";
 
 const CurrentEdition = () => {
   return (
@@ -63,6 +64,14 @@ const CurrentEdition = () => {
                   Register Now
                 </span>
               </button>
+            </div>
+            <div className="mt-4 text-center">
+              <Link
+                to="/bracket"
+                className="text-[#32d583] text-sm sm:text-base underline underline-offset-4 hover:text-[#4ade80] transition-colors duration-200"
+              >
+                View Tournament Bracket →
+              </Link>
             </div>
           </div>
 

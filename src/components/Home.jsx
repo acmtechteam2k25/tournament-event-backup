@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+
 import Orb from './Orb';
 import PosterSection from './PosterSection';
 import CountSection from './CountSection';
@@ -74,16 +74,7 @@ const Home = () => {
       {/* Current Edition */}
       <CurrentEdition />
 
-      {/* Bracket link — just below Current Edition */}
-      <div className="text-center pb-10 -mt-4">
-        <Link
-          to="/bracket"
-          className="cal-sans-regular text-base sm:text-lg text-[#0d9c57] hover:text-white transition-colors duration-200 underline underline-offset-4 decoration-[#0d9c57]/50 hover:decoration-white/50"
-        >
-          View the Tournament Bracket →
-        </Link>
-      </div>
-
+      
       <PreviousEdition />
 
       {/* Poster Section */}
