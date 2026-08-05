@@ -1,0 +1,93 @@
+/* === Current Edition Poster Flip Card ===
+   Identical animation to PosterSection.css, scoped with ce- prefix.
+   The back-bg uses the Tesseract 2k26 poster as its blurred backdrop.
+*/
+
+.ce-flip-container {
+  perspective: 1500px;
+  max-width: 600px;
+  margin: 0 auto;
+  aspect-ratio: 420 / 297;
+}
+
+.ce-flipper {
+  position: relative;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 420 / 297;
+  transform-style: preserve-3d;
+  transition: transform 0.7s ease;
+}
+
+.ce-flip-container:hover .ce-flipper {
+  transform: rotateY(180deg);
+}
+
+/* === Front and Back Shared === */
+.ce-front,
+.ce-back {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  border-radius: 10px;
+}
+
+/* === Front (Poster image) === */
+.ce-front img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: black;
+}
+
+/* === Back === */
+.ce-back {
+  transform: rotateY(180deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Blurred background — uses the Tesseract 2k26 poster */
+.ce-back .ce-back-bg {
+  position: absolute;
+  inset: 0;
+  background: url("../assets/Tessaract2k26.png") center / cover no-repeat;
+  filter: blur(10px) brightness(0.6);
+  z-index: 1;
+}
+
+/* Dark overlay */
+.ce-back .ce-back-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 2;
+}
+
+/* Text content — fades in on hover, same as PosterSection */
+.ce-back .ce-back-content {
+  position: relative;
+  z-index: 3;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.ce-flip-container:hover .ce-back-content {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* === Responsive === */
+@media (max-width: 640px) {
+  .ce-flip-container {
+    max-width: 95%;
+  }
+}

@@ -1,3 +1,7 @@
+import { Calendar, MapPin } from "lucide-react";
+import tesseractPoster from '../assets/Tessaract2k26.png';
+import "./CurrentEdition.css";
+
 const CurrentEdition = () => {
   return (
     <section className="pt-10 px-4 pb-12">
@@ -61,24 +65,59 @@ const CurrentEdition = () => {
           </div>
           </div>
 
-          {/* Placeholder Poster */}
+          {/* Tesseract 2k26 Poster — flip card */}
           <div className="order-1 md:order-2">
-            <div
-              className="w-[95%] mx-auto aspect-video rounded-xl border-2 flex items-center justify-center"
-              style={{
-                borderColor: "#0d9c57",
-                background: "#111",
-                boxShadow: "0 0 25px rgba(13,156,87,.18)",
-              }}
-            >
-              <div className="text-center">
-                <h2 className=" tektur-title text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-2 sm:mb-4 text-center">
-                  Poster Coming Soon
-                </h2>
+            <div className="ce-flip-container">
+              <div className="ce-flipper">
+                {/* Front — poster image */}
+                <div className="ce-front">
+                  <img src={tesseractPoster} alt="Tesseract 2k26 Official Poster" />
+                </div>
 
-                <p className="text-white/60">
-                  Official Tesseract Poster
-                </p>
+                {/* Back — event details */}
+                <div className="ce-back">
+                  <div className="ce-back-bg"></div>
+                  <div className="ce-back-overlay"></div>
+                  <div className="ce-back-content">
+                    <h2 className="tektur-title text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white sm:mb-4">
+                      Tesseract
+                    </h2>
+                    <div className="relative w-20 h-1 mx-auto md:mb-8">
+                      <div className="absolute inset-0 bg-gradient-to-r from-[#024028] to-[#0d9c57] rounded-full shadow-[0_0_40px_rgba(13,156,87,0.8),0_0_80px_rgba(13,156,87,0.4),0_0_120px_rgba(13,156,87,0.2)]"></div>
+                      <div className="absolute inset-0 bg-gradient-to-r from-[#024028] to-[#0d9c57] rounded-full opacity-90 blur-[0.5px]"></div>
+                      <div className="absolute inset-0 bg-gradient-to-r from-[#024028] to-[#0d9c57] rounded-full"></div>
+                      <div className="absolute -inset-4 bg-gradient-to-r from-[#024028]/20 to-[#0d9c57]/20 rounded-full blur-xl"></div>
+                    </div>
+                    <div className="text-[10px] md:text-2xl cal-sans-regular md:space-y-2">
+                      <p className="underline underline-offset-4 md:text-2xl">
+                        Qualifiers
+                      </p>
+                      <div className="text-left md:ml-10 md:space-y-2">
+                        <p className="flex justify-start items-center">
+                          <Calendar className="mr-1 size-5" />10
+                          <sup className="mr-1">th</sup> August 2026
+                        </p>
+                        <p className="flex justify-start items-center">
+                          <MapPin className="mr-1 size-5" />
+                          VNR VJIET
+                        </p>
+                      </div>
+                      <p className="md:text-2xl underline underline-offset-4">
+                        Knockouts
+                      </p>
+                      <div className="text-left md:ml-10 md:space-y-2">
+                        <p className="flex justify-start items-center">
+                          <Calendar className="mr-1 size-5" />11
+                          <sup className="mr-1">th</sup> August 2026
+                        </p>
+                        <p className="flex justify-start items-center">
+                          <MapPin className="mr-1 size-5" />
+                          VNR VJIET
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

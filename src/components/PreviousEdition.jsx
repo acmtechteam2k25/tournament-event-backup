@@ -28,7 +28,7 @@ const PreviousEdition = () => {
             className="text-white/80 cal-sans-regular text-base sm:text-lg md:text-xl leading-relaxed text-justify"
             style={{ wordSpacing: "3.5px" }}
           >
-            Tesseract was organized by Team ACM VNRVJIET for all years as part of Convergence 2025.
+            Tech Tournament was organized by Team ACM VNRVJIET for all years as part of Convergence 2025.
             After a screening round, the top 64 participants out of 231 advanced to on-campus, one-on-one technical knockout rounds.
             Winners and runners-up were recognized with certificates and a ₹12,000 cash prize pool.
           </p>
