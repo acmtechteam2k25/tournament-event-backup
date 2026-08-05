@@ -1,5 +1,6 @@
 import { Calendar, MapPin } from "lucide-react";
-import tesseractPoster from '../assets/Tessaract2k26.png';
+import tesseractVideo from "../assets/TessaractVideo.mp4";
+
 import "./CurrentEdition.css";
 
 const CurrentEdition = () => {
@@ -71,7 +72,14 @@ const CurrentEdition = () => {
               <div className="ce-flipper">
                 {/* Front — poster image */}
                 <div className="ce-front">
-                  <img src={tesseractPoster} alt="Tesseract 2k26 Official Poster" />
+                  <video
+                    src={tesseractVideo}
+                    controls
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                  />
                 </div>
 
                 {/* Back — event details */}
