@@ -72,7 +72,7 @@ const Home = () => {
       <AboutACM />
 
       {/* Current Edition */}
-      <CurrentEdition />
+      <CurrentEdition onRegister={() => setShowMemberModal(true)} />
 
       
       <PreviousEdition />
@@ -136,11 +136,6 @@ const Home = () => {
                 No
               </button>
             </div>
-
-            {/* Dismiss hint */}
-            <p className="cal-sans-regular mt-5 text-white/30 text-xs">
-              Click outside to dismiss
-            </p>
           </div>
         </div>
       )}

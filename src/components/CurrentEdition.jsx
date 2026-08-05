@@ -4,7 +4,7 @@ import tesseractVideo from "../assets/TessaractVideo.mp4";
 import "./CurrentEdition.css";
 import { Link } from "react-router-dom";
 
-const CurrentEdition = () => {
+const CurrentEdition = ({ onRegister }) => {
   return (
     <section className="pt-10 px-4 pb-12">
       <div className="max-w-6xl mx-auto">
@@ -49,13 +49,7 @@ const CurrentEdition = () => {
             <div className="mt-6 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center">
               <button
                 type="button"
-                onClick={() => {
-                  window.open(
-                    'https://aspireup.ai/organization/acm-vnrvjiet/event/100107',
-                    '_blank',
-                    'noopener,noreferrer'
-                  );
-                }}
+                onClick={onRegister}
                 className=" group relative overflow-hidden text-base sm:text-lg px-6 sm:px-7 py-1.5
                         sm:py-4 rounded-full font-semibold border-[#0d9c57] bg-gradient-to-r
                         from-[#024028] to-[#0d9c57] transition-all duration-300 hover:scale-105
