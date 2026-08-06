@@ -92,7 +92,7 @@
   
   .ce-flip-container{
       max-width:95%;
-      height:300px;      /* Increase from the default */
+      height:240px;      /* Increase from the default */
       aspect-ratio:auto;
   }
 

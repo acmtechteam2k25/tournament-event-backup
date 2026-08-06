@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 const CurrentEdition = ({ onRegister }) => {
   return (
-    <section className="pt-10 px-4 pb-12">
+    <section className="pt-6 md:pt-10 px-4 pb-8 md:pb-12">
       <div className="max-w-6xl mx-auto">
 
         {/* Heading */}
@@ -28,7 +28,7 @@ const CurrentEdition = ({ onRegister }) => {
         </div>
 
         {/* Content */}
-        <div className="grid md:grid-cols-2 gap-14 items-center">
+        <div className="grid md:grid-cols-2 gap-6 md:gap-14 items-center">
 
           {/* Description */}
           <div className="order-2 md:order-1 max-w-3xl mx-auto px-4">
@@ -90,7 +90,7 @@ const CurrentEdition = ({ onRegister }) => {
                   <div className="ce-back-bg"></div>
                   <div className="ce-back-overlay"></div>
                   <div className="ce-back-content">
-                    <h2 className="tektur-title text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white sm:mb-6">
+                    <h2 className="tektur-title text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold text-white mb-4 md:mb-6">
                       Tesseract
                     </h2>
                     <div className="relative w-20 h-1 mx-auto mb-5 md:mb-8">
@@ -99,9 +99,9 @@ const CurrentEdition = ({ onRegister }) => {
                       <div className="absolute inset-0 bg-gradient-to-r from-[#024028] to-[#0d9c57] rounded-full"></div>
                       <div className="absolute -inset-4 bg-gradient-to-r from-[#024028]/20 to-[#0d9c57]/20 rounded-full blur-xl"></div>
                     </div>
-                    <div className="text-[10px] md:text-2xl cal-sans-regular md:space-y-1">
+                    <div className="text-[11px] sm:text-sm md:text-2xl cal-sans-regular space-y-2 md:space-y-4">
 
-                      <p className="underline underline-offset-4 md:text-2xl">
+                      <p className="underline underline-offset-4 text-sm sm:text-lg md:text-2xl font-semibold">
                         Qualifiers
                       </p>
 
@@ -119,13 +119,13 @@ const CurrentEdition = ({ onRegister }) => {
 
                       </div>
 
-                      <div className="h-6 md:h-8"></div>
+                      {/* <div className="h-6 md:h-8"></div> */}
 
-                      <p className="underline underline-offset-4 md:text-2xl">
+                      <p className="underline underline-offset-4 text-sm sm:text-lg md:text-2xl font-semibold">
                         Knockouts
                       </p>
 
-                      <div className="text-left md:ml-10 mt-4 md:space-y-2">
+                      <div className="text-left md:ml-10 mt-2 md:space-y-1">
 
                         <p className="flex items-center">
                           <Calendar className="mr-2 size-4 md:size-5" />
