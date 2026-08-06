@@ -20,10 +20,10 @@ const Footer = () => {
               <h4 className="text-white font-semibold mb-2">Contact</h4>
               <p className="text-white/80 text-sm">
                 <a
-                  href="mailto:acmvnrvjiet@gmail.com"
+                  href="mailto:acm@vnrvjiet.in"
                   className="hover:text-[#0d9c57] transition-colors"
                 >
-                  acmvnrvjiet@gmail.com
+                  acm@vnrvjiet.in
                 </a>
               </p>
             </div>
