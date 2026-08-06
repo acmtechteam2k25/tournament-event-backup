@@ -66,7 +66,7 @@ const CurrentEdition = ({ onRegister }) => {
               >
                 View Tournament Bracket →
               </Link>
-          </div>
+            </div>
           </div>
 
           {/* Tesseract 2k26 Poster — flip card */}
@@ -77,11 +77,11 @@ const CurrentEdition = ({ onRegister }) => {
                 <div className="ce-front">
                   <video
                     src={tesseractVideo}
-                    controls
                     autoPlay
                     muted
                     loop
                     playsInline
+                    className="w-full h-full object-cover"
                   />
                 </div>
 
