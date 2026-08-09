@@ -20,8 +20,8 @@ export const config = {
     thirdYear: {
       id: 'd6c14a2b-4b7b-4f7e-9b3d-3c2e9b9f1234',
       name: '3rd Year Tournament 2k25',
-      maxParticipants: 64,
-      numRounds: 6
+      maxParticipants: 32,
+      numRounds: 5
     }
   },
   DEFAULT_TOURNAMENT_KEY: 'secondYear',
