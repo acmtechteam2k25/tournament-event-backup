@@ -148,14 +148,14 @@ const TournamentBracketViewFinal = ({
   const handleMatchClick = async (match, x, y) => {
     // ── PUBLIC VIEW: open participant verification modal ──────────────────────
     if (!isEditable) {
-      // Build a readable match label e.g. "Round 1 / M4"
+      // Build a readable match label using dynamic round labels derived from loaded data
+      const maxRound = matches.length > 0
+        ? Math.max(...matches.map(m => m.roundNumber))
+        : match.roundNumber;
       const roundLabel = (() => {
-        switch (match.roundNumber) {
-          case 6: return 'Final';
-          case 5: return 'Semi Final';
-          case 4: return 'Quarter Final';
-          default: return `Round ${match.roundNumber}`;
-        }
+        if (match.roundNumber === maxRound) return 'Final';
+        if (match.roundNumber === maxRound - 1) return 'Semi Final';
+        return `Round ${match.roundNumber}`;
       })();
       const matchLabel = `${roundLabel} — Match ${match.matchNumber}`;
 
@@ -419,6 +419,18 @@ const TournamentBracketViewFinal = ({
 
   // Calculate SVG dimensions based on bracket structure
   const svgWidth = columns.length * style.columnWidth + style.canvasPadding * 2;
+  
+  // Derive the highest round number from actual loaded data for dynamic round labels
+  const maxRoundNumber = visibleMatches.length > 0
+    ? Math.max(...visibleMatches.map(m => m.roundNumber))
+    : 0;
+
+  const getRoundLabel = (roundText) => {
+    const rn = parseInt(roundText, 10);
+    if (rn === maxRoundNumber) return 'Final';
+    if (rn === maxRoundNumber - 1) return 'Semi Final';
+    return `Round ${rn}`;
+  };
   
   // Determine the maximum matches in Round 1 based on actual data
   const round1Matches = columns.length > 0 ? columns[0].length : 8;
@@ -713,19 +725,7 @@ const TournamentBracketViewFinal = ({
                         >
                           <div className="svg-round-header">
                             <h3>
-                              {match.tournamentRoundText === "6"
-                                ? "Final"
-                                : match.tournamentRoundText === "5"
-                                  ? "Semi Final"
-                                  : match.tournamentRoundText === "4"
-                                    ? "Quarter Final"
-                                    : match.tournamentRoundText === "3"
-                                      ? "Round 3"
-                                      : match.tournamentRoundText === "2"
-                                        ? "Round 2"
-                                        : match.tournamentRoundText === "1"
-                                          ? "Round 1"
-                                          : `Round ${match.tournamentRoundText}`}
+                              {getRoundLabel(match.tournamentRoundText)}
                             </h3>
                           </div>
                         </foreignObject>

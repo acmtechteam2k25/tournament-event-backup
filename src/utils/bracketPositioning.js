@@ -20,29 +20,14 @@ export const generateColumns = (matches) => {
   
   const columns = [];
   
-  // Round 1: Matches 1-32
-  const round1 = matches.filter(m => m.tournamentRoundText === '1');
-  if (round1.length) columns.push(round1);
-  
-  // Round 2: Matches 33-48
-  const round2 = matches.filter(m => m.tournamentRoundText === '2');
-  if (round2.length) columns.push(round2);
-  
-  // Round 3: Matches 49-56
-  const round3 = matches.filter(m => m.tournamentRoundText === '3');
-  if (round3.length) columns.push(round3);
-  
-  // Round 4: Matches 57-60
-  const round4 = matches.filter(m => m.tournamentRoundText === '4');
-  if (round4.length) columns.push(round4);
-  
-  // Round 5: Matches 61-62
-  const round5 = matches.filter(m => m.tournamentRoundText === '5');
-  if (round5.length) columns.push(round5);
-  
-  // Round 6: Match 63 (Final)
-  const round6 = matches.filter(m => m.tournamentRoundText === '6');
-  if (round6.length) columns.push(round6);
+  // Group matches by round number dynamically — works for any bracket size
+  const roundNumbers = [...new Set(matches.map(m => parseInt(m.tournamentRoundText, 10)))]
+    .sort((a, b) => a - b);
+
+  roundNumbers.forEach(rn => {
+    const roundMatches = matches.filter(m => m.tournamentRoundText === String(rn));
+    if (roundMatches.length) columns.push(roundMatches);
+  });
   
   return columns;
 };

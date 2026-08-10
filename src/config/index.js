@@ -13,23 +13,23 @@ export const config = {
     secondYear: {
       id: '550e8400-e29b-41d4-a716-446655440000',
       name: '2nd Year Tournament 2k25',
-      maxParticipants: 64,
-      numRounds: 6
+      maxParticipants: 16,
+      numRounds: 4
     },
     // 3rd Year tournament
     thirdYear: {
       id: 'd6c14a2b-4b7b-4f7e-9b3d-3c2e9b9f1234',
       name: '3rd Year Tournament 2k25',
-      maxParticipants: 32,
-      numRounds: 5
+      maxParticipants: 8,
+      numRounds: 3
     }
   },
   DEFAULT_TOURNAMENT_KEY: 'secondYear',
 
   // Tournament details (global fallbacks)
   TOURNAMENT_NAME: 'Tournament 2k25',
-  MAX_PARTICIPANTS: 64,
-  NUM_ROUNDS: 6,
+  MAX_PARTICIPANTS: 16,
+  NUM_ROUNDS: 4,
 
   // Tournament dates
   REGISTRATION_START: '2025-10-04T09:00:00Z',

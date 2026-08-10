@@ -17,19 +17,13 @@ const BracketViewPage = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const maxRounds = config.TOURNAMENTS?.[tournamentKey]?.numRounds || config.NUM_ROUNDS || 6;
-  const availableRounds = [1, 2, 3, 4, 5, 6].filter(r => r <= maxRounds);
+  const maxRounds = config.TOURNAMENTS?.[tournamentKey]?.numRounds || config.NUM_ROUNDS || 4;
+  const availableRounds = Array.from({ length: maxRounds }, (_, i) => i + 1);
 
   const getRoundDisplayName = (roundNumber) => {
-    switch (roundNumber) {
-      case 1: return 'R1';
-      case 2: return 'R2';
-      case 3: return 'R3';
-      case 4: return 'QF';
-      case 5: return 'SF';
-      case 6: return 'F';
-      default: return `R${roundNumber}`;
-    }
+    if (roundNumber === maxRounds) return 'F';
+    if (roundNumber === maxRounds - 1) return 'SF';
+    return `R${roundNumber}`;
   };
 
   const getVisibleRounds = () => {
